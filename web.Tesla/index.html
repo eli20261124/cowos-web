@@ -1,0 +1,5683 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="zh-Hant">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Tesla 特斯拉供應鏈 — 台灣供應鏈圖譜</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  }
+  .glass-panel {
+    background: rgba(13, 13, 13, 0.75);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+  .glass-panel-light {
+    background: rgba(245, 245, 245, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+  .chain-tab-btn.active {
+    background-color: #0d0d0d;
+    color: #ffffff;
+    border-color: #0d0d0d;
+  }
+  .chain-tab-pane { display: none; }
+  .chain-tab-pane.active { display: block; }
+  .modal-sub-btn.active {
+    background-color: #e31937;
+    color: #ffffff;
+  }
+  .modal-sub-pane { display: none; }
+  .modal-sub-pane.active { display: block; }
+  #company-modal { display: none; }
+  #company-modal.open { display: flex; }
+  .stat-badge {
+    background: rgba(227, 25, 55, 0.15);
+    border: 1px solid rgba(227, 25, 55, 0.3);
+  }
+  .group-label {
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #e31937;
+    border-bottom: 1px solid #f8c5cc;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  .finance-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+  .finance-table th { background: #1a0005; color: #ffb3be; padding: 6px 10px; text-align: right; font-weight: 600; }
+  .finance-table th:first-child { text-align: left; }
+  .finance-table td { padding: 5px 10px; text-align: right; border-bottom: 1px solid #ede8e8; color: #0d0d0d; }
+  .finance-table td:first-child { text-align: left; font-weight: 500; color: #8b0000; }
+  .finance-table tr:hover td { background: #fde8ec; }
+  .valuation-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+  @media (min-width: 640px) { .valuation-grid { grid-template-columns: repeat(3, 1fr); } }
+  .val-card { background: #fde8ec; border: 1px solid #f8c5cc; border-radius: 0.75rem; padding: 1rem; text-align: center; }
+  .val-card .val-num { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.4rem; font-weight: 800; color: #0d0d0d; }
+  .val-card .val-label { font-size: 0.7rem; color: #550010; font-weight: 600; letter-spacing: 0.05em; margin-top: 2px; }
+</style>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "on-surface": "#0d0d0d",
+          "on-tertiary": "#ffffff",
+          "tertiary": "#e31937",
+          "surface-dim": "#ddd8d8",
+          "on-primary": "#ffffff",
+          "secondary": "#8b0000",
+          "surface-bright": "#fafafa",
+          "secondary-fixed": "#ffb3be",
+          "surface-container-highest": "#dcd7d7",
+          "on-error": "#ffffff",
+          "surface": "#f5f5f5",
+          "surface-variant": "#dcd7d7",
+          "surface-container": "#ede8e8",
+          "inverse-primary": "#ffb3be",
+          "secondary-container": "#fde8ec",
+          "tertiary-container": "#7a0010",
+          "surface-tint": "#8b0000",
+          "secondary-fixed-dim": "#e8a4b0",
+          "surface-container-low": "#f2edee",
+          "on-primary-container": "#ffb3be",
+          "on-secondary-container": "#550010",
+          "primary-fixed": "#fde8ec",
+          "error": "#ba1a1a",
+          "primary-fixed-dim": "#ffb3be",
+          "primary-container": "#1a0005",
+          "background": "#f5f5f5",
+          "outline-variant": "#c9bfbf",
+          "on-error-container": "#93000a",
+          "inverse-surface": "#1a1515",
+          "surface-container-high": "#e5e0e0",
+          "outline": "#7a6f6f",
+          "inverse-on-surface": "#f2edee",
+          "surface-container-lowest": "#ffffff",
+          "on-surface-variant": "#524343",
+          "on-secondary": "#ffffff",
+          "primary": "#0d0d0d",
+          "on-background": "#0d0d0d",
+          "error-container": "#ffdad6"
+        },
+        borderRadius: {
+          "DEFAULT": "0.25rem",
+          "lg": "1rem",
+          "xl": "1.5rem",
+          "full": "9999px"
+        },
+        fontFamily: {
+          "headline": ["Plus Jakarta Sans"],
+          "body": ["Manrope"],
+          "label": ["Manrope"]
+        }
+      }
+    }
+  }
+</script>
+</head>
+<body class="bg-surface font-body text-on-surface antialiased">
+
+<!-- Top Navigation Bar -->
+<nav class="fixed top-0 w-full z-50 bg-slate-50/80 backdrop-blur-xl border-b border-slate-200/50">
+  <div class="flex justify-between items-center h-20 px-8 max-w-7xl mx-auto">
+    <div class="flex items-center gap-3">
+      <span class="material-symbols-outlined text-tertiary text-2xl">electric_car</span>
+      <div class="text-xl font-bold text-primary font-headline tracking-tight">
+        Tesla 特斯拉供應鏈
+      </div>
+    </div>
+    <div class="hidden md:flex items-center gap-8">
+      <a class="text-primary font-semibold border-b-2 border-tertiary transition-colors" href="#overview">總覽</a>
+      <a class="text-slate-600 font-medium hover:text-primary transition-colors" href="#supply-chain">供應鏈</a>
+      <a class="text-slate-600 font-medium hover:text-primary transition-colors" href="#companies">公司一覽</a>
+      <a class="text-slate-600 font-medium hover:text-primary transition-colors" href="#related">相關主題</a>
+    </div>
+    <div class="flex items-center gap-4">
+      <span class="text-xs text-slate-500 font-label hidden md:block">資料截至 2026-04-13</span>
+    </div>
+  </div>
+</nav>
+
+<main class="pt-20">
+
+  <!-- Hero Section -->
+  <section id="overview" class="relative min-h-[640px] flex items-center overflow-hidden px-8">
+    <div class="absolute inset-0 z-0">
+      <img class="w-full h-full object-cover opacity-60"
+           src="https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=1600&q=80"
+           alt="特斯拉電動車"/>
+      <div class="absolute inset-0 bg-gradient-to-r from-primary/85 via-primary/60 to-transparent"></div>
+    </div>
+    <div class="relative z-10 max-w-7xl mx-auto w-full">
+      <div class="max-w-2xl glass-panel p-10 md:p-16 rounded-xl border border-white/10">
+        <span class="inline-block py-1 px-4 rounded-full bg-tertiary/20 text-red-200 text-xs font-bold tracking-widest uppercase mb-6 border border-red-500/30">
+          台灣電動車供應鏈研究
+        </span>
+        <h1 class="text-5xl md:text-6xl font-headline font-extrabold text-white leading-[1.1] mb-6 tracking-tighter">
+          Tesla<br/><span class="text-red-400">特斯拉供應鏈</span>
+        </h1>
+        <p class="text-lg text-slate-200 leading-relaxed mb-10 max-w-lg">
+          特斯拉電動車台灣供應鏈完整圖譜，涵蓋從精密零件原材料到整車直接供應商，以及電動車生態圈相關廠商。台灣廠商憑借精密製造能力深度整合至 Model 3/Y/S/X 的傳動、電纜、電子硬體供應體系，通過 IATF 16949 汽車品質管理及特斯拉內部 GR 認證。
+        </p>
+        <div class="flex flex-wrap gap-4 mb-8">
+          <div class="stat-badge rounded-full px-5 py-2">
+            <span class="text-red-300 font-headline font-bold text-lg">47</span>
+            <span class="text-slate-300 text-sm ml-2">家涵蓋公司</span>
+          </div>
+          <div class="stat-badge rounded-full px-5 py-2">
+            <span class="text-red-300 font-headline font-bold text-lg">3</span>
+            <span class="text-slate-300 text-sm ml-2">層供應鏈</span>
+          </div>
+          <div class="stat-badge rounded-full px-5 py-2">
+            <span class="text-red-300 font-headline font-bold text-lg">2</span>
+            <span class="text-slate-300 text-sm ml-2">相關主題</span>
+          </div>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="#companies" class="px-8 py-4 rounded-full bg-tertiary text-white font-bold hover:bg-red-700 transition-all flex items-center justify-center gap-2 shadow-lg">
+            查看所有公司 <span class="material-symbols-outlined text-lg">arrow_forward</span>
+          </a>
+          <a href="#supply-chain" class="px-8 py-4 rounded-full bg-white/10 text-white font-semibold hover:bg-white/20 transition-all border border-white/20">
+            供應鏈圖譜
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Supply Chain Overview: Vertical Flowchart (3 layers) -->
+  <section id="supply-chain" class="py-24 px-8 bg-surface">
+    <div class="max-w-5xl mx-auto">
+      <div class="mb-16 text-center">
+        <span class="inline-block py-1 px-4 rounded-full bg-secondary-container text-on-secondary-container text-xs font-bold tracking-widest uppercase mb-4">供應鏈結構</span>
+        <h2 class="text-4xl font-headline font-extrabold text-primary tracking-tight">三層完整供應鏈</h2>
+        <p class="text-on-surface-variant mt-3 text-lg">從精密零件原材料到整車供應商，完整解析台灣廠商在特斯拉全球供應體系中的角色</p>
+      </div>
+
+      <!-- Layer 1: Upstream -->
+      <div class="relative">
+        <div class="flex flex-col md:flex-row items-stretch gap-0 rounded-2xl overflow-hidden shadow-lg border border-outline-variant/20">
+          <!-- Icon Panel -->
+          <div class="md:w-56 bg-gradient-to-br from-[#5a0010] to-[#0d0d0d] flex flex-col items-center justify-center p-8 gap-4">
+            <div class="w-20 h-20 rounded-2xl bg-white/10 flex items-center justify-center">
+              <span class="material-symbols-outlined text-white text-5xl" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 48">precision_manufacturing</span>
+            </div>
+            <div class="text-center">
+              <div class="text-3xl font-headline font-extrabold text-white">8</div>
+              <div class="text-secondary-fixed text-xs font-label font-bold tracking-widest uppercase mt-1">家公司</div>
+            </div>
+          </div>
+          <!-- Content -->
+          <div class="flex-1 bg-white p-8">
+            <div class="flex items-center gap-3 mb-4">
+              <span class="text-xs font-bold tracking-widest uppercase text-secondary bg-secondary-container px-3 py-1 rounded-full">LAYER 1</span>
+              <h3 class="text-2xl font-headline font-extrabold text-primary">上游 — 零組件與原材料供應商</h3>
+            </div>
+            <p class="text-on-surface-variant leading-relaxed mb-5">
+              提供特斯拉電動車整車所需的精密電子元件、高壓連接器、金屬鑄件與精密加工材料。
+              台灣廠商以小批量快速換線、高良率製造能力成為特斯拉全球供應體系的重要環節，
+              產品通過 <strong class="text-primary">IATF 16949 汽車品質管理標準</strong> 認證。
+            </p>
+            <div class="flex flex-wrap gap-3">
+              <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-tertiary bg-red-50 border border-red-200 rounded-full px-3 py-1">
+                <span class="material-symbols-outlined text-xs">electrical_services</span>精密電子元件
+              </span>
+              <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-tertiary bg-red-50 border border-red-200 rounded-full px-3 py-1">
+                <span class="material-symbols-outlined text-xs">settings</span>高壓連接器
+              </span>
+              <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-tertiary bg-red-50 border border-red-200 rounded-full px-3 py-1">
+                <span class="material-symbols-outlined text-xs">construction</span>金屬鑄件
+              </span>
+            </div>
+          </div>
+        </div>
+        <!-- Arrow -->
+        <div class="flex justify-center my-3">
+          <div class="flex flex-col items-center gap-0">
+            <div class="w-0.5 h-6 bg-gradient-to-b from-[#5a0010] to-[#e31937]"></div>
+            <span class="material-symbols-outlined text-tertiary text-2xl" style="font-variation-settings:'FILL' 1">arrow_downward</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Layer 2: Downstream -->
+      <div class="relative">
+        <div class="flex flex-col md:flex-row items-stretch gap-0 rounded-2xl overflow-hidden shadow-lg border border-outline-variant/20">
+          <!-- Icon Panel -->
+          <div class="md:w-56 bg-gradient-to-br from-[#e31937] to-[#8b0000] flex flex-col items-center justify-center p-8 gap-4">
+            <div class="w-20 h-20 rounded-2xl bg-white/10 flex items-center justify-center">
+              <span class="material-symbols-outlined text-white text-5xl" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 48">electric_car</span>
+            </div>
+            <div class="text-center">
+              <div class="text-3xl font-headline font-extrabold text-white">22</div>
+              <div class="text-red-100 text-xs font-label font-bold tracking-widest uppercase mt-1">家公司</div>
+            </div>
+          </div>
+          <!-- Content -->
+          <div class="flex-1 bg-primary p-8">
+            <div class="flex items-center gap-3 mb-4">
+              <span class="text-xs font-bold tracking-widest uppercase text-white bg-white/20 px-3 py-1 rounded-full">LAYER 2</span>
+              <h3 class="text-2xl font-headline font-extrabold text-white">下游 — 整車直接供應商</h3>
+            </div>
+            <p class="text-secondary-fixed leading-relaxed mb-5">
+              直接向特斯拉整車廠出貨的關鍵零部件製造商，涵蓋傳動齒輪組、高壓電纜束、觸控面板、PCB、石英元件與太陽能模組。
+              和大傳動齒輪組為特斯拉核心供應商之一，貿聯高壓線束進入 Model 3/Y 量產。
+              所有零件須通過 <strong class="text-red-300">汽車等級 AEC-Q 認證</strong> 與特斯拉內部 GR 品質審核。
+            </p>
+            <div class="flex flex-wrap gap-3">
+              <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-red-300 bg-white/10 border border-white/20 rounded-full px-3 py-1">
+                <span class="material-symbols-outlined text-xs">settings</span>傳動齒輪組
+              </span>
+              <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-red-300 bg-white/10 border border-white/20 rounded-full px-3 py-1">
+                <span class="material-symbols-outlined text-xs">cable</span>高壓電纜束
+              </span>
+              <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-red-300 bg-white/10 border border-white/20 rounded-full px-3 py-1">
+                <span class="material-symbols-outlined text-xs">developer_board</span>汽車級電子元件
+              </span>
+            </div>
+          </div>
+        </div>
+        <!-- Arrow -->
+        <div class="flex justify-center my-3">
+          <div class="flex flex-col items-center gap-0">
+            <div class="w-0.5 h-6 bg-gradient-to-b from-[#8b0000] to-slate-500"></div>
+            <span class="material-symbols-outlined text-slate-500 text-2xl" style="font-variation-settings:'FILL' 1">arrow_downward</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Layer 3: Related -->
+      <div>
+        <div class="flex flex-col md:flex-row items-stretch gap-0 rounded-2xl overflow-hidden shadow-lg border border-outline-variant/20">
+          <!-- Icon Panel -->
+          <div class="md:w-56 bg-gradient-to-br from-slate-700 to-slate-900 flex flex-col items-center justify-center p-8 gap-4">
+            <div class="w-20 h-20 rounded-2xl bg-white/10 flex items-center justify-center">
+              <span class="material-symbols-outlined text-white text-5xl" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 48">hub</span>
+            </div>
+            <div class="text-center">
+              <div class="text-3xl font-headline font-extrabold text-white">17</div>
+              <div class="text-slate-400 text-xs font-label font-bold tracking-widest uppercase mt-1">家公司</div>
+            </div>
+          </div>
+          <!-- Content -->
+          <div class="flex-1 bg-surface-container-low p-8">
+            <div class="flex items-center gap-3 mb-4">
+              <span class="text-xs font-bold tracking-widest uppercase text-slate-600 bg-slate-200 px-3 py-1 rounded-full">生態圈</span>
+              <h3 class="text-2xl font-headline font-extrabold text-primary">相關公司 — 電動車生態圈</h3>
+            </div>
+            <p class="text-on-surface-variant leading-relaxed mb-5">
+              與特斯拉供應鏈高度相關但定位於外圍生態圈的廠商，包含汽車結構件鑄造、散熱模組、精密加工、電子分銷、工業金屬等。
+              同時也是其他國際電動車品牌（BYD、Rivian）的潛在台灣供應商，
+              反映了台灣電動車零件生態的廣度與多元品牌曝險。
+            </p>
+            <div class="flex flex-wrap gap-3">
+              <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 bg-slate-200 border border-slate-300 rounded-full px-3 py-1">
+                <span class="material-symbols-outlined text-xs">directions_car</span>汽車結構件
+              </span>
+              <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 bg-slate-200 border border-slate-300 rounded-full px-3 py-1">
+                <span class="material-symbols-outlined text-xs">memory</span>電子連接器
+              </span>
+              <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 bg-slate-200 border border-slate-300 rounded-full px-3 py-1">
+                <span class="material-symbols-outlined text-xs">auto_awesome</span>多品牌電動車曝險
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Company Directory: Tabs + Cards -->
+  <section id="companies" class="py-24 px-8 bg-surface-container-low">
+    <div class="max-w-7xl mx-auto">
+      <div class="mb-10 text-center">
+        <span class="inline-block py-1 px-4 rounded-full bg-secondary-container text-on-secondary-container text-xs font-bold tracking-widest uppercase mb-4">公司一覽</span>
+        <h2 class="text-4xl font-headline font-extrabold text-primary tracking-tight">供應鏈公司圖譜</h2>
+        <p class="text-on-surface-variant mt-3">點擊任意公司卡片，查看近年財務數據與估值分析</p>
+      </div>
+
+      <!-- Chain Layer Tabs -->
+      <div class="flex flex-wrap gap-3 mb-10 justify-center">
+        <button onclick="switchChainTab('upstream')" id="tab-upstream" class="chain-tab-btn active px-6 py-2.5 rounded-full border-2 border-primary font-semibold text-sm transition-all">
+          <span class="material-symbols-outlined text-sm align-middle mr-1">precision_manufacturing</span>上游
+        </button>
+        <button onclick="switchChainTab('downstream')" id="tab-downstream" class="chain-tab-btn px-6 py-2.5 rounded-full border-2 border-outline-variant font-semibold text-sm text-on-surface-variant transition-all hover:border-primary hover:text-primary">
+          <span class="material-symbols-outlined text-sm align-middle mr-1">electric_car</span>下游
+        </button>
+        <button onclick="switchChainTab('related')" id="tab-related" class="chain-tab-btn px-6 py-2.5 rounded-full border-2 border-outline-variant font-semibold text-sm text-on-surface-variant transition-all hover:border-primary hover:text-primary">
+          <span class="material-symbols-outlined text-sm align-middle mr-1">hub</span>相關公司
+        </button>
+      </div>
+
+      <!-- Tab Panes -->
+      <div id="pane-upstream" class="chain-tab-pane active">
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <button onclick="openModal('4915')"
+        class="text-left w-full bg-white rounded-xl p-5 shadow-sm border border-outline-variant/20 hover:shadow-md hover:border-primary/30 hover:-translate-y-0.5 transition-all duration-200 group">
+      <div class="flex items-start justify-between mb-3">
+        <span class="font-headline font-extrabold text-primary text-lg group-hover:text-tertiary transition-colors">4915</span>
+        <span class="material-symbols-outlined text-slate-300 group-hover:text-tertiary transition-colors text-lg">open_in_new</span>
+      </div>
+      <div class="font-semibold text-on-surface text-sm mb-1">致伸</div>
+      <div class="text-xs text-on-surface-variant mb-3 leading-relaxed">Consumer Electronics</div>
+      <div class="flex items-center gap-1 text-xs">
+        <span class="material-symbols-outlined text-xs text-tertiary">show_chart</span>
+        <span class="text-tertiary font-semibold">35,194 M</span>
+        <span class="text-slate-400 ml-1">百萬台幣</span>
+      </div>
+    </button>
+<button onclick="openModal('3290')"
+        class="text-left w-full bg-white rounded-xl p-5 shadow-sm border border-outline-variant/20 hover:shadow-md hover:border-primary/30 hover:-translate-y-0.5 transition-all duration-200 group">
+      <div class="flex items-start justify-between mb-3">
+        <span class="font-headline font-extrabold text-primary text-lg group-hover:text-tertiary transition-colors">3290</span>
+        <span class="material-symbols-outlined text-slate-300 group-hover:text-tertiary transition-colors text-lg">open_in_new</span>
+      </div>
+      <div class="font-semibold text-on-surface text-sm mb-1">東浦</div>
+      <div class="text-xs text-on-surface-variant mb-3 leading-relaxed">Electrical Equipment & Parts</div>
+      <div class="flex items-center gap-1 text-xs">
+        <span class="material-symbols-outlined text-xs text-tertiary">show_chart</span>
+        <span class="text-tertiary font-semibold">4,168 M</span>
+        <span class="text-slate-400 ml-1">百萬台幣</span>
+      </div>
+    </button>
+<button onclick="openModal('7788')"
+        class="text-left w-full bg-white rounded-xl p-5 shadow-sm border border-outline-variant/20 hover:shadow-md hover:border-primary/30 hover:-translate-y-0.5 transition-all duration-200 group">
+      <div class="flex items-start justify-between mb-3">
+        <span class="font-headline font-extrabold text-primary text-lg group-hover:text-tertiary transition-colors">7788</span>
+        <span class="material-symbols-outlined text-slate-300 group-hover:text-tertiary transition-colors text-lg">open_in_new</span>
+      </div>
+      <div class="font-semibold text-on-surface text-sm mb-1">松川精密</div>
+      <div class="text-xs text-on-surface-variant mb-3 leading-relaxed">Electrical Equipment & Parts</div>
+      <div class="flex items-center gap-1 text-xs">
+        <span class="material-symbols-outlined text-xs text-tertiary">show_chart</span>
+        <span class="text-tertiary font-semibold">11,643 M</span>
+        <span class="text-slate-400 ml-1">百萬台幣</span>
+      </div>
+    </button>
+<button onclick="openModal('3357')"
+        class="text-left w-full bg-white rounded-xl p-5 shadow-sm border border-outline-variant/20 hover:shadow-md hover:border-primary/30 hover:-translate-y-0.5 transition-all duration-200 group">
+      <div class="flex items-start justify-between mb-3">
+        <span class="font-headline font-extrabold text-primary text-lg group-hover:text-tertiary transition-colors">3357</span>
+        <span class="material-symbols-outlined text-slate-300 group-hover:text-tertiary transition-colors text-lg">open_in_new</span>
+      </div>
+      <div class="font-semibold text-on-surface text-sm mb-1">臺慶科</div>
+      <div class="text-xs text-on-surface-variant mb-3 leading-relaxed">Electronic Components</div>
+      <div class="flex items-center gap-1 text-xs">
+        <span class="material-symbols-outlined text-xs text-tertiary">show_chart</span>
+        <span class="text-tertiary font-semibold">15,713 M</span>
+        <span class="text-slate-400 ml-1">百萬台幣</span>
+      </div>
+    </button>
+<button onclick="openModal('5243')"
+        class="text-left w-full bg-white rounded-xl p-5 shadow-sm border border-outline-variant/20 hover:shadow-md hover:border-primary/30 hover:-translate-y-0.5 transition-all duration-200 group">
+      <div class="flex items-start justify-between mb-3">
+        <span class="font-headline font-extrabold text-primary text-lg group-hover:text-tertiary transition-colors">5243</span>
+        <span class="material-symbols-outlined text-slate-300 group-hover:text-tertiary transition-colors text-lg">open_in_new</span>
+      </div>
+      <div class="font-semibold text-on-surface text-sm mb-1">乙盛-KY</div>
+      <div class="text-xs text-on-surface-variant mb-3 leading-relaxed">Electronic Components</div>
+      <div class="flex items-center gap-1 text-xs">
+        <span class="material-symbols-outlined text-xs text-tertiary">show_chart</span>
+        <span class="text-tertiary font-semibold">20,055 M</span>
+        <span class="text-slate-400 ml-1">百萬台幣</span>
+      </div>
+    </button>
+<button onclick="openModal('5457')"
+        class="text-left w-full bg-white rounded-xl p-5 shadow-sm border border-outline-variant/20 hover:shadow-md hover:border-primary/30 hover:-translate-y-0.5 transition-all duration-200 group">
+      <div class="flex items-start justify-between mb-3">
+        <span class="font-headline font-extrabold text-primary text-lg group-hover:text-tertiary transition-colors">5457</span>
+        <span class="material-symbols-outlined text-slate-300 group-hover:text-tertiary transition-colors text-lg">open_in_new</span>
+      </div>
+      <div class="font-semibold text-on-surface text-sm mb-1">宣德</div>
+      <div class="text-xs text-on-surface-variant mb-3 leading-relaxed">Electronic Components</div>
+      <div class="flex items-center gap-1 text-xs">
+        <span class="material-symbols-outlined text-xs text-tertiary">show_chart</span>
+        <span class="text-tertiary font-semibold">7,583 M</span>
+        <span class="text-slate-400 ml-1">百萬台幣</span>
+      </div>
+    </button>
+<button onclick="openModal('1586')"
+        class="text-left w-full bg-white rounded-xl p-5 shadow-sm border border-outline-variant/20 hover:shadow-md hover:border-primary/30 hover:-translate-y-0.5 transition-all duration-200 group">
+      <div class="flex items-start justify-between mb-3">
+        <span class="font-headline font-extrabold text-primary text-lg group-hover:text-tertiary transition-colors">1586</span>
+        <span class="material-symbols-outlined text-slate-300 group-hover:text-tertiary transition-colors text-lg">open_in_new</span>
+      </div>
+      <div class="font-semibold text-on-surface text-sm mb-1">和勤</div>
+      <div class="text-xs text-on-surface-variant mb-3 leading-relaxed">Metal Fabrication</div>
+      <div class="flex items-center gap-1 text-xs">
+        <span class="material-symbols-outlined text-xs text-tertiary">show_chart</span>
+        <span class="text-tertiary font-semibold">2,294 M</span>
+        <span class="text-slate-400 ml-1">百萬台幣</span>
+      </div>
+    </button>
+<button onclick="openModal('4739')"
+        class="text-left w-full bg-white rounded-xl p-5 shadow-sm border border-outline-variant/20 hover:shadow-md hover:border-primary/30 hover:-translate-y-0.5 transition-all duration-200 group">
+      <div class="flex items-start justify-between mb-3">
+        <span class="font-headline font-extrabold text-primary text-lg group-hover:text-tertiary transition-colors">4739</span>
+        <span class="material-symbols-outlined text-slate-300 group-hover:text-tertiary transition-colors text-lg">open_in_new</span>
+      </div>
+      <div class="font-semibold text-on-surface text-sm mb-1">康普</div>
+      <div class="text-xs text-on-surface-variant mb-3 leading-relaxed">Specialty Chemicals</div>
+      <div class="flex items-center gap-1 text-xs">
+        <span class="material-symbols-outlined text-xs text-tertiary">show_chart</span>
+        <span class="text-tertiary font-semibold">10,545 M</span>
+        <span class="text-slate-400 ml-1">百萬台幣</span>
+      </div>
+    </button>
+      </div>
+    </div>
+<div id="pane-downstream" class="chain-tab-pane">
+      <div class="mb-10">
+        <div class="group-label">汽車零件</div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <button onclick="openModal('1536')"
+        class="text-left w-full bg-white rounded-xl p-5 shadow-sm border border-outline-variant/20 hover:shadow-md hover:border-primary/30 hover:-translate-y-0.5 transition-all duration-200 group">
+      <div class="flex items-start justify-between mb-3">
+        <span class="font-headline font-extrabold text-primary text-lg group-hover:text-tertiary transition-colors">1536</span>
+        <span class="material-symbols-outlined text-slate-300 group-hover:text-tertiary transition-colors text-lg">open_in_new</span>
+      </div>
+      <div class="font-semibold text-on-surface text-sm mb-1">和大</div>
+      <div class="text-xs text-on-surface-variant mb-3 leading-relaxed">Auto Parts</div>
+      <div class="flex items-center gap-1 text-xs">
+        <span class="material-symbols-outlined text-xs text-tertiary">show_chart</span>
+        <span class="text-tertiary font-semibold">13,543 M</span>
+        <span class="text-slate-400 ml-1">百萬台幣</span>
+      </div>
+    </button>
+<button onclick="openModal('2101')"
+        class="text-left w-full bg-white rounded-xl p-5 shadow-sm border border-outline-variant/20 hover:shadow-md hover:border-primary/30 hover:-translate-y-0.5 transition-all duration-200 group">
+      <div class="flex items-start justify-between mb-3">
+        <span class="font-headline font-extrabold text-primary text-lg group-hover:text-tertiary transition-colors">2101</span>
+        <span class="material-symbols-outlined text-slate-300 group-hover:text-tertiary transition-colors text-lg">open_in_new</span>
+      </div>
+      <div class="font-semibold text-on-surface text-sm mb-1">南港</div>
+      <div class="text-xs text-on-surface-variant mb-3 leading-relaxed">Auto Parts</div>
+      <div class="flex items-center gap-1 text-xs">
+        <span class="material-symbols-outlined text-xs text-tertiary">show_chart</span>
+        <span class="text-tertiary font-semibold">25,814 M</span>
+        <span class="text-slate-400 ml-1">百萬台幣</span>
+      </div>
+    </button>
+<button onclick="openModal('2239')"
+        class="text-left w-full bg-white rounded-xl p-5 shadow-sm border border-outline-variant/20 hover:shadow-md hover:border-primary/30 hover:-translate-y-0.5 transition-all duration-200 group">
+      <div class="flex items-start justify-between mb-3">
+        <span class="font-headline font-extrabold text-primary text-lg group-hover:text-tertiary transition-colors">2239</span>
+        <span class="material-symbols-outlined text-slate-300 group-hover:text-tertiary transition-colors text-lg">open_in_new</span>
+      </div>
+      <div class="font-semibold text-on-surface text-sm mb-1">英利-KY</div>
+      <div class="text-xs text-on-surface-variant mb-3 leading-relaxed">Auto Parts</div>
+      <div class="flex items-center gap-1 text-xs">
+        <span class="material-symbols-outlined text-xs text-tertiary">show_chart</span>
+        <span class="text-tertiary font-semibold">2,696 M</span>
+        <span class="text-slate-400 ml-1">百萬台幣</span>
+      </div>
+    </button>
+<button onclick="openModal('3552')"
+        class="text-left w-full bg-white rounded-xl p-5 shadow-sm border border-outline-variant/20 hover:shadow-md hover:border-primary/30 hover:-translate-y-0.5 transition-all duration-200 group">
+      <div class="flex items-start justify-between mb-3">
+        <span class="font-headline font-extrabold text-primary text-lg group-hover:text-tertiary transition-colors">3552</span>
+        <span class="material-symbols-outlined text-slate-300 group-hover:text-tertiary transition-colors text-lg">open_in_new</span>
+      </div>
+      <div class="font-semibold text-on-surface text-sm mb-1">同致</div>
+      <div class="text-xs text-on-surface-variant mb-3 leading-relaxed">Auto Parts</div>
+      <div class="flex items-center gap-1 text-xs">
+        <span class="material-symbols-outlined text-xs text-tertiary">show_chart</span>
+        <span class="text-tertiary font-semibold">5,581 M</span>
+        <span class="text-slate-400 ml-1">百萬台幣</span>
+      </div>
+    </button>
+        </div>
+      </div>
+<div class="mb-10">
+        <div class="group-label">電氣設備與線材</div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <button onclick="openModal('1609')"
+        class="text-left w-full bg-white rounded-xl p-5 shadow-sm border border-outline-variant/20 hover:shadow-md hover:border-primary/30 hover:-translate-y-0.5 transition-all duration-200 group">
+      <div class="flex items-start justify-between mb-3">
+        <span class="font-headline font-extrabold text-primary text-lg group-hover:text-tertiary transition-colors">1609</span>
+        <span class="material-symbols-outlined text-slate-300 group-hover:text-tertiary transition-colors text-lg">open_in_new</span>
+      </div>
+      <div class="font-semibold text-on-surface text-sm mb-1">大亞</div>
+      <div class="text-xs text-on-surface-variant mb-3 leading-relaxed">Electrical Equipment & Parts</div>
+      <div class="flex items-center gap-1 text-xs">
+        <span class="material-symbols-outlined text-xs text-tertiary">show_chart</span>
+        <span class="text-tertiary font-semibold">26,150 M</span>
+        <span class="text-slate-400 ml-1">百萬台幣</span>
+      </div>
+    </button>
+<button onclick="openModal('3003')"
+        class="text-left w-full bg-white rounded-xl p-5 shadow-sm border border-outline-variant/20 hover:shadow-md hover:border-primary/30 hover:-translate-y-0.5 transition-all duration-200 group">
+      <div class="flex items-start justify-between mb-3">
+        <span class="font-headline font-extrabold text-primary text-lg group-hover:text-tertiary transition-colors">3003</span>
+        <span class="material-symbols-outlined text-slate-300 group-hover:text-tertiary transition-colors text-lg">open_in_new</span>
+      </div>
+      <div class="font-semibold text-on-surface text-sm mb-1">健和興</div>
+      <div class="text-xs text-on-surface-variant mb-3 leading-relaxed">Electrical Equipment & Parts</div>
+      <div class="flex items-center gap-1 text-xs">
+        <span class="material-symbols-outlined text-xs text-tertiary">show_chart</span>
+        <span class="text-tertiary font-semibold">7,759 M</span>
+        <span class="text-slate-400 ml-1">百萬台幣</span>
+      </div>
+    </button>
+<button onclick="openModal('3071')"
+        class="text-left w-full bg-white rounded-xl p-5 shadow-sm border border-outline-variant/20 hover:shadow-md hover:border-primary/30 hover:-translate-y-0.5 transition-all duration-200 group">
+      <div class="flex items-start justify-between mb-3">
+        <span class="font-headline font-extrabold text-primary text-lg group-hover:text-tertiary transition-colors">3071</span>
+        <span class="material-symbols-outlined text-slate-300 group-hover:text-tertiary transition-colors text-lg">open_in_new</span>
+      </div>
+      <div class="font-semibold text-on-surface text-sm mb-1">協禧</div>
+      <div class="text-xs text-on-surface-variant mb-3 leading-relaxed">Electrical Equipment & Parts</div>
+      <div class="flex items-center gap-1 text-xs">
+        <span class="material-symbols-outlined text-xs text-tertiary">show_chart</span>
+        <span class="text-tertiary font-semibold">3,085 M</span>
+        <span class="text-slate-400 ml-1">百萬台幣</span>
+      </div>
+    </button>
+<button onclick="openModal('3092')"
+        class="text-left w-full bg-white rounded-xl p-5 shadow-sm border border-outline-variant/20 hover:shadow-md hover:border-primary/30 hover:-translate-y-0.5 transition-all duration-200 group">
+      <div class="flex items-start justify-between mb-3">
+        <span class="font-headline font-extrabold text-primary text-lg group-hover:text-tertiary transition-colors">3092</span>
+        <span class="material-symbols-outlined text-slate-300 group-hover:text-tertiary transition-colors text-lg">open_in_new</span>
+      </div>
+      <div class="font-semibold text-on-surface text-sm mb-1">鴻碩</div>
+      <div class="text-xs text-on-surface-variant mb-3 leading-relaxed">Electrical Equipment & Parts</div>
+      <div class="flex items-center gap-1 text-xs">
+        <span class="material-symbols-outlined text-xs text-tertiary">show_chart</span>
+        <span class="text-tertiary font-semibold">3,117 M</span>
+        <span class="text-slate-400 ml-1">百萬台幣</span>
+      </div>
+    </button>
+<button onclick="openModal('3665')"
+        class="text-left w-full bg-white rounded-xl p-5 shadow-sm border border-outline-variant/20 hover:shadow-md hover:border-primary/30 hover:-translate-y-0.5 transition-all duration-200 group">
+      <div class="flex items-start justify-between mb-3">
+        <span class="font-headline font-extrabold text-primary text-lg group-hover:text-tertiary transition-colors">3665</span>
+        <span class="material-symbols-outlined text-slate-300 group-hover:text-tertiary transition-colors text-lg">open_in_new</span>
+      </div>
+      <div class="font-semibold text-on-surface text-sm mb-1">貿聯-KY</div>
+      <div class="text-xs text-on-surface-variant mb-3 leading-relaxed">Electrical Equipment & Parts</div>
+      <div class="flex items-center gap-1 text-xs">
+        <span class="material-symbols-outlined text-xs text-tertiary">show_chart</span>
+        <span class="text-tertiary font-semibold">428,912 M</span>
+        <span class="text-slate-400 ml-1">百萬台幣</span>
+      </div>
+    </button>
+        </div>
+      </div>
+<div class="mb-10">
+        <div class="group-label">電子元件</div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <button onclick="openModal('2355')"
+        class="text-left w-full bg-white rounded-xl p-5 shadow-sm border border-outline-variant/20 hover:shadow-md hover:border-primary/30 hover:-translate-y-0.5 transition-all duration-200 group">
+      <div class="flex items-start justify-between mb-3">
+        <span class="font-headline font-extrabold text-primary text-lg group-hover:text-tertiary transition-colors">2355</span>
+        <span class="material-symbols-outlined text-slate-300 group-hover:text-tertiary transition-colors text-lg">open_in_new</span>
+      </div>
+      <div class="font-semibold text-on-surface text-sm mb-1">敬鵬</div>
+      <div class="text-xs text-on-surface-variant mb-3 leading-relaxed">Electronic Components</div>
+      <div class="flex items-center gap-1 text-xs">
+        <span class="material-symbols-outlined text-xs text-tertiary">show_chart</span>
+        <span class="text-tertiary font-semibold">21,425 M</span>
+        <span class="text-slate-400 ml-1">百萬台幣</span>
+      </div>
+    </button>
+<button onclick="openModal('2492')"
+        class="text-left w-full bg-white rounded-xl p-5 shadow-sm border border-outline-variant/20 hover:shadow-md hover:border-primary/30 hover:-translate-y-0.5 transition-all duration-200 group">
+      <div class="flex items-start justify-between mb-3">
+        <span class="font-headline font-extrabold text-primary text-lg group-hover:text-tertiary transition-colors">2492</span>
+        <span class="material-symbols-outlined text-slate-300 group-hover:text-tertiary transition-colors text-lg">open_in_new</span>
+      </div>
+      <div class="font-semibold text-on-surface text-sm mb-1">華新科</div>
+      <div class="text-xs text-on-surface-variant mb-3 leading-relaxed">Electronic Components</div>
+      <div class="flex items-center gap-1 text-xs">
+        <span class="material-symbols-outlined text-xs text-tertiary">show_chart</span>
+        <span class="text-tertiary font-semibold">62,297 M</span>
+        <span class="text-slate-400 ml-1">百萬台幣</span>
+      </div>
+    </button>
+<button onclick="openModal('3019')"
+        class="text-left w-full bg-white rounded-xl p-5 shadow-sm border border-outline-variant/20 hover:shadow-md hover:border-primary/30 hover:-translate-y-0.5 transition-all duration-200 group">
+      <div class="flex items-start justify-between mb-3">
+        <span class="font-headline font-extrabold text-primary text-lg group-hover:text-tertiary transition-colors">3019</span>
+        <span class="material-symbols-outlined text-slate-300 group-hover:text-tertiary transition-colors text-lg">open_in_new</span>
+      </div>
+      <div class="font-semibold text-on-surface text-sm mb-1">亞光</div>
+      <div class="text-xs text-on-surface-variant mb-3 leading-relaxed">Electronic Components</div>
+      <div class="flex items-center gap-1 text-xs">
+        <span class="material-symbols-outlined text-xs text-tertiary">show_chart</span>
+        <span class="text-tertiary font-semibold">35,045 M</span>
+        <span class="text-slate-400 ml-1">百萬台幣</span>
+      </div>
+    </button>
+<button onclick="openModal('3042')"
+        class="text-left w-full bg-white rounded-xl p-5 shadow-sm border border-outline-variant/20 hover:shadow-md hover:border-primary/30 hover:-translate-y-0.5 transition-all duration-200 group">
+      <div class="flex items-start justify-between mb-3">
+        <span class="font-headline font-extrabold text-primary text-lg group-hover:text-tertiary transition-colors">3042</span>
+        <span class="material-symbols-outlined text-slate-300 group-hover:text-tertiary transition-colors text-lg">open_in_new</span>
+      </div>
+      <div class="font-semibold text-on-surface text-sm mb-1">晶技</div>
+      <div class="text-xs text-on-surface-variant mb-3 leading-relaxed">Electronic Components</div>
+      <div class="flex items-center gap-1 text-xs">
+        <span class="material-symbols-outlined text-xs text-tertiary">show_chart</span>
+        <span class="text-tertiary font-semibold">40,119 M</span>
+        <span class="text-slate-400 ml-1">百萬台幣</span>
+      </div>
+    </button>
+<button onclick="openModal('3481')"
+        class="text-left w-full bg-white rounded-xl p-5 shadow-sm border border-outline-variant/20 hover:shadow-md hover:border-primary/30 hover:-translate-y-0.5 transition-all duration-200 group">
+      <div class="flex items-start justify-between mb-3">
+        <span class="font-headline font-extrabold text-primary text-lg group-hover:text-tertiary transition-colors">3481</span>
+        <span class="material-symbols-outlined text-slate-300 group-hover:text-tertiary transition-colors text-lg">open_in_new</span>
+      </div>
+      <div class="font-semibold text-on-surface text-sm mb-1">群創</div>
+      <div class="text-xs text-on-surface-variant mb-3 leading-relaxed">Electronic Components</div>
+      <div class="flex items-center gap-1 text-xs">
+        <span class="material-symbols-outlined text-xs text-tertiary">show_chart</span>
+        <span class="text-tertiary font-semibold">207,507 M</span>
+        <span class="text-slate-400 ml-1">百萬台幣</span>
+      </div>
+    </button>
+<button onclick="openModal('3624')"
+        class="text-left w-full bg-white rounded-xl p-5 shadow-sm border border-outline-variant/20 hover:shadow-md hover:border-primary/30 hover:-translate-y-0.5 transition-all duration-200 group">
+      <div class="flex items-start justify-between mb-3">
+        <span class="font-headline font-extrabold text-primary text-lg group-hover:text-tertiary transition-colors">3624</span>
+        <span class="material-symbols-outlined text-slate-300 group-hover:text-tertiary transition-colors text-lg">open_in_new</span>
+      </div>
+      <div class="font-semibold text-on-surface text-sm mb-1">光頡</div>
+      <div class="text-xs text-on-surface-variant mb-3 leading-relaxed">Electronic Components</div>
+      <div class="flex items-center gap-1 text-xs">
+        <span class="material-symbols-outlined text-xs text-tertiary">show_chart</span>
+        <span class="text-tertiary font-semibold">5,814 M</span>
+        <span class="text-slate-400 ml-1">百萬台幣</span>
+      </div>
+    </button>
+<button onclick="openModal('3673')"
+        class="text-left w-full bg-white rounded-xl p-5 shadow-sm border border-outline-variant/20 hover:shadow-md hover:border-primary/30 hover:-translate-y-0.5 transition-all duration-200 group">
+      <div class="flex items-start justify-between mb-3">
+        <span class="font-headline font-extrabold text-primary text-lg group-hover:text-tertiary transition-colors">3673</span>
+        <span class="material-symbols-outlined text-slate-300 group-hover:text-tertiary transition-colors text-lg">open_in_new</span>
+      </div>
+      <div class="font-semibold text-on-surface text-sm mb-1">TPK-KY</div>
+      <div class="text-xs text-on-surface-variant mb-3 leading-relaxed">Electronic Components</div>
+      <div class="flex items-center gap-1 text-xs">
+        <span class="material-symbols-outlined text-xs text-tertiary">show_chart</span>
+        <span class="text-tertiary font-semibold">20,333 M</span>
+        <span class="text-slate-400 ml-1">百萬台幣</span>
+      </div>
+    </button>
+        </div>
+      </div>
+<div class="mb-10">
+        <div class="group-label">科技儀器與其他</div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <button onclick="openModal('3030')"
+        class="text-left w-full bg-white rounded-xl p-5 shadow-sm border border-outline-variant/20 hover:shadow-md hover:border-primary/30 hover:-translate-y-0.5 transition-all duration-200 group">
+      <div class="flex items-start justify-between mb-3">
+        <span class="font-headline font-extrabold text-primary text-lg group-hover:text-tertiary transition-colors">3030</span>
+        <span class="material-symbols-outlined text-slate-300 group-hover:text-tertiary transition-colors text-lg">open_in_new</span>
+      </div>
+      <div class="font-semibold text-on-surface text-sm mb-1">德律</div>
+      <div class="text-xs text-on-surface-variant mb-3 leading-relaxed">Scientific & Technical Instruments</div>
+      <div class="flex items-center gap-1 text-xs">
+        <span class="material-symbols-outlined text-xs text-tertiary">show_chart</span>
+        <span class="text-tertiary font-semibold">71,573 M</span>
+        <span class="text-slate-400 ml-1">百萬台幣</span>
+      </div>
+    </button>
+<button onclick="openModal('5309')"
+        class="text-left w-full bg-white rounded-xl p-5 shadow-sm border border-outline-variant/20 hover:shadow-md hover:border-primary/30 hover:-translate-y-0.5 transition-all duration-200 group">
+      <div class="flex items-start justify-between mb-3">
+        <span class="font-headline font-extrabold text-primary text-lg group-hover:text-tertiary transition-colors">5309</span>
+        <span class="material-symbols-outlined text-slate-300 group-hover:text-tertiary transition-colors text-lg">open_in_new</span>
+      </div>
+      <div class="font-semibold text-on-surface text-sm mb-1">系統電</div>
+      <div class="text-xs text-on-surface-variant mb-3 leading-relaxed">Scientific & Technical Instruments</div>
+      <div class="flex items-center gap-1 text-xs">
+        <span class="material-symbols-outlined text-xs text-tertiary">show_chart</span>
+        <span class="text-tertiary font-semibold">11,443 M</span>
+        <span class="text-slate-400 ml-1">百萬台幣</span>
+      </div>
+    </button>
+<button onclick="openModal('6443')"
+        class="text-left w-full bg-white rounded-xl p-5 shadow-sm border border-outline-variant/20 hover:shadow-md hover:border-primary/30 hover:-translate-y-0.5 transition-all duration-200 group">
+      <div class="flex items-start justify-between mb-3">
+        <span class="font-headline font-extrabold text-primary text-lg group-hover:text-tertiary transition-colors">6443</span>
+        <span class="material-symbols-outlined text-slate-300 group-hover:text-tertiary transition-colors text-lg">open_in_new</span>
+      </div>
+      <div class="font-semibold text-on-surface text-sm mb-1">元晶</div>
+      <div class="text-xs text-on-surface-variant mb-3 leading-relaxed">Solar</div>
+      <div class="flex items-center gap-1 text-xs">
+        <span class="material-symbols-outlined text-xs text-tertiary">show_chart</span>
+        <span class="text-tertiary font-semibold">18,204 M</span>
+        <span class="text-slate-400 ml-1">百萬台幣</span>
+      </div>
+    </button>
+<button onclick="openModal('4590')"
+        class="text-left w-full bg-white rounded-xl p-5 shadow-sm border border-outline-variant/20 hover:shadow-md hover:border-primary/30 hover:-translate-y-0.5 transition-all duration-200 group">
+      <div class="flex items-start justify-between mb-3">
+        <span class="font-headline font-extrabold text-primary text-lg group-hover:text-tertiary transition-colors">4590</span>
+        <span class="material-symbols-outlined text-slate-300 group-hover:text-tertiary transition-colors text-lg">open_in_new</span>
+      </div>
+      <div class="font-semibold text-on-surface text-sm mb-1">富田-創</div>
+      <div class="text-xs text-on-surface-variant mb-3 leading-relaxed">Specialty Industrial Machinery</div>
+      <div class="flex items-center gap-1 text-xs">
+        <span class="material-symbols-outlined text-xs text-tertiary">show_chart</span>
+        <span class="text-tertiary font-semibold">4,036 M</span>
+        <span class="text-slate-400 ml-1">百萬台幣</span>
+      </div>
+    </button>
+<button onclick="openModal('6603')"
+        class="text-left w-full bg-white rounded-xl p-5 shadow-sm border border-outline-variant/20 hover:shadow-md hover:border-primary/30 hover:-translate-y-0.5 transition-all duration-200 group">
+      <div class="flex items-start justify-between mb-3">
+        <span class="font-headline font-extrabold text-primary text-lg group-hover:text-tertiary transition-colors">6603</span>
+        <span class="material-symbols-outlined text-slate-300 group-hover:text-tertiary transition-colors text-lg">open_in_new</span>
+      </div>
+      <div class="font-semibold text-on-surface text-sm mb-1">富強鑫</div>
+      <div class="text-xs text-on-surface-variant mb-3 leading-relaxed">Specialty Industrial Machinery</div>
+      <div class="flex items-center gap-1 text-xs">
+        <span class="material-symbols-outlined text-xs text-tertiary">show_chart</span>
+        <span class="text-tertiary font-semibold">3,678 M</span>
+        <span class="text-slate-400 ml-1">百萬台幣</span>
+      </div>
+    </button>
+<button onclick="openModal('2066')"
+        class="text-left w-full bg-white rounded-xl p-5 shadow-sm border border-outline-variant/20 hover:shadow-md hover:border-primary/30 hover:-translate-y-0.5 transition-all duration-200 group">
+      <div class="flex items-start justify-between mb-3">
+        <span class="font-headline font-extrabold text-primary text-lg group-hover:text-tertiary transition-colors">2066</span>
+        <span class="material-symbols-outlined text-slate-300 group-hover:text-tertiary transition-colors text-lg">open_in_new</span>
+      </div>
+      <div class="font-semibold text-on-surface text-sm mb-1">世德</div>
+      <div class="text-xs text-on-surface-variant mb-3 leading-relaxed">Tools & Accessories</div>
+      <div class="flex items-center gap-1 text-xs">
+        <span class="material-symbols-outlined text-xs text-tertiary">show_chart</span>
+        <span class="text-tertiary font-semibold">2,181 M</span>
+        <span class="text-slate-400 ml-1">百萬台幣</span>
+      </div>
+    </button>
+        </div>
+      </div>
+    </div>
+<div id="pane-related" class="chain-tab-pane">
+      <div class="mb-10">
+        <div class="group-label">汽車零件周邊</div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <button onclick="openModal('1319')"
+        class="text-left w-full bg-white rounded-xl p-5 shadow-sm border border-outline-variant/20 hover:shadow-md hover:border-primary/30 hover:-translate-y-0.5 transition-all duration-200 group">
+      <div class="flex items-start justify-between mb-3">
+        <span class="font-headline font-extrabold text-primary text-lg group-hover:text-tertiary transition-colors">1319</span>
+        <span class="material-symbols-outlined text-slate-300 group-hover:text-tertiary transition-colors text-lg">open_in_new</span>
+      </div>
+      <div class="font-semibold text-on-surface text-sm mb-1">東陽</div>
+      <div class="text-xs text-on-surface-variant mb-3 leading-relaxed">Auto Parts</div>
+      <div class="flex items-center gap-1 text-xs">
+        <span class="material-symbols-outlined text-xs text-tertiary">show_chart</span>
+        <span class="text-tertiary font-semibold">47,614 M</span>
+        <span class="text-slate-400 ml-1">百萬台幣</span>
+      </div>
+    </button>
+<button onclick="openModal('1563')"
+        class="text-left w-full bg-white rounded-xl p-5 shadow-sm border border-outline-variant/20 hover:shadow-md hover:border-primary/30 hover:-translate-y-0.5 transition-all duration-200 group">
+      <div class="flex items-start justify-between mb-3">
+        <span class="font-headline font-extrabold text-primary text-lg group-hover:text-tertiary transition-colors">1563</span>
+        <span class="material-symbols-outlined text-slate-300 group-hover:text-tertiary transition-colors text-lg">open_in_new</span>
+      </div>
+      <div class="font-semibold text-on-surface text-sm mb-1">巧新</div>
+      <div class="text-xs text-on-surface-variant mb-3 leading-relaxed">Auto Parts</div>
+      <div class="flex items-center gap-1 text-xs">
+        <span class="material-symbols-outlined text-xs text-tertiary">show_chart</span>
+        <span class="text-tertiary font-semibold">9,150 M</span>
+        <span class="text-slate-400 ml-1">百萬台幣</span>
+      </div>
+    </button>
+<button onclick="openModal('2245')"
+        class="text-left w-full bg-white rounded-xl p-5 shadow-sm border border-outline-variant/20 hover:shadow-md hover:border-primary/30 hover:-translate-y-0.5 transition-all duration-200 group">
+      <div class="flex items-start justify-between mb-3">
+        <span class="font-headline font-extrabold text-primary text-lg group-hover:text-tertiary transition-colors">2245</span>
+        <span class="material-symbols-outlined text-slate-300 group-hover:text-tertiary transition-colors text-lg">open_in_new</span>
+      </div>
+      <div class="font-semibold text-on-surface text-sm mb-1">詠勝昌</div>
+      <div class="text-xs text-on-surface-variant mb-3 leading-relaxed">Auto Parts</div>
+      <div class="flex items-center gap-1 text-xs">
+        <span class="material-symbols-outlined text-xs text-tertiary">show_chart</span>
+        <span class="text-tertiary font-semibold">923 M</span>
+        <span class="text-slate-400 ml-1">百萬台幣</span>
+      </div>
+    </button>
+<button onclick="openModal('2248')"
+        class="text-left w-full bg-white rounded-xl p-5 shadow-sm border border-outline-variant/20 hover:shadow-md hover:border-primary/30 hover:-translate-y-0.5 transition-all duration-200 group">
+      <div class="flex items-start justify-between mb-3">
+        <span class="font-headline font-extrabold text-primary text-lg group-hover:text-tertiary transition-colors">2248</span>
+        <span class="material-symbols-outlined text-slate-300 group-hover:text-tertiary transition-colors text-lg">open_in_new</span>
+      </div>
+      <div class="font-semibold text-on-surface text-sm mb-1">華勝-KY</div>
+      <div class="text-xs text-on-surface-variant mb-3 leading-relaxed">Auto Parts</div>
+      <div class="flex items-center gap-1 text-xs">
+        <span class="material-symbols-outlined text-xs text-tertiary">show_chart</span>
+        <span class="text-tertiary font-semibold">2,309 M</span>
+        <span class="text-slate-400 ml-1">百萬台幣</span>
+      </div>
+    </button>
+<button onclick="openModal('4551')"
+        class="text-left w-full bg-white rounded-xl p-5 shadow-sm border border-outline-variant/20 hover:shadow-md hover:border-primary/30 hover:-translate-y-0.5 transition-all duration-200 group">
+      <div class="flex items-start justify-between mb-3">
+        <span class="font-headline font-extrabold text-primary text-lg group-hover:text-tertiary transition-colors">4551</span>
+        <span class="material-symbols-outlined text-slate-300 group-hover:text-tertiary transition-colors text-lg">open_in_new</span>
+      </div>
+      <div class="font-semibold text-on-surface text-sm mb-1">智伸科</div>
+      <div class="text-xs text-on-surface-variant mb-3 leading-relaxed">Auto Parts</div>
+      <div class="flex items-center gap-1 text-xs">
+        <span class="material-symbols-outlined text-xs text-tertiary">show_chart</span>
+        <span class="text-tertiary font-semibold">15,670 M</span>
+        <span class="text-slate-400 ml-1">百萬台幣</span>
+      </div>
+    </button>
+        </div>
+      </div>
+<div class="mb-10">
+        <div class="group-label">電子連接器與材料</div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <button onclick="openModal('3484')"
+        class="text-left w-full bg-white rounded-xl p-5 shadow-sm border border-outline-variant/20 hover:shadow-md hover:border-primary/30 hover:-translate-y-0.5 transition-all duration-200 group">
+      <div class="flex items-start justify-between mb-3">
+        <span class="font-headline font-extrabold text-primary text-lg group-hover:text-tertiary transition-colors">3484</span>
+        <span class="material-symbols-outlined text-slate-300 group-hover:text-tertiary transition-colors text-lg">open_in_new</span>
+      </div>
+      <div class="font-semibold text-on-surface text-sm mb-1">崧騰</div>
+      <div class="text-xs text-on-surface-variant mb-3 leading-relaxed">Electrical Equipment & Parts</div>
+      <div class="flex items-center gap-1 text-xs">
+        <span class="material-symbols-outlined text-xs text-tertiary">show_chart</span>
+        <span class="text-tertiary font-semibold">3,602 M</span>
+        <span class="text-slate-400 ml-1">百萬台幣</span>
+      </div>
+    </button>
+<button onclick="openModal('3501')"
+        class="text-left w-full bg-white rounded-xl p-5 shadow-sm border border-outline-variant/20 hover:shadow-md hover:border-primary/30 hover:-translate-y-0.5 transition-all duration-200 group">
+      <div class="flex items-start justify-between mb-3">
+        <span class="font-headline font-extrabold text-primary text-lg group-hover:text-tertiary transition-colors">3501</span>
+        <span class="material-symbols-outlined text-slate-300 group-hover:text-tertiary transition-colors text-lg">open_in_new</span>
+      </div>
+      <div class="font-semibold text-on-surface text-sm mb-1">維熹</div>
+      <div class="text-xs text-on-surface-variant mb-3 leading-relaxed">Electrical Equipment & Parts</div>
+      <div class="flex items-center gap-1 text-xs">
+        <span class="material-symbols-outlined text-xs text-tertiary">show_chart</span>
+        <span class="text-tertiary font-semibold">5,582 M</span>
+        <span class="text-slate-400 ml-1">百萬台幣</span>
+      </div>
+    </button>
+<button onclick="openModal('3008')"
+        class="text-left w-full bg-white rounded-xl p-5 shadow-sm border border-outline-variant/20 hover:shadow-md hover:border-primary/30 hover:-translate-y-0.5 transition-all duration-200 group">
+      <div class="flex items-start justify-between mb-3">
+        <span class="font-headline font-extrabold text-primary text-lg group-hover:text-tertiary transition-colors">3008</span>
+        <span class="material-symbols-outlined text-slate-300 group-hover:text-tertiary transition-colors text-lg">open_in_new</span>
+      </div>
+      <div class="font-semibold text-on-surface text-sm mb-1">大立光</div>
+      <div class="text-xs text-on-surface-variant mb-3 leading-relaxed">Electronic Components</div>
+      <div class="flex items-center gap-1 text-xs">
+        <span class="material-symbols-outlined text-xs text-tertiary">show_chart</span>
+        <span class="text-tertiary font-semibold">302,144 M</span>
+        <span class="text-slate-400 ml-1">百萬台幣</span>
+      </div>
+    </button>
+<button onclick="openModal('3023')"
+        class="text-left w-full bg-white rounded-xl p-5 shadow-sm border border-outline-variant/20 hover:shadow-md hover:border-primary/30 hover:-translate-y-0.5 transition-all duration-200 group">
+      <div class="flex items-start justify-between mb-3">
+        <span class="font-headline font-extrabold text-primary text-lg group-hover:text-tertiary transition-colors">3023</span>
+        <span class="material-symbols-outlined text-slate-300 group-hover:text-tertiary transition-colors text-lg">open_in_new</span>
+      </div>
+      <div class="font-semibold text-on-surface text-sm mb-1">信邦</div>
+      <div class="text-xs text-on-surface-variant mb-3 leading-relaxed">Electronic Components</div>
+      <div class="flex items-center gap-1 text-xs">
+        <span class="material-symbols-outlined text-xs text-tertiary">show_chart</span>
+        <span class="text-tertiary font-semibold">65,779 M</span>
+        <span class="text-slate-400 ml-1">百萬台幣</span>
+      </div>
+    </button>
+<button onclick="openModal('3044')"
+        class="text-left w-full bg-white rounded-xl p-5 shadow-sm border border-outline-variant/20 hover:shadow-md hover:border-primary/30 hover:-translate-y-0.5 transition-all duration-200 group">
+      <div class="flex items-start justify-between mb-3">
+        <span class="font-headline font-extrabold text-primary text-lg group-hover:text-tertiary transition-colors">3044</span>
+        <span class="material-symbols-outlined text-slate-300 group-hover:text-tertiary transition-colors text-lg">open_in_new</span>
+      </div>
+      <div class="font-semibold text-on-surface text-sm mb-1">健鼎</div>
+      <div class="text-xs text-on-surface-variant mb-3 leading-relaxed">Electronic Components</div>
+      <div class="flex items-center gap-1 text-xs">
+        <span class="material-symbols-outlined text-xs text-tertiary">show_chart</span>
+        <span class="text-tertiary font-semibold">197,102 M</span>
+        <span class="text-slate-400 ml-1">百萬台幣</span>
+      </div>
+    </button>
+<button onclick="openModal('3715')"
+        class="text-left w-full bg-white rounded-xl p-5 shadow-sm border border-outline-variant/20 hover:shadow-md hover:border-primary/30 hover:-translate-y-0.5 transition-all duration-200 group">
+      <div class="flex items-start justify-between mb-3">
+        <span class="font-headline font-extrabold text-primary text-lg group-hover:text-tertiary transition-colors">3715</span>
+        <span class="material-symbols-outlined text-slate-300 group-hover:text-tertiary transition-colors text-lg">open_in_new</span>
+      </div>
+      <div class="font-semibold text-on-surface text-sm mb-1">定穎投控</div>
+      <div class="text-xs text-on-surface-variant mb-3 leading-relaxed">Electronic Components</div>
+      <div class="flex items-center gap-1 text-xs">
+        <span class="material-symbols-outlined text-xs text-tertiary">show_chart</span>
+        <span class="text-tertiary font-semibold">52,887 M</span>
+        <span class="text-slate-400 ml-1">百萬台幣</span>
+      </div>
+    </button>
+<button onclick="openModal('3717')"
+        class="text-left w-full bg-white rounded-xl p-5 shadow-sm border border-outline-variant/20 hover:shadow-md hover:border-primary/30 hover:-translate-y-0.5 transition-all duration-200 group">
+      <div class="flex items-start justify-between mb-3">
+        <span class="font-headline font-extrabold text-primary text-lg group-hover:text-tertiary transition-colors">3717</span>
+        <span class="material-symbols-outlined text-slate-300 group-hover:text-tertiary transition-colors text-lg">open_in_new</span>
+      </div>
+      <div class="font-semibold text-on-surface text-sm mb-1">聯嘉投控</div>
+      <div class="text-xs text-on-surface-variant mb-3 leading-relaxed">Electronic Components</div>
+      <div class="flex items-center gap-1 text-xs">
+        <span class="material-symbols-outlined text-xs text-tertiary">show_chart</span>
+        <span class="text-tertiary font-semibold">4,604 M</span>
+        <span class="text-slate-400 ml-1">百萬台幣</span>
+      </div>
+    </button>
+<button onclick="openModal('6821')"
+        class="text-left w-full bg-white rounded-xl p-5 shadow-sm border border-outline-variant/20 hover:shadow-md hover:border-primary/30 hover:-translate-y-0.5 transition-all duration-200 group">
+      <div class="flex items-start justify-between mb-3">
+        <span class="font-headline font-extrabold text-primary text-lg group-hover:text-tertiary transition-colors">6821</span>
+        <span class="material-symbols-outlined text-slate-300 group-hover:text-tertiary transition-colors text-lg">open_in_new</span>
+      </div>
+      <div class="font-semibold text-on-surface text-sm mb-1">聯寶</div>
+      <div class="text-xs text-on-surface-variant mb-3 leading-relaxed">Electronic Components</div>
+      <div class="flex items-center gap-1 text-xs">
+        <span class="material-symbols-outlined text-xs text-tertiary">show_chart</span>
+        <span class="text-tertiary font-semibold">1,805 M</span>
+        <span class="text-slate-400 ml-1">百萬台幣</span>
+      </div>
+    </button>
+<button onclick="openModal('2354')"
+        class="text-left w-full bg-white rounded-xl p-5 shadow-sm border border-outline-variant/20 hover:shadow-md hover:border-primary/30 hover:-translate-y-0.5 transition-all duration-200 group">
+      <div class="flex items-start justify-between mb-3">
+        <span class="font-headline font-extrabold text-primary text-lg group-hover:text-tertiary transition-colors">2354</span>
+        <span class="material-symbols-outlined text-slate-300 group-hover:text-tertiary transition-colors text-lg">open_in_new</span>
+      </div>
+      <div class="font-semibold text-on-surface text-sm mb-1">鴻準</div>
+      <div class="text-xs text-on-surface-variant mb-3 leading-relaxed">Electronics & Computer Distribution</div>
+      <div class="flex items-center gap-1 text-xs">
+        <span class="material-symbols-outlined text-xs text-tertiary">show_chart</span>
+        <span class="text-tertiary font-semibold">70,866 M</span>
+        <span class="text-slate-400 ml-1">百萬台幣</span>
+      </div>
+    </button>
+        </div>
+      </div>
+<div class="mb-10">
+        <div class="group-label">其他技術</div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <button onclick="openModal('7610')"
+        class="text-left w-full bg-white rounded-xl p-5 shadow-sm border border-outline-variant/20 hover:shadow-md hover:border-primary/30 hover:-translate-y-0.5 transition-all duration-200 group">
+      <div class="flex items-start justify-between mb-3">
+        <span class="font-headline font-extrabold text-primary text-lg group-hover:text-tertiary transition-colors">7610</span>
+        <span class="material-symbols-outlined text-slate-300 group-hover:text-tertiary transition-colors text-lg">open_in_new</span>
+      </div>
+      <div class="font-semibold text-on-surface text-sm mb-1">聯友金屬-創</div>
+      <div class="text-xs text-on-surface-variant mb-3 leading-relaxed">Other Industrial Metals & Mining</div>
+      <div class="flex items-center gap-1 text-xs">
+        <span class="material-symbols-outlined text-xs text-tertiary">show_chart</span>
+        <span class="text-tertiary font-semibold">24,178 M</span>
+        <span class="text-slate-400 ml-1">百萬台幣</span>
+      </div>
+    </button>
+<button onclick="openModal('2360')"
+        class="text-left w-full bg-white rounded-xl p-5 shadow-sm border border-outline-variant/20 hover:shadow-md hover:border-primary/30 hover:-translate-y-0.5 transition-all duration-200 group">
+      <div class="flex items-start justify-between mb-3">
+        <span class="font-headline font-extrabold text-primary text-lg group-hover:text-tertiary transition-colors">2360</span>
+        <span class="material-symbols-outlined text-slate-300 group-hover:text-tertiary transition-colors text-lg">open_in_new</span>
+      </div>
+      <div class="font-semibold text-on-surface text-sm mb-1">致茂</div>
+      <div class="text-xs text-on-surface-variant mb-3 leading-relaxed">Scientific & Technical Instruments</div>
+      <div class="flex items-center gap-1 text-xs">
+        <span class="material-symbols-outlined text-xs text-tertiary">show_chart</span>
+        <span class="text-tertiary font-semibold">756,139 M</span>
+        <span class="text-slate-400 ml-1">百萬台幣</span>
+      </div>
+    </button>
+<button onclick="openModal('4721')"
+        class="text-left w-full bg-white rounded-xl p-5 shadow-sm border border-outline-variant/20 hover:shadow-md hover:border-primary/30 hover:-translate-y-0.5 transition-all duration-200 group">
+      <div class="flex items-start justify-between mb-3">
+        <span class="font-headline font-extrabold text-primary text-lg group-hover:text-tertiary transition-colors">4721</span>
+        <span class="material-symbols-outlined text-slate-300 group-hover:text-tertiary transition-colors text-lg">open_in_new</span>
+      </div>
+      <div class="font-semibold text-on-surface text-sm mb-1">美琪瑪</div>
+      <div class="text-xs text-on-surface-variant mb-3 leading-relaxed">Specialty Chemicals</div>
+      <div class="flex items-center gap-1 text-xs">
+        <span class="material-symbols-outlined text-xs text-tertiary">show_chart</span>
+        <span class="text-tertiary font-semibold">5,864 M</span>
+        <span class="text-slate-400 ml-1">百萬台幣</span>
+      </div>
+    </button>
+        </div>
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <!-- Feature Spotlight: Related Themes -->
+  <section id="related" class="py-24 px-8 bg-surface">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-16">
+      <div class="w-full md:w-1/2 space-y-8">
+        <h2 class="text-4xl md:text-5xl font-headline font-extrabold text-primary tracking-tight">
+          延伸閱讀<br/><span class="text-tertiary">相關主題</span>
+        </h2>
+        <p class="text-on-surface-variant text-lg">Tesla 特斯拉供應鏈與以下技術主題高度相關，點擊可快速跳轉到對應主題報告。</p>
+        <div class="space-y-4">
+          <div class="flex gap-6 items-start">
+        <div class="p-3 rounded-full bg-surface-container-high flex-shrink-0">
+          <span class="material-symbols-outlined text-tertiary">electric_car</span>
+        </div>
+        <div>
+          <h4 class="text-lg font-bold text-primary">電動車</h4>
+          <p class="text-on-surface-variant text-sm mt-1">查看相關供應鏈公司圖譜</p>
+        </div>
+      </div>
+<div class="flex gap-6 items-start">
+        <div class="p-3 rounded-full bg-surface-container-high flex-shrink-0">
+          <span class="material-symbols-outlined text-tertiary">electric_car</span>
+        </div>
+        <div>
+          <h4 class="text-lg font-bold text-primary">碳化矽</h4>
+          <p class="text-on-surface-variant text-sm mt-1">查看相關供應鏈公司圖譜</p>
+        </div>
+      </div>
+        </div>
+      </div>
+      <div class="w-full md:w-1/2 relative">
+        <div class="aspect-square rounded-full overflow-hidden border-8 border-surface-container-lowest shadow-2xl relative z-10">
+          <img class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=800&q=80" alt="電動車充電"/>
+        </div>
+        <div class="absolute -bottom-8 -left-8 w-48 h-48 bg-secondary-container rounded-xl -z-0 opacity-40"></div>
+        <div class="absolute -top-8 -right-8 w-32 h-32 bg-[#fde8ec] rounded-full -z-0 opacity-40"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="py-24 px-8">
+    <div class="max-w-5xl mx-auto bg-primary rounded-xl overflow-hidden flex flex-col md:flex-row shadow-2xl">
+      <div class="p-12 md:p-16 flex-1 flex flex-col justify-center">
+        <h2 class="text-4xl font-headline font-bold text-on-primary mb-6">完整特斯拉供應鏈研究資料庫</h2>
+        <p class="text-on-primary-container text-lg mb-10">
+          涵蓋台灣 47 家特斯拉相關公司的完整財務分析，點擊任意公司卡片即可查看近年財務數據與估值。
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a href="#companies" class="px-10 py-4 rounded-full bg-tertiary text-white font-bold hover:bg-red-700 transition-all">
+            瀏覽公司清單
+          </a>
+          <a href="#supply-chain" class="px-10 py-4 rounded-full bg-white/10 text-white font-semibold hover:bg-white/20 transition-all border border-white/20">
+            查看供應鏈圖譜
+          </a>
+        </div>
+      </div>
+      <div class="w-full md:w-1/3 bg-primary-container relative">
+        <div class="absolute inset-0 opacity-25 mix-blend-overlay">
+          <img class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80" alt="電動車技術"/>
+        </div>
+        <div class="relative h-full flex flex-col items-center justify-center p-12 text-center text-on-primary min-h-[200px]">
+          <span class="material-symbols-outlined text-6xl mb-4 text-secondary-fixed">electric_car</span>
+          <p class="font-headline font-bold text-secondary-fixed">台灣電動車<br/>供應鏈研究</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Footer -->
+<footer class="bg-slate-100 w-full py-16">
+  <div class="flex flex-col md:flex-row justify-between items-center px-12 max-w-7xl mx-auto gap-8">
+    <div class="flex flex-col items-center md:items-start gap-4">
+      <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-tertiary">electric_car</span>
+        <span class="text-lg font-bold text-primary font-headline">Tesla 特斯拉供應鏈</span>
+      </div>
+      <p class="text-slate-500 font-body text-sm leading-relaxed max-w-xs text-center md:text-left">
+        最後更新：2026-04-13
+      </p>
+    </div>
+    <div class="flex flex-wrap justify-center gap-8">
+      <a class="text-slate-500 text-sm font-body hover:text-primary transition-colors" href="#overview">總覽</a>
+      <a class="text-slate-500 text-sm font-body hover:text-primary transition-colors" href="#supply-chain">供應鏈</a>
+      <a class="text-slate-500 text-sm font-body hover:text-primary transition-colors" href="#companies">公司一覽</a>
+      <a class="text-slate-500 text-sm font-body hover:text-primary transition-colors" href="#related">相關主題</a>
+    </div>
+    <div class="flex gap-4">
+      <div class="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-tertiary">
+        <span class="material-symbols-outlined text-xl">bar_chart</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Company Detail Modal -->
+<div id="company-modal" class="fixed inset-0 z-[100] items-center justify-center p-4 bg-primary/60 backdrop-blur-sm">
+  <div class="relative bg-white rounded-xl shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-hidden flex flex-col">
+    <!-- Modal Header -->
+    <div class="bg-primary px-8 py-5 flex items-center justify-between">
+      <div>
+        <div class="flex items-center gap-3">
+          <span id="modal-ticker" class="font-headline font-extrabold text-secondary-fixed text-xl"></span>
+          <span id="modal-name" class="font-headline font-bold text-white text-xl"></span>
+        </div>
+        <div class="flex items-center gap-4 mt-1">
+          <span id="modal-sector" class="text-xs text-slate-300 font-label"></span>
+          <span id="modal-mktcap" class="text-xs text-red-300 font-label font-semibold"></span>
+        </div>
+      </div>
+      <button onclick="closeModal()" class="text-white hover:text-slate-300 transition-colors">
+        <span class="material-symbols-outlined text-3xl">close</span>
+      </button>
+    </div>
+    <!-- Modal Sub-tabs -->
+    <div class="border-b border-slate-200 px-6 bg-slate-50 flex gap-2 pt-3 overflow-x-auto">
+      <button onclick="switchModalTab('overview')" id="mtab-overview" class="modal-sub-btn active px-4 py-2 rounded-t text-sm font-semibold transition-all whitespace-nowrap">公司概況</button>
+      <button onclick="switchModalTab('annual')" id="mtab-annual" class="modal-sub-btn px-4 py-2 rounded-t text-sm font-semibold text-slate-500 hover:text-primary transition-all whitespace-nowrap">年度財務</button>
+      <button onclick="switchModalTab('quarterly')" id="mtab-quarterly" class="modal-sub-btn px-4 py-2 rounded-t text-sm font-semibold text-slate-500 hover:text-primary transition-all whitespace-nowrap">季度財務</button>
+      <button onclick="switchModalTab('valuation')" id="mtab-valuation" class="modal-sub-btn px-4 py-2 rounded-t text-sm font-semibold text-slate-500 hover:text-primary transition-all whitespace-nowrap">估值指標</button>
+    </div>
+    <!-- Modal Content -->
+    <div class="flex-1 overflow-y-auto p-8">
+      <!-- Overview tab -->
+      <div id="mpane-overview" class="modal-sub-pane active">
+        <p class="text-on-surface-variant text-sm leading-relaxed mb-6" id="modal-desc"></p>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="val-card">
+            <div class="val-num" id="modal-ev"></div>
+            <div class="val-label">企業價值 (百萬台幣)</div>
+          </div>
+          <div class="val-card">
+            <div class="val-num" id="modal-mktcap-card"></div>
+            <div class="val-label">市值 (百萬台幣)</div>
+          </div>
+        </div>
+      </div>
+      <!-- Annual tab -->
+      <div id="mpane-annual" class="modal-sub-pane">
+        <p class="text-xs text-slate-400 mb-4 font-label">單位：百萬台幣（Margin 為 %）</p>
+        <div class="overflow-x-auto">
+          <table class="finance-table" id="modal-annual-table"></table>
+        </div>
+      </div>
+      <!-- Quarterly tab -->
+      <div id="mpane-quarterly" class="modal-sub-pane">
+        <p class="text-xs text-slate-400 mb-4 font-label">單位：百萬台幣（Margin 為 %）</p>
+        <div class="overflow-x-auto">
+          <table class="finance-table" id="modal-quarterly-table"></table>
+        </div>
+      </div>
+      <!-- Valuation tab -->
+      <div id="mpane-valuation" class="modal-sub-pane">
+        <p class="text-xs text-slate-400 mb-6 font-label" id="modal-price-date"></p>
+        <div class="valuation-grid" id="modal-valuation-grid"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Embedded Company Data -->
+<script id="company-data" type="application/json">
+{
+  "4915": {
+    "ticker": "4915",
+    "name": "致伸",
+    "sector": "Consumer Electronics",
+    "role": "upstream",
+    "market_cap": 35194.0,
+    "enterprise_value": 27545.0,
+    "desc": "致伸科技 (Primax Electronics) 為全球領先的 **資訊、影音與光學產品** 解決方案供應商。 三大產品線： 1.  **智慧生活 (Smart Lifestyle)**: 聲學產品 (智慧音箱/耳機)、消費電子 (鍵盤/滑鼠/電源)。供應商務與電競周邊。 2.  **車用/工業物聯 (Auto / AIoT)**: [[ADAS]] 相機模組 (**[[Tesla]]** 主要供應商)、警用相機 (Body Cam)、B2B 用[[物聯網]]裝置。 3.  **視覺影像 (Vision)**: 手機相機模組 (CCM)、印表機/事務機組件。 近年積極優化產品組合，降低低毛利…",
+    "price_date": "2026-04-12",
+    "valuation": {
+      "pe_ttm": 13.27,
+      "pe_forward": 10.64,
+      "ps_ttm": 0.58,
+      "pb": 1.71,
+      "ev_ebitda": 6.92
+    },
+    "annual": {
+      "headers": [
+        "2024-12-31",
+        "2023-12-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            60181.71,
+            58243.66
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            17.32,
+            16.96
+          ]
+        },
+        {
+          "label": "Operating Income",
+          "values": [
+            2816.96,
+            2710.54
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            2626.72,
+            2556.85
+          ]
+        },
+        {
+          "label": "Op Cash Flow",
+          "values": [
+            3222.63,
+            5621.53
+          ]
+        }
+      ]
+    },
+    "quarterly": {
+      "headers": [
+        "2025-06-30",
+        "2025-03-31",
+        "2024-12-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            14942.76,
+            14591.76,
+            14768.13
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            17.61,
+            17.46,
+            17.19
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            441.81,
+            733.46,
+            739.76
+          ]
+        }
+      ]
+    }
+  },
+  "3290": {
+    "ticker": "3290",
+    "name": "東浦",
+    "sector": "Electrical Equipment & Parts",
+    "role": "upstream",
+    "market_cap": 4168.0,
+    "enterprise_value": 4855.0,
+    "desc": "東浦精密光電 (3290) 為精密塑膠模具與射出成型服務商，核心成長來自[[電動車]][[ADAS]]鏡頭殼件 (間接供應[[Tesla]]) 及[[Harman]]高階耳機機構件。",
+    "price_date": "2026-04-12",
+    "valuation": {
+      "pe_ttm": 22.99,
+      "pe_forward": null,
+      "ps_ttm": 1.79,
+      "pb": 1.89,
+      "ev_ebitda": 11.32
+    },
+    "annual": {
+      "headers": [
+        "2024-12-31",
+        "2023-12-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            2325.54,
+            1966.91
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            30.27,
+            33.01
+          ]
+        },
+        {
+          "label": "Operating Income",
+          "values": [
+            342.52,
+            268.04
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            220.86,
+            251.08
+          ]
+        },
+        {
+          "label": "Op Cash Flow",
+          "values": [
+            107.75,
+            375.45
+          ]
+        }
+      ]
+    },
+    "quarterly": {
+      "headers": [
+        "2025-09-30",
+        "2025-06-30",
+        "2025-03-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            688.72,
+            627.82,
+            517.85
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            30.4,
+            31.57,
+            30.11
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            79.71,
+            91.64,
+            8.62
+          ]
+        }
+      ]
+    }
+  },
+  "7788": {
+    "ticker": "7788",
+    "name": "松川精密",
+    "sector": "Electrical Equipment & Parts",
+    "role": "upstream",
+    "market_cap": 11643.0,
+    "enterprise_value": 11842.0,
+    "desc": "松川精密 (7788) 為台灣繼電器霸主 (品牌Song Chuan)。已打入[[Tesla]]供應鏈。與[[台達電]]、[[光寶科技]]合作AI伺服器特規接觸器。自製率80%。客戶2000+家。",
+    "price_date": "2026-04-12",
+    "valuation": {
+      "pe_ttm": 40.11,
+      "pe_forward": 14.2,
+      "ps_ttm": 1.81,
+      "pb": 1.97,
+      "ev_ebitda": 15.64
+    },
+    "annual": {
+      "headers": [
+        "2024-12-31",
+        "2023-12-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            6432.8,
+            5963.71
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            27.04,
+            27.73
+          ]
+        },
+        {
+          "label": "Operating Income",
+          "values": [
+            478.36,
+            544.74
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            269.16,
+            504.4
+          ]
+        },
+        {
+          "label": "Op Cash Flow",
+          "values": [
+            431.46,
+            769.74
+          ]
+        }
+      ]
+    },
+    "quarterly": {
+      "headers": [
+        "2025-09-30",
+        "2025-06-30",
+        "2025-03-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            1669.74,
+            1529.5,
+            1610.81
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            26.04,
+            26.45,
+            27.19
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            110.91,
+            111.04,
+            -97.53
+          ]
+        }
+      ]
+    }
+  },
+  "3357": {
+    "ticker": "3357",
+    "name": "臺慶科",
+    "sector": "Electronic Components",
+    "role": "upstream",
+    "market_cap": 15713.0,
+    "enterprise_value": 16940.0,
+    "desc": "臺慶科 (TAI-TECH) 為專業 **電感 (Inductor)** 與 **磁性元件** 製造商。 主要產品包括 **積層晶片電感**、**繞線電感**、**一體成型功率電感** (Molding Power Choke) 及 **網路變壓器**。 產品廣泛應用於 **車用電子** ([[ADAS]], BMS, Infotainment)、**網通設備** (Router, Switch, Lan Transformer) 及 **[[AI 伺服器]]** (Power Choke, TLVR)。 特別是 **TLVR** (Trans-Inductor Voltage Regulat…",
+    "price_date": "2026-04-12",
+    "valuation": {
+      "pe_ttm": 16.28,
+      "pe_forward": 13.85,
+      "ps_ttm": 2.37,
+      "pb": 1.79,
+      "ev_ebitda": 12.92
+    },
+    "annual": {
+      "headers": [
+        "2024-12-31",
+        "2023-12-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            6623.82,
+            5506.11
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            26.36,
+            24.19
+          ]
+        },
+        {
+          "label": "Operating Income",
+          "values": [
+            797.36,
+            566.33
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            1055.75,
+            748.15
+          ]
+        },
+        {
+          "label": "Op Cash Flow",
+          "values": [
+            773.76,
+            685.02
+          ]
+        }
+      ]
+    },
+    "quarterly": {
+      "headers": [
+        "2025-09-30",
+        "2025-06-30",
+        "2025-03-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            1806.29,
+            1647.58,
+            1610.52
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            28.44,
+            26.46,
+            24.64
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            255.52,
+            257.97,
+            317.4
+          ]
+        }
+      ]
+    }
+  },
+  "5243": {
+    "ticker": "5243",
+    "name": "乙盛-KY",
+    "sector": "Electronic Components",
+    "role": "upstream",
+    "market_cap": 20055.0,
+    "enterprise_value": 16586.0,
+    "desc": "乙盛-KY (Eson) 為 **[[鴻海]]集團** 旗下之精密機構件大廠，扮演集團內「機構件軍火庫」角色。 主要業務板塊： 1.  **車用機構件 (Automotive)**: **[[Tesla]] (特斯拉)** 一級供應商，生產車身結構、電池機構件、內飾件 (營收過半)。 2.  **網通/伺服器**: [[低軌衛星]]地面設備 ([[SpaceX]] 合作夥伴)、[[AI]] [[伺服器]]機殼/側邊櫃。 3.  **消費性電子**: 電視機構件 ([[Sony]]/[[鴻海]])、遊戲機。 全球佈局完整，**墨西哥廠** 為最大生產基地，就近服務北美車廠與[[伺服器]]客戶。",
+    "price_date": "2026-04-12",
+    "valuation": {
+      "pe_ttm": 27.17,
+      "pe_forward": 19.83,
+      "ps_ttm": 1.66,
+      "pb": 2.44,
+      "ev_ebitda": 10.98
+    },
+    "annual": {
+      "headers": [
+        "2024-12-31",
+        "2023-12-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            12080.4,
+            13094.33
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            21.31,
+            19.28
+          ]
+        },
+        {
+          "label": "Operating Income",
+          "values": [
+            978.25,
+            778.12
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            741.27,
+            566.43
+          ]
+        },
+        {
+          "label": "Op Cash Flow",
+          "values": [
+            2198.3,
+            828.95
+          ]
+        }
+      ]
+    },
+    "quarterly": {
+      "headers": [
+        "2025-09-30",
+        "2025-06-30",
+        "2025-03-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            2891.5,
+            2774.41,
+            3034.05
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            20.92,
+            25.33,
+            21.41
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            173.49,
+            204.0,
+            196.01
+          ]
+        }
+      ]
+    }
+  },
+  "5457": {
+    "ticker": "5457",
+    "name": "宣德",
+    "sector": "Electronic Components",
+    "role": "upstream",
+    "market_cap": 7583.0,
+    "enterprise_value": 14128.0,
+    "desc": "宣德科技 (Speed Tech) 成立於 1990 年，總部位於台灣[[桃園]]，為中國 **立訊精密 (Luxshare)** 集團成員 (立訊持股約 30%)。主要從事 **電子連接器** 及 **線纜模組** 之製造。產品涵蓋 [[Type-C]], RJ45, USB, HDMI 等[[連接器]]，近年積極拓展 **FATP (整機組裝)** 業務，應用領域擴及 **[[低軌衛星]]** (Starlink)、**[[電動車]]** ([[Tesla]])、**美系手機** ([[Apple]]) 及 **[[AI 伺服器]]** (高速[[連接器]]/線束)。",
+    "price_date": "2026-04-12",
+    "valuation": {
+      "pe_ttm": 15.32,
+      "pe_forward": 9.9,
+      "ps_ttm": 0.31,
+      "pb": 1.31,
+      "ev_ebitda": 5.3
+    },
+    "annual": {
+      "headers": [
+        "2024-12-31",
+        "2023-12-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            24359.83,
+            22688.93
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            17.79,
+            16.6
+          ]
+        },
+        {
+          "label": "Operating Income",
+          "values": [
+            1410.98,
+            1200.25
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            479.8,
+            397.08
+          ]
+        },
+        {
+          "label": "Op Cash Flow",
+          "values": [
+            2536.8,
+            5905.75
+          ]
+        }
+      ]
+    },
+    "quarterly": {
+      "headers": [
+        "2025-09-30",
+        "2025-06-30",
+        "2025-03-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            6284.48,
+            7154.94,
+            5531.46
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            18.6,
+            17.83,
+            16.59
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            213.99,
+            183.14,
+            -105.72
+          ]
+        }
+      ]
+    }
+  },
+  "1586": {
+    "ticker": "1586",
+    "name": "和勤",
+    "sector": "Metal Fabrication",
+    "role": "upstream",
+    "market_cap": 2294.0,
+    "enterprise_value": 2758.0,
+    "desc": "和勤精機 (1586，CFTC) 為精密沖壓及精密鍛造專業廠，產品應用於[[電動車]]及硬碟。EV客戶含[[Tesla]]、[[BYD]]。硬碟客戶含[[Seagate]]、[[Western Digital]]。汽車Tier 1含[[Magna]]、[[BorgWarner]]、[[Eaton]]、[[ZF]]。上游鋼材來自[[中鋼]]。",
+    "price_date": "2026-04-12",
+    "valuation": {
+      "pe_ttm": null,
+      "pe_forward": 10.34,
+      "ps_ttm": 1.0,
+      "pb": 1.16,
+      "ev_ebitda": 23.74
+    },
+    "annual": {
+      "headers": [
+        "2024-12-31",
+        "2023-12-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            2300.56,
+            2572.58
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            12.27,
+            15.62
+          ]
+        },
+        {
+          "label": "Operating Income",
+          "values": [
+            -65.7,
+            31.76
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            -34.13,
+            35.28
+          ]
+        },
+        {
+          "label": "Op Cash Flow",
+          "values": [
+            252.16,
+            298.11
+          ]
+        }
+      ]
+    },
+    "quarterly": {
+      "headers": [
+        "2025-09-30",
+        "2025-06-30",
+        "2025-03-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            637.11,
+            562.63,
+            558.53
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            14.13,
+            12.02,
+            11.58
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            10.85,
+            -4.21,
+            -11.08
+          ]
+        }
+      ]
+    }
+  },
+  "4739": {
+    "ticker": "4739",
+    "name": "康普",
+    "sector": "Specialty Chemicals",
+    "role": "upstream",
+    "market_cap": 10545.0,
+    "enterprise_value": 12168.0,
+    "desc": "康普材料 (CoreMax) 為台灣重要的 **動力電池材料** 與 **PTA 氧化觸媒** 供應商。 核心業務： 1.  **動力電池材料**: 生產 **硫酸鈷**、**硫酸鎳** (正極材料前驅體)，為 **Panasonic** 重要供應商，間接切入 **[[Tesla]]** 供應鏈。 2.  **氧化觸媒**: PTA (純對苯二甲酸) 製程用觸媒，市佔率高。 3.  **先進材料**: 輪胎接著劑、化學肥料、電子級硫酸 ([[半導體]]用)。 近年配合客戶需求，積極擴充電池材料產能與金屬回收業務。",
+    "price_date": "2026-04-12",
+    "valuation": {
+      "pe_ttm": 60.0,
+      "pe_forward": 21.92,
+      "ps_ttm": 1.7,
+      "pb": 1.72,
+      "ev_ebitda": 15.57
+    },
+    "annual": {
+      "headers": [
+        "2024-12-31",
+        "2023-12-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            6191.11,
+            4095.51
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            13.71,
+            13.23
+          ]
+        },
+        {
+          "label": "Operating Income",
+          "values": [
+            440.09,
+            165.72
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            184.31,
+            169.04
+          ]
+        },
+        {
+          "label": "Op Cash Flow",
+          "values": [
+            -564.34,
+            773.3
+          ]
+        }
+      ]
+    },
+    "quarterly": {
+      "headers": [
+        "2025-09-30",
+        "2025-06-30",
+        "2025-03-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            1926.6,
+            1760.2,
+            1450.66
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            14.91,
+            12.28,
+            9.93
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            120.95,
+            84.16,
+            6.66
+          ]
+        }
+      ]
+    }
+  },
+  "1536": {
+    "ticker": "1536",
+    "name": "和大",
+    "sector": "Auto Parts",
+    "role": "downstream",
+    "market_cap": 13543.0,
+    "enterprise_value": 25174.0,
+    "desc": "和大工業 (1536，Hota Industrial) 為台灣最大汽車齒輪與傳動零件製造商。第一大客戶[[BorgWarner]] (佔營收約 40%)，透過其出貨油泵齒輪及扭力轉換系統。第二大客戶[[Tesla]] (佔營收約 20%)，為其電動車減速齒輪箱獨家供應商，供應 Model S/X、Semi 電動卡車及中國以外 Model 3/Y。更獲[[Tesla]]邀請成為 Optimus 人形機器人「行星減速機」台灣獨家供應商 (每台需約 40 組)。關係企業[[盟英科技]] (與[[盟立自動化]]合資) 生產機器人關節減速零件。其他客戶涵蓋[[Rivian]]、[[Lucid]]、[[F…",
+    "price_date": "2026-04-12",
+    "valuation": {
+      "pe_ttm": null,
+      "pe_forward": 89.91,
+      "ps_ttm": 2.84,
+      "pb": 1.75,
+      "ev_ebitda": 118.39
+    },
+    "annual": {
+      "headers": [
+        "2024-12-31",
+        "2023-12-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            4762.75,
+            5774.47
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            2.92,
+            11.81
+          ]
+        },
+        {
+          "label": "Operating Income",
+          "values": [
+            -497.65,
+            -113.95
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            -756.49,
+            195.06
+          ]
+        },
+        {
+          "label": "Op Cash Flow",
+          "values": [
+            940.82,
+            187.29
+          ]
+        }
+      ]
+    },
+    "quarterly": {
+      "headers": [
+        "2025-09-30",
+        "2025-06-30",
+        "2025-03-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            1203.58,
+            1193.88,
+            1131.09
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            -3.41,
+            4.03,
+            4.09
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            -183.44,
+            -40.64,
+            -429.76
+          ]
+        }
+      ]
+    }
+  },
+  "2101": {
+    "ticker": "2101",
+    "name": "南港",
+    "sector": "Auto Parts",
+    "role": "downstream",
+    "market_cap": 25814.0,
+    "enterprise_value": 47606.0,
+    "desc": "南港輪胎 (2101，Nankang Rubber Tire) 創立於 1959 年，為台灣歷史最悠久之輪胎製造商。自有品牌 Nankang、SONAR (速耐) 及 Luccini (路馳凌) 行銷全球 189 國。近年積極布局電動車輪胎市場，推出 [[AS-3EV]] 電動車專用胎鎖定[[Tesla]] Model 3/Y 車主。2023 年成為大中華區首家[[紐柏林賽道]] (Nürburgring) 官方合作夥伴，強化賽道性能形象。另透過子公司南榮開發推動[[世界明珠]]大型不動產開發案。上游原料採購自[[台橡]] (合成橡膠) 及[[中橡]] (碳煙)。",
+    "price_date": "2026-04-12",
+    "valuation": {
+      "pe_ttm": 35.35,
+      "pe_forward": 74.38,
+      "ps_ttm": 3.06,
+      "pb": 2.05,
+      "ev_ebitda": 39.71
+    },
+    "annual": {
+      "headers": [
+        "2024-12-31",
+        "2023-12-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            8431.99,
+            15223.52
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            21.45,
+            32.12
+          ]
+        },
+        {
+          "label": "Operating Income",
+          "values": [
+            579.09,
+            3508.05
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            809.78,
+            2947.88
+          ]
+        },
+        {
+          "label": "Op Cash Flow",
+          "values": [
+            1815.63,
+            -746.53
+          ]
+        }
+      ]
+    },
+    "quarterly": {
+      "headers": [
+        "2025-09-30",
+        "2025-06-30",
+        "2025-03-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            1736.65,
+            2176.47,
+            2450.14
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            20.96,
+            19.93,
+            24.01
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            1115.11,
+            77.64,
+            -295.19
+          ]
+        }
+      ]
+    }
+  },
+  "2239": {
+    "ticker": "2239",
+    "name": "英利-KY",
+    "sector": "Auto Parts",
+    "role": "downstream",
+    "market_cap": 2696.0,
+    "enterprise_value": 14037.0,
+    "desc": "英利汽車零部件 (2239，Yingli Auto，英利-KY) 為中國汽車車身結構件 Tier 1/Tier 2 供應商，產品涵蓋儀錶板骨架、前端框架、保險桿、沖壓/熱成型安全件。核心客戶為[[一汽大眾]] (FAW-VW，最大客戶)、[[北京奔馳]] (Beijing Benz)、[[上汽大眾]] (SAIC-VW)，另供應[[Audi]] (一汽奧迪全車系儀錶板骨架)。新拓展客戶涵蓋[[Volvo]]、[[Tesla]] (儀錶板支架)、安徽大眾 (VW Anhui，電動車項目)。另有[[吉利]]、[[長城]]、[[上汽]]、[[廣汽]]及[[GM]]中國。公司擁有亞洲唯一[[SymaL…",
+    "price_date": "2026-04-12",
+    "valuation": {
+      "pe_ttm": null,
+      "pe_forward": 3.0,
+      "ps_ttm": 0.14,
+      "pb": 0.24,
+      "ev_ebitda": 10.22
+    },
+    "annual": {
+      "headers": [
+        "2024-12-31",
+        "2023-12-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            19086.13,
+            21485.45
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            10.02,
+            11.87
+          ]
+        },
+        {
+          "label": "Operating Income",
+          "values": [
+            -501.67,
+            125.62
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            -946.61,
+            -10.69
+          ]
+        },
+        {
+          "label": "Op Cash Flow",
+          "values": [
+            2544.52,
+            1174.03
+          ]
+        }
+      ]
+    },
+    "quarterly": {
+      "headers": [
+        "2025-09-30",
+        "2025-06-30",
+        "2025-03-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            5130.34,
+            4564.5,
+            4840.23
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            11.02,
+            9.12,
+            11.77
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            -376.36,
+            -266.45,
+            114.48
+          ]
+        }
+      ]
+    }
+  },
+  "3552": {
+    "ticker": "3552",
+    "name": "同致",
+    "sector": "Auto Parts",
+    "role": "downstream",
+    "market_cap": 5581.0,
+    "enterprise_value": 4236.0,
+    "desc": "同致電子 (3552，TungThih Electronic) 為亞洲最大、全球第三大 (僅次於[[Bosch]]及[[Valeo]]) 停車感測器供應商，以 Tier 1 身分直供全球 48 家以上 OEM、行銷逾 50 國。核心產品涵蓋[[超音波感測器]]、車用攝影機、環景影像系統 ([[AVM]])、[[自動停車]] ([[APA]]) 及 77GHz 雷達。中國市場佔營收逾 70%，主要客戶為[[長安汽車]]、[[上汽通用]]、[[東南汽車]]、[[東風日產]]。國際客戶涵蓋[[Tesla]]、[[Ford]]、[[General Motors]]、[[Stellantis]]。積極拓…",
+    "price_date": "2026-04-12",
+    "valuation": {
+      "pe_ttm": 85.07,
+      "pe_forward": 8.51,
+      "ps_ttm": 0.66,
+      "pb": 1.28,
+      "ev_ebitda": 14.89
+    },
+    "annual": {
+      "headers": [
+        "2024-12-31",
+        "2023-12-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            8461.0,
+            8533.63
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            18.82,
+            21.18
+          ]
+        },
+        {
+          "label": "Operating Income",
+          "values": [
+            27.67,
+            69.22
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            65.94,
+            144.93
+          ]
+        },
+        {
+          "label": "Op Cash Flow",
+          "values": [
+            272.34,
+            1666.82
+          ]
+        }
+      ]
+    },
+    "quarterly": {
+      "headers": [
+        "2025-09-30",
+        "2025-06-30",
+        "2025-03-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            2351.68,
+            2086.0,
+            1977.94
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            19.47,
+            18.25,
+            18.14
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            28.75,
+            20.09,
+            8.66
+          ]
+        }
+      ]
+    }
+  },
+  "1609": {
+    "ticker": "1609",
+    "name": "大亞",
+    "sector": "Electrical Equipment & Parts",
+    "role": "downstream",
+    "market_cap": 26150.0,
+    "enterprise_value": 59501.0,
+    "desc": "大亞電線電纜 (1609，Ta Ya Electric Wire & Cable) 為台灣老牌電線電纜大廠，近年轉型「能源串接」領導品牌。核心業務：(1) 電力電纜 (佔約 71%) — 含 161kV/345kV 高壓；(2) [[漆包線]] (佔約 11%) — 成功開發[[電動車]]用平角漆包線 (供應[[富田電機]]即[[Tesla]]馬達供應鏈)、無人機用超導熱銅包鋁線 (TD-CCAW) 及[[低軌衛星]]馬達用漆包線；(3) 綠能 — 旗下大亞綠能擁有 73 座[[太陽能]]電廠 (250MW)，跨足[[儲能]]系統。企業綠電客戶含[[台達電]]、[[群創]]。受惠[[台電]]強…",
+    "price_date": "2026-04-12",
+    "valuation": {
+      "pe_ttm": 20.75,
+      "pe_forward": 16.95,
+      "ps_ttm": 0.84,
+      "pb": 1.53,
+      "ev_ebitda": 15.76
+    },
+    "annual": {
+      "headers": [
+        "2024-12-31",
+        "2023-12-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            31105.9,
+            30084.64
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            13.98,
+            13.69
+          ]
+        },
+        {
+          "label": "Operating Income",
+          "values": [
+            2728.96,
+            2205.76
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            1290.51,
+            1609.85
+          ]
+        },
+        {
+          "label": "Op Cash Flow",
+          "values": [
+            -1260.51,
+            -463.24
+          ]
+        }
+      ]
+    },
+    "quarterly": {
+      "headers": [
+        "2025-09-30",
+        "2025-06-30",
+        "2025-03-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            8110.8,
+            7838.82,
+            8013.12
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            13.61,
+            13.07,
+            14.91
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            21.11,
+            342.52,
+            992.56
+          ]
+        }
+      ]
+    }
+  },
+  "3003": {
+    "ticker": "3003",
+    "name": "健和興",
+    "sector": "Electrical Equipment & Parts",
+    "role": "downstream",
+    "market_cap": 7759.0,
+    "enterprise_value": 5197.0,
+    "desc": "健和興端子 (3003，K.S. Terminals / KST) 為亞洲知名端子與[[連接器]]製造商，近年成功轉型至[[電動車]]與綠能市場。產品涵蓋 EV 高壓[[連接器]]、充電槍、充電樁連接器、太陽能/風電/[[儲能]]系統高壓連接器及車用電子端子。為[[Tesla]]充電槍及[[Tesla Powerwall]][[儲能]]系統之綠能連接器供應商。其他 EV 客戶涵蓋[[BYD]]、[[蔚來汽車]]、[[吉利汽車]]、[[Honda]]、[[Nissan]]。綠能/充電樁客戶涵蓋[[台達電]]、[[華為]]、[[陽光電源]]。",
+    "price_date": "2026-04-12",
+    "valuation": {
+      "pe_ttm": 50.35,
+      "pe_forward": 12.43,
+      "ps_ttm": 1.77,
+      "pb": 1.2,
+      "ev_ebitda": 12.94
+    },
+    "annual": {
+      "headers": [
+        "2024-12-31",
+        "2023-12-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            4396.1,
+            4544.96
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            22.17,
+            28.75
+          ]
+        },
+        {
+          "label": "Operating Income",
+          "values": [
+            289.95,
+            644.56
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            153.77,
+            604.62
+          ]
+        },
+        {
+          "label": "Op Cash Flow",
+          "values": [
+            291.5,
+            128.87
+          ]
+        }
+      ]
+    },
+    "quarterly": {
+      "headers": [
+        "2025-09-30",
+        "2025-06-30",
+        "2025-03-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            1170.11,
+            1038.39,
+            1181.29
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            21.28,
+            19.87,
+            22.88
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            76.63,
+            82.66,
+            -76.2
+          ]
+        }
+      ]
+    }
+  },
+  "3071": {
+    "ticker": "3071",
+    "name": "協禧",
+    "sector": "Electrical Equipment & Parts",
+    "role": "downstream",
+    "market_cap": 3085.0,
+    "enterprise_value": 3004.0,
+    "desc": "協禧電機 (3071，ADDA Corporation) 為全球知名散熱風扇製造商，自有品牌 ADDA。近年轉型聚焦：(1) 車用電子 — 獲歐美 Tier 1 認證，應用於車燈/座椅通風/電池散熱，間接供應[[Tesla]]、[[GM]]、[[Ford]]；(2) [[AI 伺服器]]散熱 — 高效能風扇與液冷散熱模組，供應[[廣達]]、[[緯創]]、[[英業達]]等伺服器代工廠；(3) NB/PC — 供應[[HP]]、[[Dell]]、[[Lenovo]]。上游馬達控制 IC 採用[[ROHM]]。",
+    "price_date": "2026-04-12",
+    "valuation": {
+      "pe_ttm": 49.21,
+      "pe_forward": null,
+      "ps_ttm": 1.32,
+      "pb": 2.06,
+      "ev_ebitda": 13.12
+    },
+    "annual": {
+      "headers": [
+        "2024-12-31",
+        "2023-12-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            2332.49,
+            2476.54
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            30.86,
+            30.0
+          ]
+        },
+        {
+          "label": "Operating Income",
+          "values": [
+            135.75,
+            136.9
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            62.76,
+            88.94
+          ]
+        },
+        {
+          "label": "Op Cash Flow",
+          "values": [
+            303.86,
+            163.0
+          ]
+        }
+      ]
+    },
+    "quarterly": {
+      "headers": [
+        "2025-09-30",
+        "2025-06-30",
+        "2025-03-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            638.42,
+            573.91,
+            579.8
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            30.11,
+            31.02,
+            32.8
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            4.96,
+            4.58,
+            50.82
+          ]
+        }
+      ]
+    }
+  },
+  "3092": {
+    "ticker": "3092",
+    "name": "鴻碩",
+    "sector": "Electrical Equipment & Parts",
+    "role": "downstream",
+    "market_cap": 3117.0,
+    "enterprise_value": 4394.0,
+    "desc": "鴻碩精密電工 (3092，Hotron Precision Electronic) 為全球最大顯示器訊號線製造商，主力產品涵蓋[[HDMI]]、[[DisplayPort]]、[[USB]]傳輸線。垂直整合抽銅/加工/組裝。近年轉型車用及新能源：(1) 車用線束 — 供應[[Tesla]] Model 3/Y 中控台/影音線束；(2) [[電動車]]充電槍/充電線；(3) 醫療線材。顯示器客戶涵蓋[[Dell]]、[[HP]]、[[Samsung]]、[[LG]]。遊戲機客戶含[[Sony]]、[[Microsoft]]。",
+    "price_date": "2026-04-12",
+    "valuation": {
+      "pe_ttm": null,
+      "pe_forward": null,
+      "ps_ttm": 1.9,
+      "pb": 2.18,
+      "ev_ebitda": -14.6
+    },
+    "annual": {
+      "headers": [
+        "2024-12-31",
+        "2023-12-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            1638.99,
+            1933.67
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            4.38,
+            12.02
+          ]
+        },
+        {
+          "label": "Operating Income",
+          "values": [
+            -570.32,
+            -274.03
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            -547.48,
+            -221.92
+          ]
+        },
+        {
+          "label": "Op Cash Flow",
+          "values": [
+            -358.11,
+            274.02
+          ]
+        }
+      ]
+    },
+    "quarterly": {
+      "headers": [
+        "2025-09-30",
+        "2025-06-30",
+        "2025-03-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            389.02,
+            372.28,
+            420.49
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            1.51,
+            0.17,
+            7.56
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            -88.17,
+            -116.25,
+            -214.2
+          ]
+        }
+      ]
+    }
+  },
+  "3665": {
+    "ticker": "3665",
+    "name": "貿聯-KY",
+    "sector": "Electrical Equipment & Parts",
+    "role": "downstream",
+    "market_cap": 428912.0,
+    "enterprise_value": 425200.0,
+    "desc": "貿聯-KY (BizLink) 是全球領先的客製化 **連接線束 (Harness)** 與 **連接器 (Connector)** 解決方案領導者。 公司具備全球化的生產基地 (38 個據點) 與研發中心，產品線跨足工業、數據中心、車用與醫療四大領域。 核心優勢與亮點： 1.  **AI 伺服器 (HPC) 引領成長**: 已切入 [[NVIDIA]] GB200 供應鏈，供應 Power Whip (匯流排[[連接器]]) 等關鍵高電力傳輸組件。此外，亦與 Credo 合作供應主動式乙太網路纜線 (AEC)。 2.  **電動車 (EV) 關鍵先驅**: 於 2006 年起即為 **[[T…",
+    "price_date": null,
+    "valuation": {
+      "pe_ttm": 47.39,
+      "pe_forward": 24.6,
+      "ps_ttm": 6.02,
+      "pb": 9.2,
+      "ev_ebitda": 29.67
+    },
+    "annual": {
+      "headers": [
+        "2024-12-31",
+        "2023-12-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            71247.27,
+            54080.48
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            31.73,
+            28.2
+          ]
+        },
+        {
+          "label": "Operating Income",
+          "values": [
+            12483.08,
+            6526.43
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            9005.37,
+            4396.14
+          ]
+        },
+        {
+          "label": "Op Cash Flow",
+          "values": [
+            8595.4,
+            6908.91
+          ]
+        }
+      ]
+    },
+    "quarterly": {
+      "headers": [
+        "2025-09-30",
+        "2025-06-30",
+        "2025-03-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            19779.96,
+            18413.19,
+            16933.33
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            31.93,
+            33.25,
+            31.12
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            2740.08,
+            2628.7,
+            2024.48
+          ]
+        }
+      ]
+    }
+  },
+  "2355": {
+    "ticker": "2355",
+    "name": "敬鵬",
+    "sector": "Electronic Components",
+    "role": "downstream",
+    "market_cap": 21425.0,
+    "enterprise_value": 16664.0,
+    "desc": "敬鵬工業 (2355) 是全球第四大[[車用 PCB]] 製造商，全球市占率約 10%。車用板占 2024 年營收約 78%，網通板占 10%，工業應用占 8%。主要客戶為全球前 20 大汽車電子系統大廠，包括 [[Bosch]]、[[Denso]]、[[Continental]]、[[Magna]]、[[Delphi]]、[[Visteon]]。歐洲合作品牌包括 [[VW]]、[[Stellantis]]、[[Toyota]]，美國合作包括 [[Tesla]]、[[Lucid Motors]]、[[Rivian]]、[[GM]]。產能分布台灣 55%、中國 37%、泰國 8%。已取得 AS …",
+    "price_date": "2026-04-12",
+    "valuation": {
+      "pe_ttm": 33.9,
+      "pe_forward": 33.27,
+      "ps_ttm": 1.36,
+      "pb": 1.24,
+      "ev_ebitda": 13.48
+    },
+    "annual": {
+      "headers": [
+        "2024-12-31",
+        "2023-12-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            15780.87,
+            16355.21
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            11.5,
+            14.49
+          ]
+        },
+        {
+          "label": "Operating Income",
+          "values": [
+            527.61,
+            1073.3
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            634.32,
+            1132.42
+          ]
+        },
+        {
+          "label": "Op Cash Flow",
+          "values": [
+            1669.46,
+            1809.33
+          ]
+        }
+      ]
+    },
+    "quarterly": {
+      "headers": [
+        "2025-09-30",
+        "2025-06-30",
+        "2025-03-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            3990.93,
+            3858.69,
+            4090.81
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            13.97,
+            8.59,
+            10.84
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            254.25,
+            74.25,
+            97.49
+          ]
+        }
+      ]
+    }
+  },
+  "2492": {
+    "ticker": "2492",
+    "name": "華新科",
+    "sector": "Electronic Components",
+    "role": "downstream",
+    "market_cap": 62297.0,
+    "enterprise_value": 90674.0,
+    "desc": "[[華新科]]技股份有限公司 (Walsin Technology Corp.) 成立於 1992 年，總部位於台灣[[桃園]]，為華新麗華集團成員。公司為全球主要被動元件製造商，專注於積層陶瓷電容 ([[MLCC]])、晶片電阻 (Chip Resistors) 及射頻元件 (RF)。近年積極佈局[[車用電子]] ([[電動車]]) 及 [[AI Server]] 市場，並與 [[Caiden]] (2456) 等集團成員整合。",
+    "price_date": "2026-04-12",
+    "valuation": {
+      "pe_ttm": 27.17,
+      "pe_forward": 7.39,
+      "ps_ttm": 1.71,
+      "pb": 1.2,
+      "ev_ebitda": 14.81
+    },
+    "annual": {
+      "headers": [
+        "2024-12-31",
+        "2023-12-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            36462.79,
+            34755.04
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            17.28,
+            18.65
+          ]
+        },
+        {
+          "label": "Operating Income",
+          "values": [
+            2106.01,
+            2182.2
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            2298.17,
+            2982.51
+          ]
+        },
+        {
+          "label": "Op Cash Flow",
+          "values": [
+            6146.01,
+            6141.06
+          ]
+        }
+      ]
+    },
+    "quarterly": {
+      "headers": [
+        "2025-06-30",
+        "2025-03-31",
+        "2024-12-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            8754.9,
+            9554.49,
+            8740.01
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            18.27,
+            16.99,
+            17.16
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            870.0,
+            -214.89,
+            585.34
+          ]
+        }
+      ]
+    }
+  },
+  "3019": {
+    "ticker": "3019",
+    "name": "亞光",
+    "sector": "Electronic Components",
+    "role": "downstream",
+    "market_cap": 35045.0,
+    "enterprise_value": 25335.0,
+    "desc": "亞光 ([[Asia Optical]]) 為台灣老牌光學大廠，以玻璃研磨與稜鏡技術著稱。公司從數位相機市場成功轉型，聚焦車載鏡頭、潛望式鏡頭與軍用瞄準器三大成長動能。 核心產品：(1) 車載鏡頭 — 打入 [[Tesla]] 純視覺車載鏡頭供應鏈，亦供貨 [[Bosch]]、[[Continental]] 等 Tier 1；(2) 手機光學 — 與 [[LG Innotek]] 策略結盟，供應模造玻璃與稜鏡用於高階手機鏡頭模組，子公司科太光電獲 [[LG Innotek]] 入股；(3) [[LiDAR]] 光達鏡頭 — 為 [[LiDAR]] 關鍵鏡頭供應商；(4) 光通訊 — 布局 [[…",
+    "price_date": "2026-04-12",
+    "valuation": {
+      "pe_ttm": 19.31,
+      "pe_forward": 13.07,
+      "ps_ttm": 1.33,
+      "pb": 2.36,
+      "ev_ebitda": 8.45
+    },
+    "annual": {
+      "headers": [
+        "2024-12-31",
+        "2023-12-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            26445.66,
+            23047.47
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            18.78,
+            18.57
+          ]
+        },
+        {
+          "label": "Operating Income",
+          "values": [
+            2269.91,
+            1758.34
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            1843.2,
+            1615.79
+          ]
+        },
+        {
+          "label": "Op Cash Flow",
+          "values": [
+            2103.74,
+            3826.72
+          ]
+        }
+      ]
+    },
+    "quarterly": {
+      "headers": [
+        "2025-09-30",
+        "2025-06-30",
+        "2025-03-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            6976.25,
+            7152.52,
+            6907.66
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            15.53,
+            22.01,
+            20.0
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            303.32,
+            520.44,
+            798.88
+          ]
+        }
+      ]
+    }
+  },
+  "3042": {
+    "ticker": "3042",
+    "name": "晶技",
+    "sector": "Electronic Components",
+    "role": "downstream",
+    "market_cap": 40119.0,
+    "enterprise_value": 36253.0,
+    "desc": "晶技 ([[TXC Corporation]]) 為全球前三大石英元件製造商，台灣龍頭。核心產品為石英晶體 (Crystal)、振盪器 (Oscillator)、TCXO/OCXO 及表面聲波元件 (SAW Filter)。石英元件為電子產品之時脈訊號核心。 近年積極切入高階市場：(1) [[電動車]] — [[ADAS]]/BMS/車載娛樂系統所需車規頻率元件，寧波廠專注車用產線；(2) [[AI 伺服器]] — 高階伺服器所需高精度振盪器；(3) [[5G]] 通訊 — 基地台與 [[Wi-Fi 7]] 路由器。與 [[華新科]]、[[佳邦科技]] 策略聯盟，強化供應鏈整合。印尼泗水廠擴充…",
+    "price_date": "2026-04-12",
+    "valuation": {
+      "pe_ttm": 22.56,
+      "pe_forward": 16.64,
+      "ps_ttm": 3.01,
+      "pb": 2.52,
+      "ev_ebitda": 11.11
+    },
+    "annual": {
+      "headers": [
+        "2024-12-31",
+        "2023-12-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            13348.9,
+            12672.26
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            33.04,
+            35.41
+          ]
+        },
+        {
+          "label": "Operating Income",
+          "values": [
+            2023.67,
+            2136.48
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            1804.53,
+            2137.41
+          ]
+        },
+        {
+          "label": "Op Cash Flow",
+          "values": [
+            3412.74,
+            2595.66
+          ]
+        }
+      ]
+    },
+    "quarterly": {
+      "headers": [
+        "2025-09-30",
+        "2025-06-30",
+        "2025-03-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            3324.27,
+            3491.64,
+            3366.56
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            32.18,
+            31.17,
+            33.61
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            451.33,
+            511.1,
+            370.33
+          ]
+        }
+      ]
+    }
+  },
+  "3481": {
+    "ticker": "3481",
+    "name": "群創",
+    "sector": "Electronic Components",
+    "role": "downstream",
+    "market_cap": 207507.0,
+    "enterprise_value": 182964.0,
+    "desc": "[[群創]]光電 (3481，[[群創]]) 為全球前三大 [[TFT-LCD]] 面板製造商之一，[[鴻海]]集團成員。產品線涵蓋大尺寸 (TV, Monitor, NB) 與中小尺寸 (Mobile, Tablet) 面板。 近年積極推動「雙軌轉型」(More than Panel)，拓展非顯示器領域：(1) 車用 — 子公司 CarUX 合併日本 [[Pioneer]]，升級為 Tier 1 車用顯示方案供應商，供應 [[BMW]]、[[GM]]、[[Tesla]] 等車廠；(2) 醫療 — 子公司睿生光電專攻 X-ray 感測器；(3) 半導體 — 投入 [[FOPLP]] (扇出型面…",
+    "price_date": "2026-04-12",
+    "valuation": {
+      "pe_ttm": 866.67,
+      "pe_forward": 51.6,
+      "ps_ttm": 0.92,
+      "pb": 0.94,
+      "ev_ebitda": 7.3
+    },
+    "annual": {
+      "headers": [
+        "2024-12-31",
+        "2023-12-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            226724.26,
+            216509.92
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            8.23,
+            6.55
+          ]
+        },
+        {
+          "label": "Operating Income",
+          "values": [
+            -4160.28,
+            -7918.92
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            249.76,
+            6472.88
+          ]
+        },
+        {
+          "label": "Op Cash Flow",
+          "values": [
+            20167.8,
+            17533.39
+          ]
+        }
+      ]
+    },
+    "quarterly": {
+      "headers": [
+        "2025-09-30",
+        "2025-06-30",
+        "2025-03-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            56742.28,
+            57818.31,
+            56231.4
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            9.08,
+            7.89,
+            8.38
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            -18.54,
+            66.89,
+            -760.63
+          ]
+        }
+      ]
+    }
+  },
+  "3624": {
+    "ticker": "3624",
+    "name": "光頡",
+    "sector": "Electronic Components",
+    "role": "downstream",
+    "market_cap": 5814.0,
+    "enterprise_value": 4503.0,
+    "desc": "光頡科技 (3624，[[Viking Tech]]) 為利基型晶片電阻與電感製造商，主要股東為中國 [[風華高科]] (持股約四成)。 產品特色： 1. **薄膜電阻 (Thin Film)**: 高精度、高穩定性，技術門檻高，精度可達 0.01%、TCR 2 ppm，為公司獲利主力。 2. **厚膜電阻**: 特殊功能型 (如抗硫化、高壓)。 3. **車用市場**: 通過 [[AEC-Q200]] 認證，打入 Tier 1 車廠與 [[電動車]] 供應鏈 (OBC、BMS 應用)。 4. **電感產品**: [[功率電感]]、射頻電感等被動元件。 主攻工控與車用高階市場，以薄膜精密電阻與…",
+    "price_date": "2026-04-12",
+    "valuation": {
+      "pe_ttm": 26.78,
+      "pe_forward": 11.36,
+      "ps_ttm": 2.17,
+      "pb": 1.68,
+      "ev_ebitda": 9.58
+    },
+    "annual": {
+      "headers": [
+        "2024-12-31",
+        "2023-12-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            2675.36,
+            2581.14
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            25.29,
+            25.88
+          ]
+        },
+        {
+          "label": "Operating Income",
+          "values": [
+            259.58,
+            245.82
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            218.18,
+            242.12
+          ]
+        },
+        {
+          "label": "Op Cash Flow",
+          "values": [
+            406.83,
+            328.29
+          ]
+        }
+      ]
+    },
+    "quarterly": {
+      "headers": [
+        "2025-09-30",
+        "2025-06-30",
+        "2025-03-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            656.71,
+            694.0,
+            705.65
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            23.3,
+            22.19,
+            29.08
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            76.35,
+            80.29,
+            -1.72
+          ]
+        }
+      ]
+    }
+  },
+  "3673": {
+    "ticker": "3673",
+    "name": "TPK-KY",
+    "sector": "Electronic Components",
+    "role": "downstream",
+    "market_cap": 20333.0,
+    "enterprise_value": 2773.0,
+    "desc": "TPK-KY (宸鴻) 為全球觸控技術的領導廠商，也是觸控模組量產化的先驅。 公司提供從 1 吋到 110 吋的全方位觸控解決方案，產品廣泛應用於智慧型手機、平板電腦、筆記型電腦及車載顯示。 核心業務與發展亮點： 1.  **車載與感測器轉型**: 積極降低對智慧型手機的依賴，轉向車載與工業應用。為 **[[Tesla]]** 及多個純電及豪華品牌供貨。並與 **Luminar** 合作生產 Iris+ 激光雷達 (Lidar)，切入自動駕駛關鍵感測器市場。 2.  **奈米銀 (Nano Silver) 技術**: 自行研發奈米銀線觸控技術，主要針對大尺寸互動式白板及未來可摺疊式 (Fold…",
+    "price_date": "2026-04-12",
+    "valuation": {
+      "pe_ttm": 18.45,
+      "pe_forward": 14.9,
+      "ps_ttm": 0.32,
+      "pb": 0.52,
+      "ev_ebitda": 0.81
+    },
+    "annual": {
+      "headers": [
+        "2024-12-31",
+        "2023-12-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            62835.71,
+            68873.62
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            6.29,
+            4.21
+          ]
+        },
+        {
+          "label": "Operating Income",
+          "values": [
+            785.62,
+            -232.86
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            1103.03,
+            473.06
+          ]
+        },
+        {
+          "label": "Op Cash Flow",
+          "values": [
+            5069.49,
+            5045.97
+          ]
+        }
+      ]
+    },
+    "quarterly": {
+      "headers": [
+        "2025-09-30",
+        "2025-06-30",
+        "2025-03-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            14400.6,
+            16116.85,
+            18614.71
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            5.83,
+            7.28,
+            6.57
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            60.54,
+            445.81,
+            434.19
+          ]
+        }
+      ]
+    }
+  },
+  "3030": {
+    "ticker": "3030",
+    "name": "德律",
+    "sector": "Scientific & Technical Instruments",
+    "role": "downstream",
+    "market_cap": 71573.0,
+    "enterprise_value": 70038.0,
+    "desc": "德律科技股份有限公司 (3030，TRI) 為台灣最大的自動光學檢測設備 (AOI) 廠商，全球市佔率名列前茅。專注於電路板組裝檢測 (PCBA Test)。四大主力產品：(1) AOI 自動光學檢測 — 檢測零件焊接品質 (營收佔比最高)；(2) SPI 錫膏檢測 — 印刷厚度檢測；(3) AXI X-ray 檢測 — BGA 等隱藏焊點檢測；(4) ICT 電路板測試 — 電氣功能測試。受惠於[[AI 伺服器]]與車用電子製程日益複雜，對高階檢測設備需求強勁。",
+    "price_date": "2026-04-12",
+    "valuation": {
+      "pe_ttm": 28.91,
+      "pe_forward": null,
+      "ps_ttm": 8.45,
+      "pb": 7.45,
+      "ev_ebitda": 22.18
+    },
+    "annual": {
+      "headers": [
+        "2024-12-31",
+        "2023-12-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            8467.43,
+            6355.81
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            58.35,
+            59.54
+          ]
+        },
+        {
+          "label": "Operating Income",
+          "values": [
+            2997.77,
+            2035.92
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            2478.68,
+            1836.63
+          ]
+        },
+        {
+          "label": "Op Cash Flow",
+          "values": [
+            1727.45,
+            1159.61
+          ]
+        }
+      ]
+    },
+    "quarterly": {
+      "headers": [
+        "2025-06-30",
+        "2025-03-31",
+        "2024-12-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            2081.4,
+            2377.84,
+            1940.51
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            60.64,
+            58.38,
+            57.61
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            686.18,
+            521.47,
+            577.8
+          ]
+        }
+      ]
+    }
+  },
+  "5309": {
+    "ticker": "5309",
+    "name": "系統電",
+    "sector": "Scientific & Technical Instruments",
+    "role": "downstream",
+    "market_cap": 11443.0,
+    "enterprise_value": 11206.0,
+    "desc": "系統電 (Sysgration) 轉型成功之汽電/儲能廠。 核心三大支柱： 1.  **TPMS (胎壓偵測器)**: 藍牙 TPMS ([[Bluetooth]] TPMS) 領導廠商，為 [[Tesla]] 供應商，亦切入大型車隊管理。 2.  **儲能 (ESS)**: 工業級儲能櫃 (BESS)、UPS 電池包 (BBU)，應用於[[資料中心]]。 3.  **IPC (強固型電腦)**: 車用 [[IPC]]、工程車電腦。 美國建廠計畫進行中，以滿足在地化生產需求 (IRA 法案)。",
+    "price_date": "2026-04-12",
+    "valuation": {
+      "pe_ttm": 216.92,
+      "pe_forward": null,
+      "ps_ttm": 3.37,
+      "pb": 2.96,
+      "ev_ebitda": 92.25
+    },
+    "annual": {
+      "headers": [
+        "2024-12-31",
+        "2023-12-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            3393.87,
+            3109.95
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            23.53,
+            24.18
+          ]
+        },
+        {
+          "label": "Operating Income",
+          "values": [
+            -22.81,
+            75.14
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            52.94,
+            116.05
+          ]
+        },
+        {
+          "label": "Op Cash Flow",
+          "values": [
+            84.86,
+            454.13
+          ]
+        }
+      ]
+    },
+    "quarterly": {
+      "headers": [
+        "2025-09-30",
+        "2025-06-30",
+        "2025-03-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            872.71,
+            815.08,
+            832.7
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            24.55,
+            21.3,
+            24.54
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            45.76,
+            -19.9,
+            4.17
+          ]
+        }
+      ]
+    }
+  },
+  "6443": {
+    "ticker": "6443",
+    "name": "元晶",
+    "sector": "Solar",
+    "role": "downstream",
+    "market_cap": 18204.0,
+    "enterprise_value": 19815.0,
+    "desc": "元晶太陽能科技股份有限公司 (6443) 為台灣產能規模最大、技術領先的太陽能電池與模組製造商。主要業務包括： 1. **太陽能電池：** 生產高轉換效率之大尺寸太陽能電池，成功打入[[Tesla]]太陽能屋瓦 (Solar Roof) 供應鏈。 2. **太陽能模組：** 針對台灣高溫、高濕、多颱風之嚴苛環境，開發抗鹽害及抗強風模組（適用漁電共生、農電共生）。 3. **電廠建置：** 提供太陽能電站建置服務。 近期馬斯克團隊密訪台灣太陽能台廠，元晶為受訪企業之一，有望切入太空[[AI]]供應鏈。公司之[[鈣鈦礦]]太陽能電池技術亦受國際矚目。",
+    "price_date": "2026-04-12",
+    "valuation": {
+      "pe_ttm": null,
+      "pe_forward": 16.36,
+      "ps_ttm": 9.97,
+      "pb": 5.0,
+      "ev_ebitda": -17.83
+    },
+    "annual": {
+      "headers": [
+        "2024-12-31",
+        "2023-12-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            1825.35,
+            4514.02
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            -74.16,
+            7.07
+          ]
+        },
+        {
+          "label": "Operating Income",
+          "values": [
+            -2789.51,
+            -599.37
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            -3199.44,
+            -600.25
+          ]
+        },
+        {
+          "label": "Op Cash Flow",
+          "values": [
+            311.19,
+            712.25
+          ]
+        }
+      ]
+    },
+    "quarterly": {
+      "headers": [
+        "2025-09-30",
+        "2025-06-30",
+        "2025-03-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            372.96,
+            341.34,
+            369.46
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            -217.48,
+            -98.64,
+            -47.38
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            -2223.33,
+            -620.21,
+            -237.73
+          ]
+        }
+      ]
+    }
+  },
+  "4590": {
+    "ticker": "4590",
+    "name": "富田-創",
+    "sector": "Specialty Industrial Machinery",
+    "role": "downstream",
+    "market_cap": 4036.0,
+    "enterprise_value": 3390.0,
+    "desc": "富田電機 (4590，Fukuta Electric & Machinery) 為知名馬達製造商，被譽為「電動車心臟」專家。[[Tesla]]創立初期獨家馬達供應商 (合作逾 15 年，[[Tesla]] 最資深供應商)，曾將 180KW 馬達從 400+ 公斤降至 60 公斤。產品涵蓋工業馬達 (感應/伺服/變頻) 與[[電動車]]動力系統。近年拓展無人機馬達、[[低軌衛星]]球型馬達及[[AI]]機器人關節模組。上游矽鋼片與[[中鋼]]合作開發。",
+    "price_date": "2026-04-12",
+    "valuation": {
+      "pe_ttm": 27.16,
+      "pe_forward": null,
+      "ps_ttm": 3.12,
+      "pb": 1.13,
+      "ev_ebitda": 14.34
+    },
+    "annual": {
+      "headers": [
+        "2024-12-31",
+        "2023-12-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            1295.53,
+            2199.75
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            29.19,
+            21.8
+          ]
+        },
+        {
+          "label": "Operating Income",
+          "values": [
+            -3.79,
+            91.73
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            139.09,
+            140.41
+          ]
+        },
+        {
+          "label": "Op Cash Flow",
+          "values": [
+            1316.47,
+            152.71
+          ]
+        }
+      ]
+    },
+    "quarterly": {
+      "headers": [
+        "2025-09-30",
+        "2024-12-31",
+        "2024-09-30"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            287.18,
+            353.02,
+            372.9
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            30.54,
+            42.59,
+            21.93
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            104.8,
+            73.88,
+            -1.05
+          ]
+        }
+      ]
+    }
+  },
+  "6603": {
+    "ticker": "6603",
+    "name": "富強鑫",
+    "sector": "Specialty Industrial Machinery",
+    "role": "downstream",
+    "market_cap": 3678.0,
+    "enterprise_value": 5715.0,
+    "desc": "富強鑫集團 (6603，FCS Group) 為台灣最大且唯一上市之塑膠射出成型機製造商 (1974 年創立)。技術壁壘在多組分 (雙色/多色) 射出成型機，全球領先市占。近年大力發展[[MuCell]]物理發泡技術 (滿足運動鞋品牌輕量化/減碳) 及[[AI]]智慧製造。五大生產基地：台灣、中國 (東莞/寧波/杭州灣)、印度。下游客戶涵蓋[[Tesla]]、[[比亞迪]]、[[長城汽車]]等車廠之車燈射出件 (含[[帝寶工業]])、[[鴻海]]、[[友達]]，以及[[Adidas]]、[[Nike]]供應鏈鞋材代工廠 ([[MuCell]]發泡鞋底)。",
+    "price_date": "2026-04-12",
+    "valuation": {
+      "pe_ttm": 36.31,
+      "pe_forward": null,
+      "ps_ttm": 0.72,
+      "pb": 1.43,
+      "ev_ebitda": 17.51
+    },
+    "annual": {
+      "headers": [
+        "2024-12-31",
+        "2023-12-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            5082.84,
+            4529.41
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            25.33,
+            25.61
+          ]
+        },
+        {
+          "label": "Operating Income",
+          "values": [
+            183.91,
+            140.3
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            100.47,
+            78.77
+          ]
+        },
+        {
+          "label": "Op Cash Flow",
+          "values": [
+            -7.36,
+            195.24
+          ]
+        }
+      ]
+    },
+    "quarterly": {
+      "headers": [
+        "2025-09-30",
+        "2025-06-30",
+        "2025-03-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            1452.13,
+            1357.61,
+            1251.65
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            25.03,
+            26.83,
+            24.85
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            55.59,
+            50.41,
+            -8.88
+          ]
+        }
+      ]
+    }
+  },
+  "2066": {
+    "ticker": "2066",
+    "name": "世德",
+    "sector": "Tools & Accessories",
+    "role": "downstream",
+    "market_cap": 2181.0,
+    "enterprise_value": 2240.0,
+    "desc": "世德工業 (2066，Sumeeko Industries) 成立於 1988 年，總部位於台灣高雄大寮。公司為台灣車用扣件隱形冠軍，專精於高規格汽車用緊固件，產品涵蓋動力傳動系統、煞車安全系統及車身組件用之螺絲、螺栓、螺帽、塞子、鋁製滑塊及沖壓件等。世德已通過 [[GM]] (通用汽車) 及 [[Chrysler]] (克萊斯勒) Tier 1 供應商認證，並為 [[Toyota]] 及 [[Tesla]] 之 Tier 2 供應商。產品外銷歐美日為主，車用扣件佔營收主力。近年積極布局[[電動車]]扣件市場。",
+    "price_date": "2026-04-12",
+    "valuation": {
+      "pe_ttm": 37.11,
+      "pe_forward": null,
+      "ps_ttm": 0.87,
+      "pb": 1.0,
+      "ev_ebitda": 12.9
+    },
+    "annual": {
+      "headers": [
+        "2024-12-31",
+        "2023-12-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            2494.01,
+            2760.03
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            29.89,
+            33.03
+          ]
+        },
+        {
+          "label": "Operating Income",
+          "values": [
+            70.91,
+            285.14
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            59.24,
+            264.74
+          ]
+        },
+        {
+          "label": "Op Cash Flow",
+          "values": [
+            144.31,
+            249.51
+          ]
+        }
+      ]
+    },
+    "quarterly": {
+      "headers": [
+        "2025-09-30",
+        "2025-06-30",
+        "2025-03-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            530.62,
+            610.13,
+            651.35
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            19.8,
+            29.83,
+            31.82
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            -0.21,
+            32.37,
+            -63.21
+          ]
+        }
+      ]
+    }
+  },
+  "1319": {
+    "ticker": "1319",
+    "name": "東陽",
+    "sector": "Auto Parts",
+    "role": "related",
+    "market_cap": 47614.0,
+    "enterprise_value": 48740.0,
+    "desc": "東陽實業 (1319，Tong Yang Group) 成立於 1967 年，為全球最大汽車 AM 塑膠件製造商，全球塑膠件市佔約 70%、鈑金件市佔約 35%，產品行銷逾 200 國、服務 2,300+ 客戶。北美 AM 通路以[[LKQ]]及[[Keystone Automotive]]為最大經銷夥伴，間接受惠[[State Farm]]等保險公司擴大採用 AM 認證件。OEM 事業同步發展，台灣供應[[國瑞汽車]] ([[Toyota]]) 及[[裕隆汽車]]，中國供應[[Tesla]]上海廠、[[奇瑞汽車]]、[[東風汽車]]、[[廣汽豐田]]、[[一汽大眾]]、[[長安福特]]等前六…",
+    "price_date": "2026-04-12",
+    "valuation": {
+      "pe_ttm": 12.52,
+      "pe_forward": 10.49,
+      "ps_ttm": 1.9,
+      "pb": 1.7,
+      "ev_ebitda": 6.77
+    },
+    "annual": {
+      "headers": [
+        "2024-12-31",
+        "2023-12-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            25094.26,
+            25596.06
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            33.58,
+            33.33
+          ]
+        },
+        {
+          "label": "Operating Income",
+          "values": [
+            4604.06,
+            4820.04
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            3803.81,
+            4376.91
+          ]
+        },
+        {
+          "label": "Op Cash Flow",
+          "values": [
+            4417.21,
+            7185.52
+          ]
+        }
+      ]
+    },
+    "quarterly": {
+      "headers": [
+        "2025-09-30",
+        "2025-06-30",
+        "2025-03-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            6507.7,
+            5401.84,
+            5894.05
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            33.68,
+            28.0,
+            33.03
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            1224.22,
+            657.18,
+            456.79
+          ]
+        }
+      ]
+    }
+  },
+  "1563": {
+    "ticker": "1563",
+    "name": "巧新",
+    "sector": "Auto Parts",
+    "role": "related",
+    "market_cap": 9150.0,
+    "enterprise_value": 14253.0,
+    "desc": "巧新科技 (1563，SuperAlloy Industrial / SAI) 為全球第二大鍛造鋁合金輪圈製造商 (僅次於德國[[Otto Fuchs]])，專攻超跑、豪華車與電動車市場。累積逾 40 家國際豪車客戶、2,225 款輪圈設計、出貨逾 1,000 萬顆。客戶涵蓋[[Porsche]]、[[BMW]]、[[Mercedes-Benz]]、[[Lexus]]、[[Audi]]、[[Jaguar Land Rover]]、[[Rolls-Royce]]、[[Bentley]]、[[McLaren]]、[[Ferrari]]及[[Tesla]] (Model X 鍛造圈)。獨有「再生鋁料…",
+    "price_date": "2026-04-12",
+    "valuation": {
+      "pe_ttm": 29.68,
+      "pe_forward": 11.52,
+      "ps_ttm": 1.31,
+      "pb": 1.07,
+      "ev_ebitda": 10.18
+    },
+    "annual": {
+      "headers": [
+        "2024-12-31",
+        "2023-12-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            6977.35,
+            7473.58
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            21.27,
+            26.81
+          ]
+        },
+        {
+          "label": "Operating Income",
+          "values": [
+            563.24,
+            968.67
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            318.19,
+            755.48
+          ]
+        },
+        {
+          "label": "Op Cash Flow",
+          "values": [
+            1092.89,
+            1869.32
+          ]
+        }
+      ]
+    },
+    "quarterly": {
+      "headers": [
+        "2025-06-30",
+        "2025-03-31",
+        "2024-12-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            1642.61,
+            1714.83,
+            1918.24
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            18.31,
+            19.8,
+            28.42
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            -13.76,
+            -64.92,
+            354.06
+          ]
+        }
+      ]
+    }
+  },
+  "2245": {
+    "ticker": "2245",
+    "name": "詠勝昌",
+    "sector": "Auto Parts",
+    "role": "related",
+    "market_cap": 923.0,
+    "enterprise_value": 1004.0,
+    "desc": "詠勝昌 (2245，Yong Sheng Chang) 專營汽車點火線圈總成及橡膠零組件 (線圈靴套、防塵蓋、端子) 之製造，深耕全球 AM 市場。產品生命週期長，不受車型頻繁改款影響，營收跨經濟週期穩定。主要客戶涵蓋[[Standard Motor Products]] (SMP，北美最大 AM 經銷商)、[[Federal-Mogul]] (現隸屬[[Tenneco]])、[[BERU]] (現隸屬[[BorgWarner]])。近年亦切入[[Tesla]]電動車相關橡膠零組件供應。具備強大客製模具能力，適合小批量多樣化生產。",
+    "price_date": "2026-04-12",
+    "valuation": {
+      "pe_ttm": 10.71,
+      "pe_forward": null,
+      "ps_ttm": 2.18,
+      "pb": 1.54,
+      "ev_ebitda": 8.42
+    },
+    "annual": {
+      "headers": [
+        "2024-12-31",
+        "2023-12-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            423.37,
+            416.68
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            39.1,
+            41.98
+          ]
+        },
+        {
+          "label": "Operating Income",
+          "values": [
+            96.43,
+            106.86
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            86.28,
+            99.83
+          ]
+        },
+        {
+          "label": "Op Cash Flow",
+          "values": [
+            97.7,
+            116.57
+          ]
+        }
+      ]
+    },
+    "quarterly": null
+  },
+  "2248": {
+    "ticker": "2248",
+    "name": "華勝-KY",
+    "sector": "Auto Parts",
+    "role": "related",
+    "market_cap": 2309.0,
+    "enterprise_value": 2084.0,
+    "desc": "華勝-KY (2248) 為汽車 LED 氛圍燈、閱讀燈及內外飾電子件之 Tier 1 供應商，2007 年起成為[[General Motors]]全球供應商。主要客戶涵蓋傳統車廠[[General Motors]]、[[Toyota]]、[[Ford]]、[[BMW]]及中國車廠[[上汽]]、[[北汽]]、[[一汽]]、[[奇瑞]]、[[吉利汽車]]、[[長城汽車]]，新能源品牌客戶包含[[Tesla]]、[[蔚來]]、[[理想汽車]]、[[小鵬汽車]]、[[零跑汽車]]。與 OEM 共同設計氛圍燈方案。墨西哥、泰國設有工廠，美國底特律設有子公司。",
+    "price_date": "2026-04-12",
+    "valuation": {
+      "pe_ttm": 9.13,
+      "pe_forward": null,
+      "ps_ttm": 1.12,
+      "pb": 1.39,
+      "ev_ebitda": 6.04
+    },
+    "annual": {
+      "headers": [
+        "2024-12-31",
+        "2023-12-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            2065.32,
+            2075.26
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            30.73,
+            32.77
+          ]
+        },
+        {
+          "label": "Operating Income",
+          "values": [
+            309.34,
+            332.79
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            247.58,
+            269.79
+          ]
+        },
+        {
+          "label": "Op Cash Flow",
+          "values": [
+            190.74,
+            373.91
+          ]
+        }
+      ]
+    },
+    "quarterly": {
+      "headers": [
+        "2025-09-30",
+        "2025-06-30",
+        "2025-03-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            658.66,
+            507.95,
+            443.05
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            31.94,
+            31.22,
+            27.31
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            92.38,
+            58.86,
+            41.4
+          ]
+        }
+      ]
+    }
+  },
+  "4551": {
+    "ticker": "4551",
+    "name": "智伸科",
+    "sector": "Auto Parts",
+    "role": "related",
+    "market_cap": 15670.0,
+    "enterprise_value": 12739.0,
+    "desc": "智伸科技 (4551) 為精密 CNC 金屬加工廠，產品應用於汽車煞車、燃油噴射、變速箱、轉向及溫控系統。主要客戶為全球汽車 Tier 1 — [[Continental]]、[[Bosch]]、[[Cummins]]、[[BorgWarner]]、[[ZF]]、[[Delphi]]，終端 OEM 涵蓋[[BMW]]、[[Stellantis]]、[[Tesla]]。近年積極拓展半導體設備 (供應 [[EUV]] 光刻機零組件，隱含客戶為[[ASML]])、醫療器材 (營收年增 409%) 及[[AI 伺服器]]水冷零組件 (2025 Q2 開始出貨) 等非汽車事業。越南及墨西哥設有新廠因應關…",
+    "price_date": "2026-04-12",
+    "valuation": {
+      "pe_ttm": 22.59,
+      "pe_forward": 11.67,
+      "ps_ttm": 2.0,
+      "pb": 1.75,
+      "ev_ebitda": 7.87
+    },
+    "annual": {
+      "headers": [
+        "2024-12-31",
+        "2023-12-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            7822.9,
+            7691.07
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            23.14,
+            20.31
+          ]
+        },
+        {
+          "label": "Operating Income",
+          "values": [
+            974.43,
+            733.42
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            696.38,
+            955.24
+          ]
+        },
+        {
+          "label": "Op Cash Flow",
+          "values": [
+            1102.94,
+            1590.74
+          ]
+        }
+      ]
+    },
+    "quarterly": {
+      "headers": [
+        "2025-09-30",
+        "2025-06-30",
+        "2025-03-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            2047.62,
+            1939.78,
+            1826.38
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            23.25,
+            21.69,
+            24.05
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            277.01,
+            270.95,
+            -90.43
+          ]
+        }
+      ]
+    }
+  },
+  "3484": {
+    "ticker": "3484",
+    "name": "崧騰",
+    "sector": "Electrical Equipment & Parts",
+    "role": "related",
+    "market_cap": 3602.0,
+    "enterprise_value": 2391.0,
+    "desc": "崧騰 (Solteam) 為全球最大 **電動工具開關** 製造商。 主要產品包含電源開關、插座、變頻控制器等機電整合元件。 核心應用領域為 **電動工具** (占營收大宗) 與 **白色家電**。 近年積極轉型 **車用電子** ([[電動車]] 充電槍/座、高壓[[連接器]]) 與 **醫療設備**，試圖降低對消費性市場的依賴。",
+    "price_date": "2026-04-12",
+    "valuation": {
+      "pe_ttm": 11.48,
+      "pe_forward": 9.03,
+      "ps_ttm": 0.78,
+      "pb": 1.11,
+      "ev_ebitda": 4.63
+    },
+    "annual": {
+      "headers": [
+        "2024-12-31",
+        "2023-12-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            4630.8,
+            4351.27
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            25.02,
+            25.78
+          ]
+        },
+        {
+          "label": "Operating Income",
+          "values": [
+            416.68,
+            333.78
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            335.12,
+            315.65
+          ]
+        },
+        {
+          "label": "Op Cash Flow",
+          "values": [
+            332.55,
+            262.71
+          ]
+        }
+      ]
+    },
+    "quarterly": {
+      "headers": [
+        "2025-09-30",
+        "2025-06-30",
+        "2025-03-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            1121.08,
+            1159.03,
+            1222.86
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            23.95,
+            25.11,
+            24.76
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            72.88,
+            97.66,
+            88.62
+          ]
+        }
+      ]
+    }
+  },
+  "3501": {
+    "ticker": "3501",
+    "name": "維熹",
+    "sector": "Electrical Equipment & Parts",
+    "role": "related",
+    "market_cap": 5582.0,
+    "enterprise_value": 4103.0,
+    "desc": "維熹 (Well Shin) 為全球主要 **電源傳輸線** 製造商之一，隸屬於 **正崴集團** (Foxlink Group)。 主要產品涵蓋 **家電電源線** (占營收最大)、**3C 電子線材** 與 **電動車充電線/槍**。 在美國家電市場市佔率高，主要客戶為 **[[GE]]** 與 **Whirlpool**。 [[電動車]]領域透過母公司正崴切入 **[[Tesla]]** 供應鏈，並生產自有品牌充電槍。 近年亦打入 **低軌衛星 (SpaceX)** 地面接收設備電源線供應鏈。",
+    "price_date": "2026-04-12",
+    "valuation": {
+      "pe_ttm": 15.84,
+      "pe_forward": 7.65,
+      "ps_ttm": 1.01,
+      "pb": 0.8,
+      "ev_ebitda": 7.34
+    },
+    "annual": {
+      "headers": [
+        "2024-12-31",
+        "2023-12-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            5539.85,
+            5922.19
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            20.04,
+            24.21
+          ]
+        },
+        {
+          "label": "Operating Income",
+          "values": [
+            429.21,
+            680.2
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            354.49,
+            723.44
+          ]
+        },
+        {
+          "label": "Op Cash Flow",
+          "values": [
+            799.25,
+            152.66
+          ]
+        }
+      ]
+    },
+    "quarterly": {
+      "headers": [
+        "2025-09-30",
+        "2025-06-30",
+        "2025-03-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            1251.39,
+            1356.34,
+            1469.73
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            18.84,
+            17.04,
+            20.69
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            48.76,
+            70.79,
+            74.94
+          ]
+        }
+      ]
+    }
+  },
+  "3008": {
+    "ticker": "3008",
+    "name": "大立光",
+    "sector": "Electronic Components",
+    "role": "related",
+    "market_cap": 302144.0,
+    "enterprise_value": 174949.0,
+    "desc": "[[大立光]]電 ([[Largan Precision]]) 為全球手機鏡頭龍頭廠，技術與產能遙遙領先同業。公司專注於高階塑膠非球面鏡片之設計與模具製造，擁有極高良率與專利護城河。 主要產品線涵蓋：(1) 高階手機鏡頭 — 7P/8P/9P 規格鏡組，為 [[Apple]] iPhone 系列核心供應商；(2) 潛望式鏡頭 (Periscope Lens) — 受惠高倍光學變焦趨勢，打入 [[Apple]] 及 [[Samsung]] 旗艦機種；(3) 車用鏡頭 — 切入 [[ADAS]] 車載光學，規格持續升級。",
+    "price_date": null,
+    "valuation": {
+      "pe_ttm": 14.68,
+      "pe_forward": 12.37,
+      "ps_ttm": 4.94,
+      "pb": 1.63,
+      "ev_ebitda": 5.64
+    },
+    "annual": {
+      "headers": [
+        "2024-12-31",
+        "2023-12-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            61147.89,
+            59457.55
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            50.43,
+            52.49
+          ]
+        },
+        {
+          "label": "Operating Income",
+          "values": [
+            23558.26,
+            24032.53
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            21275.41,
+            25915.41
+          ]
+        },
+        {
+          "label": "Op Cash Flow",
+          "values": [
+            26080.23,
+            31578.53
+          ]
+        }
+      ]
+    },
+    "quarterly": {
+      "headers": [
+        "2025-06-30",
+        "2025-03-31",
+        "2024-12-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            17218.64,
+            11672.62,
+            14579.23
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            47.97,
+            53.63,
+            54.63
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            6719.7,
+            1032.13,
+            6443.31
+          ]
+        }
+      ]
+    }
+  },
+  "3023": {
+    "ticker": "3023",
+    "name": "信邦",
+    "sector": "Electronic Components",
+    "role": "related",
+    "market_cap": 65779.0,
+    "enterprise_value": 62943.0,
+    "desc": "信邦電子 ([[Sinbon Electronics]]) 為台灣客製化連接線束與連接器領導廠商，以 MAGIC 五大策略聞名：M (Medical 醫療)、A (Automotive 車用)、G (Green 綠能)、I (Industrial 工業)、C (Communication 通訊)。 堅持少量多樣、高客製化路線，避開消費性電子紅海競爭。核心應用：(1) 醫療 — 醫療影像設備與監護儀線束，客戶含 [[GE Healthcare]]、[[Philips]]、[[Siemens Healthineers]]；(2) 車用 — [[電動車]]充電槍 (NACS AC/DC) 與車用感測…",
+    "price_date": "2026-04-12",
+    "valuation": {
+      "pe_ttm": 21.04,
+      "pe_forward": 16.24,
+      "ps_ttm": 2.12,
+      "pb": 4.06,
+      "ev_ebitda": 16.57
+    },
+    "annual": {
+      "headers": [
+        "2024-12-31",
+        "2023-12-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            31023.87,
+            33087.5
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            23.99,
+            24.91
+          ]
+        },
+        {
+          "label": "Operating Income",
+          "values": [
+            3266.26,
+            3590.02
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            3125.0,
+            3529.0
+          ]
+        },
+        {
+          "label": "Op Cash Flow",
+          "values": [
+            3355.28,
+            2599.5
+          ]
+        }
+      ]
+    },
+    "quarterly": {
+      "headers": [
+        "2025-06-30",
+        "2025-03-31",
+        "2024-12-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            7577.71,
+            7735.96,
+            8158.8
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            23.64,
+            24.71,
+            24.51
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            709.61,
+            759.07,
+            924.38
+          ]
+        }
+      ]
+    }
+  },
+  "3044": {
+    "ticker": "3044",
+    "name": "健鼎",
+    "sector": "Electronic Components",
+    "role": "related",
+    "market_cap": 197102.0,
+    "enterprise_value": 175480.0,
+    "desc": "健鼎科技 ([[Tripod Technology]]) 為全球前十大 [[PCB]] 製造商，亦為第三大 HDI 供應商。以記憶體模組板、LCD 光電板起家，近年成功轉型至伺服器、汽車板與 HDI 領域。 營收結構：伺服器與網路板 (32%)、DRAM/SSD 記憶體板 (25%)、汽車板 (18%)、手機與行動裝置 (9%)、筆電板 (6%)。生產基地主要位於台灣平鎮、中國無錫與湖北仙桃，近期擴展至越南。受惠 [[AI 伺服器]]與歐美客戶 AI ASIC 專案，營運持續成長。",
+    "price_date": "2026-04-12",
+    "valuation": {
+      "pe_ttm": 19.38,
+      "pe_forward": 11.99,
+      "ps_ttm": 2.69,
+      "pb": 3.64,
+      "ev_ebitda": 10.23
+    },
+    "annual": {
+      "headers": [
+        "2024-12-31",
+        "2023-12-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            73399.3,
+            65803.61
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            25.88,
+            23.23
+          ]
+        },
+        {
+          "label": "Operating Income",
+          "values": [
+            12938.82,
+            9739.5
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            10224.66,
+            8382.49
+          ]
+        },
+        {
+          "label": "Op Cash Flow",
+          "values": [
+            11799.52,
+            11450.77
+          ]
+        }
+      ]
+    },
+    "quarterly": {
+      "headers": [
+        "2025-09-30",
+        "2025-06-30",
+        "2025-03-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            18978.62,
+            19389.48,
+            17903.45
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            25.47,
+            26.76,
+            26.21
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            2471.09,
+            2953.54,
+            2444.25
+          ]
+        }
+      ]
+    }
+  },
+  "3715": {
+    "ticker": "3715",
+    "name": "定穎投控",
+    "sector": "Electronic Components",
+    "role": "related",
+    "market_cap": 52887.0,
+    "enterprise_value": 65248.0,
+    "desc": "",
+    "price_date": "2026-04-12",
+    "valuation": {
+      "pe_ttm": 69.07,
+      "pe_forward": 8.7,
+      "ps_ttm": 2.72,
+      "pb": 4.89,
+      "ev_ebitda": 23.25
+    },
+    "annual": {
+      "headers": [
+        "2023-12-31",
+        "2022-12-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            17787.0,
+            15713.95
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            23.11,
+            24.09
+          ]
+        },
+        {
+          "label": "Operating Income",
+          "values": [
+            1536.85,
+            1620.58
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            1050.74,
+            1003.4
+          ]
+        },
+        {
+          "label": "Op Cash Flow",
+          "values": [
+            1700.94,
+            3059.92
+          ]
+        }
+      ]
+    },
+    "quarterly": {
+      "headers": [
+        "2025-06-30",
+        "2025-03-31",
+        "2024-12-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            4840.28,
+            4628.71,
+            4556.12
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            19.39,
+            21.48,
+            18.99
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            141.56,
+            258.42,
+            265.76
+          ]
+        }
+      ]
+    }
+  },
+  "3717": {
+    "ticker": "3717",
+    "name": "聯嘉投控",
+    "sector": "Electronic Components",
+    "role": "related",
+    "market_cap": 4604.0,
+    "enterprise_value": 6082.0,
+    "desc": "",
+    "price_date": "2026-04-12",
+    "valuation": {
+      "pe_ttm": null,
+      "pe_forward": null,
+      "ps_ttm": 0.83,
+      "pb": 1.48,
+      "ev_ebitda": 45.43
+    },
+    "annual": {
+      "headers": [
+        "2024-12-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            5738.71
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            15.38
+          ]
+        },
+        {
+          "label": "Operating Income",
+          "values": [
+            105.05
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            16.67
+          ]
+        },
+        {
+          "label": "Op Cash Flow",
+          "values": [
+            363.88
+          ]
+        }
+      ]
+    },
+    "quarterly": {
+      "headers": [
+        "2025-09-30",
+        "2024-12-31",
+        "2024-09-30"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            1515.99,
+            1450.47,
+            1336.97
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            19.34,
+            12.53,
+            11.66
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            76.38,
+            19.23,
+            9.71
+          ]
+        }
+      ]
+    }
+  },
+  "6821": {
+    "ticker": "6821",
+    "name": "聯寶",
+    "sector": "Electronic Components",
+    "role": "related",
+    "market_cap": 1805.0,
+    "enterprise_value": 1563.0,
+    "desc": "聯寶電子 (6821，[[LinkCom]]) 成立於 1988 年，專精於磁性元件、智慧電源供應器及智慧照明控制方案的設計製造，產品行銷全球。 業務結構與動能：(1) 磁性元件 — PoE 變壓器、車用變壓器、LAN 變壓器、TLVR 電感及 EMI 濾波器等，應用於 [[5G]] 基站、[[電動車]]、網通設備及 [[物聯網]] 裝置；(2) 無線充電模組 — 已取得 [[Apple]] MFi 授權認證之無線充電產品；(3) 智慧電源 — [[物聯網]] 電源模組與 LED 照明控制方案。公司為 [[Texas Instruments]]、[[Microchip]]、[[Broadcom…",
+    "price_date": "2026-04-12",
+    "valuation": {
+      "pe_ttm": 52.68,
+      "pe_forward": null,
+      "ps_ttm": 3.1,
+      "pb": 2.84,
+      "ev_ebitda": 23.5
+    },
+    "annual": {
+      "headers": [
+        "2024-12-31",
+        "2023-12-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            582.14,
+            566.05
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            36.61,
+            32.92
+          ]
+        },
+        {
+          "label": "Operating Income",
+          "values": [
+            51.6,
+            20.75
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            35.07,
+            36.92
+          ]
+        },
+        {
+          "label": "Op Cash Flow",
+          "values": [
+            100.33,
+            35.12
+          ]
+        }
+      ]
+    },
+    "quarterly": {
+      "headers": [
+        "2025-09-30",
+        "2025-06-30",
+        "2025-03-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            124.5,
+            150.71,
+            168.81
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            35.84,
+            38.66,
+            36.5
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            5.4,
+            17.76,
+            2.47
+          ]
+        }
+      ]
+    }
+  },
+  "2354": {
+    "ticker": "2354",
+    "name": "鴻準",
+    "sector": "Electronics & Computer Distribution",
+    "role": "related",
+    "market_cap": 70866.0,
+    "enterprise_value": null,
+    "desc": "鴻準精密工業 (2354，[[鴻海]] Technology) 成立於 1990 年，總部位於新北市，為[[鴻海]]科技集團旗下子公司。公司為全球金屬機構件與散熱模組領導廠商，核心業務包括鎂鋁合金精密機殼、散熱模組及遊戲機組裝。主要客戶涵蓋[[任天堂]] (Nintendo Switch 組裝主力)、[[Apple]] (鎂鋁合金機殼)、[[Sony]] (PlayStation 零組件) 等國際大廠，其中日本市場佔營收約 75%。近年積極布局邊緣 [[AI]] 應用、[[機器人]]及[[電動車]]零組件，並於美國肯塔基州設廠以分散地緣風險。",
+    "price_date": "2026-04-12",
+    "valuation": {
+      "pe_ttm": 21.69,
+      "pe_forward": 13.15,
+      "ps_ttm": 0.45,
+      "pb": 0.66,
+      "ev_ebitda": -1.88
+    },
+    "annual": {
+      "headers": [
+        "2024-12-31",
+        "2023-12-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            156064.91,
+            75823.74
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            3.74,
+            6.36
+          ]
+        },
+        {
+          "label": "Operating Income",
+          "values": [
+            2440.28,
+            1688.99
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            3276.31,
+            3584.4
+          ]
+        },
+        {
+          "label": "Op Cash Flow",
+          "values": [
+            3513.0,
+            2703.33
+          ]
+        }
+      ]
+    },
+    "quarterly": {
+      "headers": [
+        "2025-09-30",
+        "2025-06-30",
+        "2025-03-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            42509.28,
+            42331.57,
+            41223.55
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            4.22,
+            3.62,
+            2.97
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            903.22,
+            879.77,
+            539.94
+          ]
+        }
+      ]
+    }
+  },
+  "7610": {
+    "ticker": "7610",
+    "name": "聯友金屬-創",
+    "sector": "Other Industrial Metals & Mining",
+    "role": "related",
+    "market_cap": 24178.0,
+    "enterprise_value": 25051.0,
+    "desc": "聯友金屬科技 (7610) 成立於 2018 年，是全球領先的稀有戰略金屬回收再製企業，以獨創濕法冶金還原專利技術，從報廢[[碳化鎢]]切削刀具等二次資源廢料中，提煉高純度[[鎢酸鈉]]與電池級[[硫酸鈷]]。公司為全球最大「再製」[[鎢酸鈉]]製造商，年出口量約 2,500 噸。聯友為[[台積電]]、[[Apple]]及[[Tesla]]在台灣唯一的[[鎢]]金屬合格供應商。子公司聯友能源負責電池級[[硫酸鈷]]精煉，切入[[電動車]]電池材料供應鏈。日本[[Alconix]]為策略性股東，[[住友商事]]、[[三菱商事]]及[[春保森拉天時鎢鋼集團]]皆曾到訪尋求合作。",
+    "price_date": "2026-04-12",
+    "valuation": {
+      "pe_ttm": 92.64,
+      "pe_forward": 95.12,
+      "ps_ttm": 17.2,
+      "pb": 15.15,
+      "ev_ebitda": 65.63
+    },
+    "annual": {
+      "headers": [
+        "2024-12-31",
+        "2023-12-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            1405.54,
+            1098.91
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            30.78,
+            11.97
+          ]
+        },
+        {
+          "label": "Operating Income",
+          "values": [
+            309.32,
+            62.89
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            241.24,
+            58.7
+          ]
+        },
+        {
+          "label": "Op Cash Flow",
+          "values": [
+            -360.68,
+            152.26
+          ]
+        }
+      ]
+    },
+    "quarterly": {
+      "headers": [
+        "2025-09-30",
+        "2025-06-30",
+        "2025-03-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            516.38,
+            367.58,
+            349.97
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            49.52,
+            28.61,
+            21.49
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            166.17,
+            55.04,
+            38.36
+          ]
+        }
+      ]
+    }
+  },
+  "2360": {
+    "ticker": "2360",
+    "name": "致茂",
+    "sector": "Scientific & Technical Instruments",
+    "role": "related",
+    "market_cap": 756139.0,
+    "enterprise_value": 752349.0,
+    "desc": "致茂電子股份有限公司 (2360，Chroma ATE) 成立於 1984 年，為亞洲最大之自動化測試與量測設備製造商。公司提供全方位測試解決方案，產品應用涵蓋：(1) 半導體/IC 測試 — 晶圓級與封裝級測試系統；(2) 電力電子測試 — 電源供應器、[[電動車]]充電樁、電池測試；(3) [[AI 伺服器]]測試 — 伺服器電源與備援電池測試；(4) 光電檢測 — LED、太陽能、面板檢測；(5) 自動光學檢測 (AOI)。客戶涵蓋[[台積電]]、[[NVIDIA]]、[[Tesla]]等全球科技領導廠商。致茂近年受惠於 AI 伺服器與[[電動車]]測試需求強勁成長。",
+    "price_date": null,
+    "valuation": {
+      "pe_ttm": 64.93,
+      "pe_forward": 39.42,
+      "ps_ttm": 26.71,
+      "pb": 23.7,
+      "ev_ebitda": 76.31
+    },
+    "annual": {
+      "headers": [
+        "2024-12-31",
+        "2023-12-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            28310.94,
+            21603.84
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            61.55,
+            59.0
+          ]
+        },
+        {
+          "label": "Operating Income",
+          "values": [
+            9130.03,
+            5528.78
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            11692.05,
+            5264.25
+          ]
+        },
+        {
+          "label": "Op Cash Flow",
+          "values": [
+            5257.63,
+            4783.93
+          ]
+        }
+      ]
+    },
+    "quarterly": {
+      "headers": [
+        "2025-09-30",
+        "2025-06-30",
+        "2025-03-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            8580.37,
+            6410.12,
+            6455.4
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            60.8,
+            59.83,
+            65.44
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            2549.94,
+            5066.33,
+            1953.3
+          ]
+        }
+      ]
+    }
+  },
+  "4721": {
+    "ticker": "4721",
+    "name": "美琪瑪",
+    "sector": "Specialty Chemicals",
+    "role": "related",
+    "market_cap": 5864.0,
+    "enterprise_value": 6052.0,
+    "desc": "美琪瑪科技 (4721，Mechema) 雙核心事業：(1) PTA 氧化觸媒 (醋酸鈷/醋酸錳) — 全球領導地位，供應 PTA 製造商如[[亞東石化]]、[[台化]]、[[遠東新世紀]]；(2) 電動車電池材料 — [[硫酸鈷]]、[[硫酸鎳]]供應[[鋰電池]]正極材料前驅體，與日本[[Toda Kogyo]] (戶田工業) 合資設立[[美戶先進材料]]生產 NCA/NCM 正極前驅體。電池材料營收佔比已達約 50%。供應鏈經由[[住友金屬礦山]]、[[Panasonic]]間接供應[[Tesla]]電動車電池。另發展廢電池鈷鎳回收循環經濟。",
+    "price_date": "2026-04-12",
+    "valuation": {
+      "pe_ttm": 25.98,
+      "pe_forward": null,
+      "ps_ttm": 2.32,
+      "pb": 4.32,
+      "ev_ebitda": 17.28
+    },
+    "annual": {
+      "headers": [
+        "2024-12-31",
+        "2023-12-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            2530.66,
+            2121.65
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            18.3,
+            19.56
+          ]
+        },
+        {
+          "label": "Operating Income",
+          "values": [
+            301.31,
+            264.95
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            225.72,
+            251.92
+          ]
+        },
+        {
+          "label": "Op Cash Flow",
+          "values": [
+            185.76,
+            297.49
+          ]
+        }
+      ]
+    },
+    "quarterly": {
+      "headers": [
+        "2025-09-30",
+        "2025-06-30",
+        "2025-03-31"
+      ],
+      "rows": [
+        {
+          "label": "Revenue",
+          "values": [
+            518.12,
+            548.12,
+            985.81
+          ]
+        },
+        {
+          "label": "Gross Margin (%)",
+          "values": [
+            25.58,
+            19.3,
+            12.45
+          ]
+        },
+        {
+          "label": "Net Income",
+          "values": [
+            67.9,
+            41.55,
+            60.15
+          ]
+        }
+      ]
+    }
+  }
+}
+</script>
+
+<script>
+// ── Chain Layer Tab Switching ──
+function switchChainTab(name) {
+  document.querySelectorAll('.chain-tab-pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.chain-tab-btn').forEach(b => {
+    b.classList.remove('active');
+    b.classList.add('text-on-surface-variant');
+    b.style.borderColor = '';
+  });
+  document.getElementById('pane-' + name).classList.add('active');
+  const btn = document.getElementById('tab-' + name);
+  btn.classList.add('active');
+  btn.classList.remove('text-on-surface-variant');
+}
+
+// ── Modal Sub-tab Switching ──
+function switchModalTab(name) {
+  document.querySelectorAll('.modal-sub-pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.modal-sub-btn').forEach(b => {
+    b.classList.remove('active');
+    b.classList.add('text-slate-500');
+  });
+  document.getElementById('mpane-' + name).classList.add('active');
+  const btn = document.getElementById('mtab-' + name);
+  btn.classList.add('active');
+  btn.classList.remove('text-slate-500');
+}
+
+// ── Open Company Modal ──
+const companyData = JSON.parse(document.getElementById('company-data').textContent);
+
+function openModal(ticker) {
+  const co = companyData[ticker];
+  if (!co) return;
+
+  // Header
+  document.getElementById('modal-ticker').textContent = co.ticker;
+  document.getElementById('modal-name').textContent = co.name;
+  document.getElementById('modal-sector').textContent = co.sector;
+  const mcap = co.market_cap !== null ? co.market_cap.toLocaleString() + ' 百萬台幣' : '—';
+  document.getElementById('modal-mktcap').textContent = '市值 ' + mcap;
+
+  // Overview
+  document.getElementById('modal-desc').textContent = co.desc || '暫無業務描述';
+  document.getElementById('modal-mktcap-card').textContent = co.market_cap !== null ? co.market_cap.toLocaleString() : '—';
+  document.getElementById('modal-ev').textContent = co.enterprise_value !== null ? co.enterprise_value.toLocaleString() : '—';
+
+  // Annual Table
+  buildFinTable('modal-annual-table', co.annual);
+
+  // Quarterly Table
+  buildFinTable('modal-quarterly-table', co.quarterly);
+
+  // Valuation
+  buildValGrid(co.valuation);
+  const pd = co.price_date ? '股價日期：' + co.price_date : '';
+  document.getElementById('modal-price-date').textContent = pd;
+
+  // Reset to overview tab
+  switchModalTab('overview');
+  document.getElementById('company-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('company-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Close on backdrop click
+document.getElementById('company-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+function fmt(v) {
+  if (v === null || v === undefined || v === 'N/A') return '—';
+  if (typeof v === 'number') return v.toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 2});
+  return v;
+}
+
+function buildFinTable(tableId, data) {
+  const table = document.getElementById(tableId);
+  if (!data || !data.headers || !data.rows || data.rows.length === 0) {
+    table.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:20px;color:#94a3b8">暫無資料</td></tr>';
+    return;
+  }
+  let html = '<thead><tr><th>' + ['指標', ...data.headers].join('</th><th>') + '</th></tr></thead><tbody>';
+  for (const row of data.rows) {
+    html += '<tr><td>' + row.label + '</td>';
+    for (const v of row.values) html += '<td>' + fmt(v) + '</td>';
+    html += '</tr>';
+  }
+  html += '</tbody>';
+  table.innerHTML = html;
+}
+
+function buildValGrid(val) {
+  const grid = document.getElementById('modal-valuation-grid');
+  if (!val) { grid.innerHTML = '<p class="text-slate-400 text-sm">暫無估值資料</p>'; return; }
+  const fields = [
+    ['P/E (TTM)', val.pe_ttm],
+    ['Forward P/E', val.pe_forward],
+    ['P/S (TTM)', val.ps_ttm],
+    ['P/B', val.pb],
+    ['EV/EBITDA', val.ev_ebitda],
+  ];
+  grid.innerHTML = fields.map(([label, v]) =>
+    `<div class="val-card"><div class="val-num">${fmt(v)}</div><div class="val-label">${label}</div></div>`
+  ).join('');
+}
+
+// ── Keyboard ESC to close modal ──
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+</script>
+
+</body>
+</html>
