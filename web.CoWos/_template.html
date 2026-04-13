@@ -143,9 +143,6 @@
     </div>
     <div class="flex items-center gap-4">
       <span class="text-xs text-slate-500 font-label hidden md:block">資料截至 {{BUILD_DATE}}</span>
-      <a href="https://github.com/Timeverse/My-TW-Coverage" target="_blank" class="px-5 py-2.5 rounded-full bg-gradient-to-br from-primary to-primary-container text-white font-semibold hover:opacity-90 transition-all shadow-sm text-sm">
-        原始資料 →
-      </a>
     </div>
   </div>
 </nav>
@@ -197,64 +194,192 @@
     </div>
   </section>
 
-  <!-- Supply Chain Overview: Asymmetric Bento Grid -->
+  <!-- Supply Chain Overview: Vertical Flowchart -->
   <section id="supply-chain" class="py-24 px-8 bg-surface">
-    <div class="max-w-7xl mx-auto">
-      <div class="mb-12 text-center">
+    <div class="max-w-5xl mx-auto">
+      <div class="mb-16 text-center">
         <span class="inline-block py-1 px-4 rounded-full bg-secondary-container text-on-secondary-container text-xs font-bold tracking-widest uppercase mb-4">供應鏈結構</span>
         <h2 class="text-4xl font-headline font-extrabold text-primary tracking-tight">四層完整供應鏈</h2>
-        <p class="text-on-surface-variant mt-3 text-lg">從設備製造到晶片封裝測試，完整涵蓋 CoWoS 技術生態</p>
+        <p class="text-on-surface-variant mt-3 text-lg">從精密設備到晶片封裝完整圖譜，了解每一層如何驅動 CoWoS 量產</p>
       </div>
-      <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
-        <!-- Upstream -->
-        <div class="md:col-span-3 bg-surface-container-low rounded-xl p-8 flex flex-col border border-outline-variant/20 hover:bg-surface-container transition-colors duration-300">
-          <div class="w-12 h-12 rounded-lg bg-secondary/10 flex items-center justify-center mb-5">
-            <span class="material-symbols-outlined text-secondary text-2xl">precision_manufacturing</span>
+
+      <!-- Layer 1: Upstream -->
+      <div class="relative">
+        <div class="flex flex-col md:flex-row items-stretch gap-0 rounded-2xl overflow-hidden shadow-lg border border-outline-variant/20">
+          <!-- Icon Panel -->
+          <div class="md:w-56 bg-gradient-to-br from-secondary to-primary flex flex-col items-center justify-center p-8 gap-4">
+            <div class="w-20 h-20 rounded-2xl bg-white/10 flex items-center justify-center">
+              <span class="material-symbols-outlined text-white text-5xl" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 48">precision_manufacturing</span>
+            </div>
+            <div class="text-center">
+              <div class="text-3xl font-headline font-extrabold text-white">{{UPSTREAM_COUNT}}</div>
+              <div class="text-secondary-fixed text-xs font-label font-bold tracking-widest uppercase mt-1">家公司</div>
+            </div>
           </div>
-          <h3 class="text-xl font-headline font-bold text-primary mb-2">上游</h3>
-          <p class="text-on-surface-variant text-sm mb-4">設備與原材料製造商，提供 CoWoS 製程所需工具機與零組件</p>
-          <div class="mt-auto">
-            <span class="text-3xl font-headline font-extrabold text-primary">{{UPSTREAM_COUNT}}</span>
-            <span class="text-slate-500 text-sm ml-2">家公司</span>
+          <!-- Content -->
+          <div class="flex-1 bg-white p-8">
+            <div class="flex items-center gap-3 mb-4">
+              <span class="text-xs font-bold tracking-widest uppercase text-secondary bg-secondary-container px-3 py-1 rounded-full">LAYER 1</span>
+              <h3 class="text-2xl font-headline font-extrabold text-primary">上游 — 製程設備與工具機</h3>
+            </div>
+            <p class="text-on-surface-variant leading-relaxed mb-5">
+              這層負責生產 CoWoS 製程所需的核心設備：CNC 工具機、研磨拋光機台、除氣與清洗系統。
+              設備精度直接決定矽中介層的幾何公差，台積電對供應商的要求通常在 <strong class="text-primary">±2μm</strong> 以內。
+              沒有這層，整條 CoWoS 量產線根本跑不起來。
+            </p>
+            <div class="flex flex-wrap gap-3">
+              <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-tertiary bg-cyan-50 border border-cyan-200 rounded-full px-3 py-1">
+                <span class="material-symbols-outlined text-xs">settings</span>CNC 工具機
+              </span>
+              <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-tertiary bg-cyan-50 border border-cyan-200 rounded-full px-3 py-1">
+                <span class="material-symbols-outlined text-xs">water_drop</span>除氣清洗系統
+              </span>
+              <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-tertiary bg-cyan-50 border border-cyan-200 rounded-full px-3 py-1">
+                <span class="material-symbols-outlined text-xs">straighten</span>精度 ±2μm
+              </span>
+            </div>
           </div>
         </div>
-        <!-- Midstream -->
-        <div class="md:col-span-3 bg-primary text-on-primary rounded-xl p-8 flex flex-col">
-          <div class="mb-5">
-            <span class="material-symbols-outlined text-5xl text-secondary-fixed">hub</span>
-          </div>
-          <h3 class="text-xl font-headline font-bold mb-2">中游</h3>
-          <p class="text-on-primary-container text-sm mb-4">核心中介層、基板與化學材料供應商</p>
-          <div class="mt-auto pt-6 border-t border-on-primary/10">
-            <span class="text-3xl font-headline font-extrabold text-secondary-fixed">{{MIDSTREAM_COUNT}}</span>
-            <span class="text-slate-300 text-sm ml-2">家公司</span>
-          </div>
-        </div>
-        <!-- Downstream -->
-        <div class="md:col-span-3 bg-surface-container-low rounded-xl p-8 flex flex-col border border-outline-variant/20 hover:bg-surface-container transition-colors duration-300">
-          <div class="w-12 h-12 rounded-lg bg-tertiary/10 flex items-center justify-center mb-5">
-            <span class="material-symbols-outlined text-tertiary text-2xl">developer_board</span>
-          </div>
-          <h3 class="text-xl font-headline font-bold text-primary mb-2">下游</h3>
-          <p class="text-on-surface-variant text-sm mb-4">工程建設、沾錫材料與電子元件整合廠商</p>
-          <div class="mt-auto">
-            <span class="text-3xl font-headline font-extrabold text-primary">{{DOWNSTREAM_COUNT}}</span>
-            <span class="text-slate-500 text-sm ml-2">家公司</span>
-          </div>
-        </div>
-        <!-- Related -->
-        <div class="md:col-span-3 bg-surface-container-low rounded-xl p-8 flex flex-col border border-outline-variant/20 hover:bg-surface-container transition-colors duration-300">
-          <div class="w-12 h-12 rounded-lg bg-secondary/10 flex items-center justify-center mb-5">
-            <span class="material-symbols-outlined text-secondary text-2xl">share</span>
-          </div>
-          <h3 class="text-xl font-headline font-bold text-primary mb-2">相關公司</h3>
-          <p class="text-on-surface-variant text-sm mb-4">IC 設計、半導體封測與周邊生態系廠商</p>
-          <div class="mt-auto">
-            <span class="text-3xl font-headline font-extrabold text-primary">{{RELATED_CO_COUNT}}</span>
-            <span class="text-slate-500 text-sm ml-2">家公司</span>
+        <!-- Arrow -->
+        <div class="flex justify-center my-3">
+          <div class="flex flex-col items-center gap-0">
+            <div class="w-0.5 h-6 bg-gradient-to-b from-secondary to-primary"></div>
+            <span class="material-symbols-outlined text-primary text-2xl" style="font-variation-settings:'FILL' 1">arrow_downward</span>
           </div>
         </div>
       </div>
+
+      <!-- Layer 2: Midstream -->
+      <div class="relative">
+        <div class="flex flex-col md:flex-row items-stretch gap-0 rounded-2xl overflow-hidden shadow-lg border border-outline-variant/20">
+          <!-- Icon Panel -->
+          <div class="md:w-56 bg-gradient-to-br from-primary to-[#0a1628] flex flex-col items-center justify-center p-8 gap-4">
+            <div class="w-20 h-20 rounded-2xl bg-white/10 flex items-center justify-center">
+              <span class="material-symbols-outlined text-white text-5xl" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 48">hub</span>
+            </div>
+            <div class="text-center">
+              <div class="text-3xl font-headline font-extrabold text-white">{{MIDSTREAM_COUNT}}</div>
+              <div class="text-secondary-fixed text-xs font-label font-bold tracking-widest uppercase mt-1">家公司</div>
+            </div>
+          </div>
+          <!-- Content -->
+          <div class="flex-1 bg-primary p-8">
+            <div class="flex items-center gap-3 mb-4">
+              <span class="text-xs font-bold tracking-widest uppercase text-white bg-white/20 px-3 py-1 rounded-full">LAYER 2</span>
+              <h3 class="text-2xl font-headline font-extrabold text-white">中游 — 矽中介層與基板材料</h3>
+            </div>
+            <p class="text-secondary-fixed leading-relaxed mb-5">
+              CoWoS 的核心是矽中介層（Si Interposer），把 HBM 與 AI 邏輯晶片精確對齊並用微凸塊連接。
+              這層供應商同時提供 ABF 載板與底部填充化學品（Underfill）。
+              中介層的線寬目前已達 <strong class="text-cyan-300">CoWoS-L 2μm 以下</strong>，是整個封裝良率的關鍵卡點。
+            </p>
+            <div class="flex flex-wrap gap-3">
+              <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-cyan-300 bg-white/10 border border-white/20 rounded-full px-3 py-1">
+                <span class="material-symbols-outlined text-xs">layers</span>矽中介層 Si Interposer
+              </span>
+              <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-cyan-300 bg-white/10 border border-white/20 rounded-full px-3 py-1">
+                <span class="material-symbols-outlined text-xs">science</span>ABF 載板
+              </span>
+              <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-cyan-300 bg-white/10 border border-white/20 rounded-full px-3 py-1">
+                <span class="material-symbols-outlined text-xs">developer_board</span>CoWoS-L 線寬 &lt;2μm
+              </span>
+            </div>
+          </div>
+        </div>
+        <!-- Arrow -->
+        <div class="flex justify-center my-3">
+          <div class="flex flex-col items-center gap-0">
+            <div class="w-0.5 h-6 bg-gradient-to-b from-primary to-tertiary"></div>
+            <span class="material-symbols-outlined text-tertiary text-2xl" style="font-variation-settings:'FILL' 1">arrow_downward</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Layer 3: Downstream -->
+      <div class="relative">
+        <div class="flex flex-col md:flex-row items-stretch gap-0 rounded-2xl overflow-hidden shadow-lg border border-outline-variant/20">
+          <!-- Icon Panel -->
+          <div class="md:w-56 bg-gradient-to-br from-tertiary to-[#0c5a72] flex flex-col items-center justify-center p-8 gap-4">
+            <div class="w-20 h-20 rounded-2xl bg-white/10 flex items-center justify-center">
+              <span class="material-symbols-outlined text-white text-5xl" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 48">developer_board</span>
+            </div>
+            <div class="text-center">
+              <div class="text-3xl font-headline font-extrabold text-white">{{DOWNSTREAM_COUNT}}</div>
+              <div class="text-white/70 text-xs font-label font-bold tracking-widest uppercase mt-1">家公司</div>
+            </div>
+          </div>
+          <!-- Content -->
+          <div class="flex-1 bg-white p-8">
+            <div class="flex items-center gap-3 mb-4">
+              <span class="text-xs font-bold tracking-widest uppercase text-tertiary bg-cyan-50 border border-cyan-200 px-3 py-1 rounded-full">LAYER 3</span>
+              <h3 class="text-2xl font-headline font-extrabold text-primary">下游 — 廠務工程與化學品整合</h3>
+            </div>
+            <p class="text-on-surface-variant leading-relaxed mb-5">
+              台積電 CoWoS 廠房必須由具備無塵室建設資質的工程公司興建與維護，同時需要大量製程化學品（清洗液、蝕刻液、沾錫材料）。
+              這層還包含自動化搬運、AOI 光學檢測整合商，負責把所有設備和材料串接成可量產的生產線。
+              一旦廠務出問題，台積電 CoWoS 產能就會直接縮減。
+            </p>
+            <div class="flex flex-wrap gap-3">
+              <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-tertiary bg-cyan-50 border border-cyan-200 rounded-full px-3 py-1">
+                <span class="material-symbols-outlined text-xs">home_work</span>無塵室建設
+              </span>
+              <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-tertiary bg-cyan-50 border border-cyan-200 rounded-full px-3 py-1">
+                <span class="material-symbols-outlined text-xs">biotech</span>製程化學品
+              </span>
+              <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-tertiary bg-cyan-50 border border-cyan-200 rounded-full px-3 py-1">
+                <span class="material-symbols-outlined text-xs">search</span>AOI 光學檢測
+              </span>
+            </div>
+          </div>
+        </div>
+        <!-- Arrow -->
+        <div class="flex justify-center my-3">
+          <div class="flex flex-col items-center gap-0">
+            <div class="w-0.5 h-6 bg-gradient-to-b from-tertiary to-secondary"></div>
+            <span class="material-symbols-outlined text-secondary text-2xl" style="font-variation-settings:'FILL' 1">arrow_downward</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Layer 4: Related -->
+      <div>
+        <div class="flex flex-col md:flex-row items-stretch gap-0 rounded-2xl overflow-hidden shadow-lg border border-outline-variant/20">
+          <!-- Icon Panel -->
+          <div class="md:w-56 bg-gradient-to-br from-slate-700 to-slate-900 flex flex-col items-center justify-center p-8 gap-4">
+            <div class="w-20 h-20 rounded-2xl bg-white/10 flex items-center justify-center">
+              <span class="material-symbols-outlined text-white text-5xl" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 48">share</span>
+            </div>
+            <div class="text-center">
+              <div class="text-3xl font-headline font-extrabold text-white">{{RELATED_CO_COUNT}}</div>
+              <div class="text-slate-400 text-xs font-label font-bold tracking-widest uppercase mt-1">家公司</div>
+            </div>
+          </div>
+          <!-- Content -->
+          <div class="flex-1 bg-surface-container-low p-8">
+            <div class="flex items-center gap-3 mb-4">
+              <span class="text-xs font-bold tracking-widest uppercase text-slate-600 bg-slate-200 px-3 py-1 rounded-full">生態圈</span>
+              <h3 class="text-2xl font-headline font-extrabold text-primary">相關公司 — IC 設計與封測生態</h3>
+            </div>
+            <p class="text-on-surface-variant leading-relaxed mb-5">
+              這層聚集了 IC 設計（ASIC/GPU CoD 設計服務）、OSAT 封測廠（負責最終 CoWoS Package 的良率測試）以及半導體設備材料周邊廠商。
+              他們不直接做 CoWoS 製程，但共同定義了封裝規格，也是台積電 CoWoS 訂單量的最終需求端。
+              NVIDIA H100/B200、AMD MI300 等 AI 晶片都是這層的代表性需求來源。
+            </p>
+            <div class="flex flex-wrap gap-3">
+              <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 bg-slate-200 border border-slate-300 rounded-full px-3 py-1">
+                <span class="material-symbols-outlined text-xs">memory</span>IC 設計 / ASIC
+              </span>
+              <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 bg-slate-200 border border-slate-300 rounded-full px-3 py-1">
+                <span class="material-symbols-outlined text-xs">check_circle</span>OSAT 封測
+              </span>
+              <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 bg-slate-200 border border-slate-300 rounded-full px-3 py-1">
+                <span class="material-symbols-outlined text-xs">auto_awesome</span>NVIDIA H/B 系列需求端
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -314,16 +439,16 @@
   <section class="py-24 px-8">
     <div class="max-w-5xl mx-auto bg-primary rounded-xl overflow-hidden flex flex-col md:flex-row shadow-2xl">
       <div class="p-12 md:p-16 flex-1 flex flex-col justify-center">
-        <h2 class="text-4xl font-headline font-bold text-on-primary mb-6">完整研究資料庫</h2>
+        <h2 class="text-4xl font-headline font-bold text-on-primary mb-6">完整供應鏈研究資料庫</h2>
         <p class="text-on-primary-container text-lg mb-10">
-          涵蓋台灣 {{COMPANY_COUNT}} 家 CoWoS 相關公司的完整財務分析，資料來源自 My-TW-Coverage 開源專案。
+          涵蓋台灣 {{COMPANY_COUNT}} 家 CoWoS 相關公司的完整財務分析，點擊任意公司卡片即可查看近年財務數據與估值。
         </p>
         <div class="flex flex-wrap gap-4">
-          <a href="https://github.com/Timeverse/My-TW-Coverage" target="_blank" class="px-10 py-4 rounded-full bg-surface text-primary font-bold hover:bg-secondary-fixed transition-all">
-            前往原始資料庫
-          </a>
-          <a href="#companies" class="px-10 py-4 rounded-full bg-white/10 text-white font-semibold hover:bg-white/20 transition-all border border-white/20">
+          <a href="#companies" class="px-10 py-4 rounded-full bg-surface text-primary font-bold hover:bg-secondary-fixed transition-all">
             瀏覽公司清單
+          </a>
+          <a href="#supply-chain" class="px-10 py-4 rounded-full bg-white/10 text-white font-semibold hover:bg-white/20 transition-all border border-white/20">
+            查看供應鏈圖譜
           </a>
         </div>
       </div>
@@ -350,7 +475,6 @@
         <span class="text-lg font-bold text-primary font-headline">CoWoS 先進封裝</span>
       </div>
       <p class="text-slate-500 font-body text-sm leading-relaxed max-w-xs text-center md:text-left">
-        資料來源：<a href="https://github.com/Timeverse/My-TW-Coverage" class="text-primary hover:underline font-semibold" target="_blank">My-TW-Coverage</a> by Timeverse<br/>
         最後更新：{{BUILD_DATE}}
       </p>
     </div>
@@ -361,9 +485,6 @@
       <a class="text-slate-500 text-sm font-body hover:text-primary transition-colors" href="#related">相關主題</a>
     </div>
     <div class="flex gap-4">
-      <a href="https://github.com/Timeverse/My-TW-Coverage" target="_blank" class="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all">
-        <span class="material-symbols-outlined text-xl">code</span>
-      </a>
       <div class="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-primary">
         <span class="material-symbols-outlined text-xl">bar_chart</span>
       </div>
