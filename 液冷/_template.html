@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="zh-Hant">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>液冷散熱 — 台灣供應鏈圖譜</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  }
+  .glass-panel {
+    background: rgba(13, 40, 24, 0.78);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+  .glass-panel-light {
+    background: rgba(240, 247, 240, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+  .chain-tab-btn.active {
+    background-color: #0d2818;
+    color: #ffffff;
+    border-color: #0d2818;
+  }
+  .chain-tab-pane { display: none; }
+  .chain-tab-pane.active { display: block; }
+  .modal-sub-btn.active {
+    background-color: #7c4e28;
+    color: #ffffff;
+  }
+  .modal-sub-pane { display: none; }
+  .modal-sub-pane.active { display: block; }
+  #company-modal { display: none; }
+  #company-modal.open { display: flex; }
+  .stat-badge {
+    background: rgba(124, 78, 40, 0.15);
+    border: 1px solid rgba(124, 78, 40, 0.35);
+  }
+  .group-label {
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #7c4e28;
+    border-bottom: 1px solid #c8ddc0;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  .finance-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+  .finance-table th { background: #0d2818; color: #b8d8c0; padding: 6px 10px; text-align: right; font-weight: 600; }
+  .finance-table th:first-child { text-align: left; }
+  .finance-table td { padding: 5px 10px; text-align: right; border-bottom: 1px solid #e4ede4; color: #0a1a0a; }
+  .finance-table td:first-child { text-align: left; font-weight: 500; color: #1a4a2a; }
+  .finance-table tr:hover td { background: #eaf2ea; }
+  .valuation-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+  @media (min-width: 640px) { .valuation-grid { grid-template-columns: repeat(3, 1fr); } }
+  .val-card { background: #eaf2ea; border: 1px solid #c8ddc0; border-radius: 0.75rem; padding: 1rem; text-align: center; }
+  .val-card .val-num { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.4rem; font-weight: 800; color: #0d2818; }
+  .val-card .val-label { font-size: 0.7rem; color: #3a5a3a; font-weight: 600; letter-spacing: 0.05em; margin-top: 2px; }
+</style>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "on-surface": "#0a1a0a",
+          "on-tertiary": "#ffffff",
+          "tertiary": "#7c4e28",
+          "surface-dim": "#cdd8cd",
+          "on-primary": "#ffffff",
+          "secondary": "#1a4a2a",
+          "surface-bright": "#f0f7f0",
+          "secondary-fixed": "#b8d8c0",
+          "surface-container-highest": "#d4e4d4",
+          "on-error": "#ffffff",
+          "surface": "#f0f7f0",
+          "surface-variant": "#d4e4d4",
+          "surface-container": "#e4ede4",
+          "inverse-primary": "#8abaa0",
+          "secondary-container": "#d0e8d8",
+          "tertiary-container": "#4a2c10",
+          "surface-tint": "#1a4a2a",
+          "secondary-fixed-dim": "#8abaa0",
+          "surface-container-low": "#eaf2ea",
+          "on-primary-container": "#b8d8c0",
+          "on-secondary-container": "#0a2010",
+          "primary-fixed": "#d0e8d8",
+          "error": "#ba1a1a",
+          "primary-fixed-dim": "#8abaa0",
+          "primary-container": "#0a2010",
+          "background": "#f0f7f0",
+          "outline-variant": "#a4c4a8",
+          "on-error-container": "#93000a",
+          "inverse-surface": "#1a2a1a",
+          "surface-container-high": "#dce8dc",
+          "outline": "#4a6a4a",
+          "inverse-on-surface": "#eaf2ea",
+          "surface-container-lowest": "#ffffff",
+          "on-surface-variant": "#3a4a3a",
+          "on-secondary": "#ffffff",
+          "primary": "#0d2818",
+          "on-background": "#0a1a0a",
+          "error-container": "#ffdad6"
+        },
+        borderRadius: {
+          "DEFAULT": "0.25rem",
+          "lg": "1rem",
+          "xl": "1.5rem",
+          "full": "9999px"
+        },
+        fontFamily: {
+          "headline": ["Plus Jakarta Sans"],
+          "body": ["Manrope"],
+          "label": ["Manrope"]
+        }
+      }
+    }
+  }
+</script>
+</head>
+<body class="bg-surface font-body text-on-surface antialiased">
+
+<!-- Top Navigation Bar -->
+<nav class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-xl border-b border-slate-200/50">
+  <div class="flex justify-between items-center h-20 px-8 max-w-7xl mx-auto">
+    <div class="flex items-center gap-3">
+      <span class="material-symbols-outlined text-tertiary text-2xl">water_drop</span>
+      <div class="text-xl font-bold text-primary font-headline tracking-tight">
+        液冷散熱供應鏈
+      </div>
+    </div>
+    <div class="hidden md:flex items-center gap-8">
+      <a class="text-primary font-semibold border-b-2 border-tertiary transition-colors" href="#overview">總覽</a>
+      <a class="text-slate-600 font-medium hover:text-primary transition-colors" href="#supply-chain">供應鏈</a>
+      <a class="text-slate-600 font-medium hover:text-primary transition-colors" href="#companies">公司一覽</a>
+      <a class="text-slate-600 font-medium hover:text-primary transition-colors" href="#related">相關主題</a>
+    </div>
+    <div class="flex items-center gap-4">
+      <span class="text-xs text-slate-500 font-label hidden md:block">資料截至 {{BUILD_DATE}}</span>
+    </div>
+  </div>
+</nav>
+
+<main class="pt-20">
+
+  <!-- Hero Section -->
+  <section id="overview" class="relative min-h-[640px] flex items-center overflow-hidden px-8">
+    <div class="absolute inset-0 z-0">
+      <img class="w-full h-full object-cover opacity-55"
+           src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1600&q=80"
+           alt="資料中心機架液冷散熱"/>
+      <div class="absolute inset-0 bg-gradient-to-r from-primary/88 via-primary/60 to-transparent"></div>
+    </div>
+    <div class="relative z-10 max-w-7xl mx-auto w-full">
+      <div class="max-w-2xl glass-panel p-10 md:p-16 rounded-xl border border-white/10">
+        <span class="inline-block py-1 px-4 rounded-full bg-tertiary/20 text-amber-200 text-xs font-bold tracking-widest uppercase mb-6 border border-amber-600/30">
+          AI 伺服器液冷技術供應鏈
+        </span>
+        <h1 class="text-5xl md:text-6xl font-headline font-extrabold text-white leading-[1.1] mb-6 tracking-tighter">
+          液冷散熱<br/><span class="text-emerald-300">供應鏈</span>
+        </h1>
+        <p class="text-lg text-slate-200 leading-relaxed mb-10 max-w-lg">
+          {{HERO_DESC}}
+        </p>
+        <div class="flex flex-wrap gap-4 mb-8">
+          <div class="stat-badge rounded-full px-5 py-2">
+            <span class="text-amber-300 font-headline font-bold text-lg">{{COMPANY_COUNT}}</span>
+            <span class="text-slate-300 text-sm ml-2">家涵蓋公司</span>
+          </div>
+          <div class="stat-badge rounded-full px-5 py-2">
+            <span class="text-amber-300 font-headline font-bold text-lg">3</span>
+            <span class="text-slate-300 text-sm ml-2">層供應鏈</span>
+          </div>
+          <div class="stat-badge rounded-full px-5 py-2">
+            <span class="text-amber-300 font-headline font-bold text-lg">{{RELATED_COUNT}}</span>
+            <span class="text-slate-300 text-sm ml-2">相關主題</span>
+          </div>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="#companies" class="px-8 py-4 rounded-full bg-tertiary text-white font-bold hover:bg-amber-800 transition-all flex items-center justify-center gap-2 shadow-lg">
+            查看所有公司 <span class="material-symbols-outlined text-lg">arrow_forward</span>
+          </a>
+          <a href="#supply-chain" class="px-8 py-4 rounded-full bg-white/10 text-white font-semibold hover:bg-white/20 transition-all border border-white/20">
+            供應鏈圖譜
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Supply Chain Overview: Vertical Flowchart -->
+  <section id="supply-chain" class="py-24 px-8 bg-surface">
+    <div class="max-w-5xl mx-auto">
+      <div class="mb-16 text-center">
+        <span class="inline-block py-1 px-4 rounded-full bg-secondary-container text-on-secondary-container text-xs font-bold tracking-widest uppercase mb-4">供應鏈結構</span>
+        <h2 class="text-4xl font-headline font-extrabold text-primary tracking-tight">三層完整供應鏈</h2>
+        <p class="text-on-surface-variant mt-3 text-lg">從精密幫浦閥件到 CDU 冷卻分配單元，全面解析台灣廠商在液冷散熱體系中的關鍵位置</p>
+      </div>
+
+      <!-- Layer 1: Upstream -->
+      <div class="relative">
+        <div class="flex flex-col md:flex-row items-stretch gap-0 rounded-2xl overflow-hidden shadow-lg border border-outline-variant/20">
+          <!-- Icon Panel -->
+          <div class="md:w-56 bg-gradient-to-br from-secondary to-primary flex flex-col items-center justify-center p-8 gap-4">
+            <div class="w-20 h-20 rounded-2xl bg-white/10 flex items-center justify-center">
+              <span class="material-symbols-outlined text-white text-5xl" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 48">valve</span>
+            </div>
+            <div class="text-center">
+              <div class="text-3xl font-headline font-extrabold text-white">{{UPSTREAM_COUNT}}</div>
+              <div class="text-secondary-fixed text-xs font-label font-bold tracking-widest uppercase mt-1">家公司</div>
+            </div>
+          </div>
+          <!-- Content -->
+          <div class="flex-1 bg-white p-8">
+            <div class="flex items-center gap-3 mb-4">
+              <span class="text-xs font-bold tracking-widest uppercase text-secondary bg-secondary-container px-3 py-1 rounded-full">LAYER 1</span>
+              <h3 class="text-2xl font-headline font-extrabold text-primary">上游 — 幫浦、閥件與風扇</h3>
+            </div>
+            <p class="text-on-surface-variant leading-relaxed mb-5">
+              負責液冷系統的核心驅動與流量控制元件，包含無刷直流幫浦（BLDC Pump）、快插接頭（Quick Connector）、散熱風扇模組。
+              台灣廠商以精密金屬加工能力切入，產品壽命需達 <strong class="text-primary">MTBF 100,000 小時</strong> 以上，
+              是整套液冷迴路可靠性的基石。
+            </p>
+            <div class="flex flex-wrap gap-3">
+              <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-secondary bg-green-50 border border-green-200 rounded-full px-3 py-1">
+                <span class="material-symbols-outlined text-xs">water</span>BLDC 幫浦
+              </span>
+              <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-secondary bg-green-50 border border-green-200 rounded-full px-3 py-1">
+                <span class="material-symbols-outlined text-xs">link</span>快插接頭
+              </span>
+              <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-secondary bg-green-50 border border-green-200 rounded-full px-3 py-1">
+                <span class="material-symbols-outlined text-xs">thermostat</span>MTBF 100,000h+
+              </span>
+            </div>
+          </div>
+        </div>
+        <!-- Arrow -->
+        <div class="flex justify-center my-3">
+          <div class="flex flex-col items-center gap-0">
+            <div class="w-0.5 h-6 bg-gradient-to-b from-secondary to-primary"></div>
+            <span class="material-symbols-outlined text-primary text-2xl" style="font-variation-settings:'FILL' 1">arrow_downward</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Layer 2: Midstream -->
+      <div class="relative">
+        <div class="flex flex-col md:flex-row items-stretch gap-0 rounded-2xl overflow-hidden shadow-lg border border-outline-variant/20">
+          <!-- Icon Panel -->
+          <div class="md:w-56 bg-gradient-to-br from-primary to-[#4a2c10] flex flex-col items-center justify-center p-8 gap-4">
+            <div class="w-20 h-20 rounded-2xl bg-white/10 flex items-center justify-center">
+              <span class="material-symbols-outlined text-white text-5xl" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 48">device_thermostat</span>
+            </div>
+            <div class="text-center">
+              <div class="text-3xl font-headline font-extrabold text-white">{{MIDSTREAM_COUNT}}</div>
+              <div class="text-amber-200 text-xs font-label font-bold tracking-widest uppercase mt-1">家公司</div>
+            </div>
+          </div>
+          <!-- Content -->
+          <div class="flex-1 bg-primary p-8">
+            <div class="flex items-center gap-3 mb-4">
+              <span class="text-xs font-bold tracking-widest uppercase text-white bg-white/20 px-3 py-1 rounded-full">LAYER 2</span>
+              <h3 class="text-2xl font-headline font-extrabold text-white">中游 — CDU 與熱交換器模組</h3>
+            </div>
+            <p class="text-secondary-fixed leading-relaxed mb-5">
+              冷卻分配單元（CDU, Cooling Distribution Unit）是液冷系統的核心，負責將冷卻液配送至每個伺服器節點後再回收散熱。
+              台灣中游廠商整合散熱排（Radiator）、冷板（Cold Plate）、快拆管路，
+              可支援 <strong class="text-amber-300">單機架 100kW 以上</strong> 的熱功率，對應 NVIDIA GB200 NVL72 等高密度 AI 伺服器。
+            </p>
+            <div class="flex flex-wrap gap-3">
+              <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-amber-300 bg-white/10 border border-white/20 rounded-full px-3 py-1">
+                <span class="material-symbols-outlined text-xs">device_thermostat</span>CDU 冷卻分配單元
+              </span>
+              <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-amber-300 bg-white/10 border border-white/20 rounded-full px-3 py-1">
+                <span class="material-symbols-outlined text-xs">layers</span>冷板 Cold Plate
+              </span>
+              <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-amber-300 bg-white/10 border border-white/20 rounded-full px-3 py-1">
+                <span class="material-symbols-outlined text-xs">bolt</span>100kW 高密度散熱
+              </span>
+            </div>
+          </div>
+        </div>
+        <!-- Arrow -->
+        <div class="flex justify-center my-3">
+          <div class="flex flex-col items-center gap-0">
+            <div class="w-0.5 h-6 bg-gradient-to-b from-[#4a2c10] to-slate-500"></div>
+            <span class="material-symbols-outlined text-slate-500 text-2xl" style="font-variation-settings:'FILL' 1">arrow_downward</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Layer 3: Related -->
+      <div>
+        <div class="flex flex-col md:flex-row items-stretch gap-0 rounded-2xl overflow-hidden shadow-lg border border-outline-variant/20">
+          <!-- Icon Panel -->
+          <div class="md:w-56 bg-gradient-to-br from-slate-700 to-slate-900 flex flex-col items-center justify-center p-8 gap-4">
+            <div class="w-20 h-20 rounded-2xl bg-white/10 flex items-center justify-center">
+              <span class="material-symbols-outlined text-white text-5xl" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 48">dns</span>
+            </div>
+            <div class="text-center">
+              <div class="text-3xl font-headline font-extrabold text-white">{{RELATED_CO_COUNT}}</div>
+              <div class="text-slate-400 text-xs font-label font-bold tracking-widest uppercase mt-1">家公司</div>
+            </div>
+          </div>
+          <!-- Content -->
+          <div class="flex-1 bg-surface-container-low p-8">
+            <div class="flex items-center gap-3 mb-4">
+              <span class="text-xs font-bold tracking-widest uppercase text-slate-600 bg-slate-200 px-3 py-1 rounded-full">生態圈</span>
+              <h3 class="text-2xl font-headline font-extrabold text-primary">相關公司 — AI 伺服器與資料中心廠</h3>
+            </div>
+            <p class="text-on-surface-variant leading-relaxed mb-5">
+              液冷散熱的最終需求端，包含 AI 伺服器設計製造（ODM）、GPU 伺服器整機廠與散熱元件廠，
+              是液冷採購量與規格制訂的主導方。
+              隨著 NVIDIA GB200 等高功率 AI 晶片普及，這層廠商正快速從風冷轉向液冷採購，
+              帶動整條供應鏈的訂單爆發。
+            </p>
+            <div class="flex flex-wrap gap-3">
+              <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 bg-slate-200 border border-slate-300 rounded-full px-3 py-1">
+                <span class="material-symbols-outlined text-xs">dns</span>AI 伺服器 ODM
+              </span>
+              <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 bg-slate-200 border border-slate-300 rounded-full px-3 py-1">
+                <span class="material-symbols-outlined text-xs">memory</span>GPU 伺服器整機
+              </span>
+              <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 bg-slate-200 border border-slate-300 rounded-full px-3 py-1">
+                <span class="material-symbols-outlined text-xs">auto_awesome</span>GB200 液冷需求端
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Company Directory: Tabs + Cards -->
+  <section id="companies" class="py-24 px-8 bg-surface-container-low">
+    <div class="max-w-7xl mx-auto">
+      <div class="mb-10 text-center">
+        <span class="inline-block py-1 px-4 rounded-full bg-secondary-container text-on-secondary-container text-xs font-bold tracking-widest uppercase mb-4">公司一覽</span>
+        <h2 class="text-4xl font-headline font-extrabold text-primary tracking-tight">供應鏈公司圖譜</h2>
+        <p class="text-on-surface-variant mt-3">點擊任意公司卡片，查看近年財務數據與估值分析</p>
+      </div>
+
+      <!-- Chain Layer Tabs -->
+      <div class="flex flex-wrap gap-3 mb-10 justify-center">
+        <button onclick="switchChainTab('upstream')" id="tab-upstream" class="chain-tab-btn active px-6 py-2.5 rounded-full border-2 border-primary font-semibold text-sm transition-all">
+          <span class="material-symbols-outlined text-sm align-middle mr-1">valve</span>上游
+        </button>
+        <button onclick="switchChainTab('midstream')" id="tab-midstream" class="chain-tab-btn px-6 py-2.5 rounded-full border-2 border-outline-variant font-semibold text-sm text-on-surface-variant transition-all hover:border-primary hover:text-primary">
+          <span class="material-symbols-outlined text-sm align-middle mr-1">device_thermostat</span>中游
+        </button>
+        <button onclick="switchChainTab('related')" id="tab-related" class="chain-tab-btn px-6 py-2.5 rounded-full border-2 border-outline-variant font-semibold text-sm text-on-surface-variant transition-all hover:border-primary hover:text-primary">
+          <span class="material-symbols-outlined text-sm align-middle mr-1">dns</span>相關公司
+        </button>
+      </div>
+
+      <!-- Tab Panes -->
+      {{CHAIN_TABS_HTML}}
+    </div>
+  </section>
+
+  <!-- Feature Spotlight: Related Themes -->
+  <section id="related" class="py-24 px-8 bg-surface">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-16">
+      <div class="w-full md:w-1/2 space-y-8">
+        <h2 class="text-4xl md:text-5xl font-headline font-extrabold text-primary tracking-tight">
+          延伸閱讀<br/><span class="text-tertiary">相關主題</span>
+        </h2>
+        <p class="text-on-surface-variant text-lg">液冷散熱與以下技術主題高度相關，點擊可快速跳轉到對應主題報告。</p>
+        <div class="space-y-4">
+          {{RELATED_THEMES_HTML}}
+        </div>
+      </div>
+      <div class="w-full md:w-1/2 relative">
+        <div class="aspect-square rounded-full overflow-hidden border-8 border-surface-container-lowest shadow-2xl relative z-10">
+          <img class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=800&q=80" alt="資料中心機架"/>
+        </div>
+        <div class="absolute -bottom-8 -left-8 w-48 h-48 bg-secondary-container rounded-xl -z-0 opacity-40"></div>
+        <div class="absolute -top-8 -right-8 w-32 h-32 bg-[#f5eadd] rounded-full -z-0 opacity-50"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="py-24 px-8">
+    <div class="max-w-5xl mx-auto bg-primary rounded-xl overflow-hidden flex flex-col md:flex-row shadow-2xl">
+      <div class="p-12 md:p-16 flex-1 flex flex-col justify-center">
+        <h2 class="text-4xl font-headline font-bold text-on-primary mb-6">完整液冷散熱供應鏈研究資料庫</h2>
+        <p class="text-on-primary-container text-lg mb-10">
+          涵蓋台灣 {{COMPANY_COUNT}} 家液冷散熱相關公司的完整財務分析，點擊任意公司卡片即可查看近年財務數據與估值。
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a href="#companies" class="px-10 py-4 rounded-full bg-tertiary text-white font-bold hover:bg-amber-800 transition-all">
+            瀏覽公司清單
+          </a>
+          <a href="#supply-chain" class="px-10 py-4 rounded-full bg-white/10 text-white font-semibold hover:bg-white/20 transition-all border border-white/20">
+            查看供應鏈圖譜
+          </a>
+        </div>
+      </div>
+      <div class="w-full md:w-1/3 bg-primary-container relative">
+        <div class="absolute inset-0 opacity-20 mix-blend-overlay">
+          <img class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&q=80" alt="液冷散熱系統"/>
+        </div>
+        <div class="relative h-full flex flex-col items-center justify-center p-12 text-center text-on-primary min-h-[200px]">
+          <span class="material-symbols-outlined text-6xl mb-4 text-secondary-fixed">water_drop</span>
+          <p class="font-headline font-bold text-secondary-fixed">台灣液冷散熱<br/>供應鏈研究</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Footer -->
+<footer class="bg-slate-100 w-full py-16">
+  <div class="flex flex-col md:flex-row justify-between items-center px-12 max-w-7xl mx-auto gap-8">
+    <div class="flex flex-col items-center md:items-start gap-4">
+      <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-tertiary">water_drop</span>
+        <span class="text-lg font-bold text-primary font-headline">液冷散熱供應鏈</span>
+      </div>
+      <p class="text-slate-500 font-body text-sm leading-relaxed max-w-xs text-center md:text-left">
+        最後更新：{{BUILD_DATE}}
+      </p>
+    </div>
+    <div class="flex flex-wrap justify-center gap-8">
+      <a class="text-slate-500 text-sm font-body hover:text-primary transition-colors" href="#overview">總覽</a>
+      <a class="text-slate-500 text-sm font-body hover:text-primary transition-colors" href="#supply-chain">供應鏈</a>
+      <a class="text-slate-500 text-sm font-body hover:text-primary transition-colors" href="#companies">公司一覽</a>
+      <a class="text-slate-500 text-sm font-body hover:text-primary transition-colors" href="#related">相關主題</a>
+    </div>
+    <div class="flex gap-4">
+      <div class="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-tertiary">
+        <span class="material-symbols-outlined text-xl">bar_chart</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Company Detail Modal -->
+<div id="company-modal" class="fixed inset-0 z-[100] items-center justify-center p-4 bg-primary/60 backdrop-blur-sm">
+  <div class="relative bg-white rounded-xl shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-hidden flex flex-col">
+    <!-- Modal Header -->
+    <div class="bg-primary px-8 py-5 flex items-center justify-between">
+      <div>
+        <div class="flex items-center gap-3">
+          <span id="modal-ticker" class="font-headline font-extrabold text-secondary-fixed text-xl"></span>
+          <span id="modal-name" class="font-headline font-bold text-white text-xl"></span>
+        </div>
+        <div class="flex items-center gap-4 mt-1">
+          <span id="modal-sector" class="text-xs text-slate-300 font-label"></span>
+          <span id="modal-mktcap" class="text-xs text-amber-300 font-label font-semibold"></span>
+        </div>
+      </div>
+      <button onclick="closeModal()" class="text-white hover:text-slate-300 transition-colors">
+        <span class="material-symbols-outlined text-3xl">close</span>
+      </button>
+    </div>
+    <!-- Modal Sub-tabs -->
+    <div class="border-b border-slate-200 px-6 bg-slate-50 flex gap-2 pt-3 overflow-x-auto">
+      <button onclick="switchModalTab('overview')" id="mtab-overview" class="modal-sub-btn active px-4 py-2 rounded-t text-sm font-semibold transition-all whitespace-nowrap">公司概況</button>
+      <button onclick="switchModalTab('annual')" id="mtab-annual" class="modal-sub-btn px-4 py-2 rounded-t text-sm font-semibold text-slate-500 hover:text-primary transition-all whitespace-nowrap">年度財務</button>
+      <button onclick="switchModalTab('quarterly')" id="mtab-quarterly" class="modal-sub-btn px-4 py-2 rounded-t text-sm font-semibold text-slate-500 hover:text-primary transition-all whitespace-nowrap">季度財務</button>
+      <button onclick="switchModalTab('valuation')" id="mtab-valuation" class="modal-sub-btn px-4 py-2 rounded-t text-sm font-semibold text-slate-500 hover:text-primary transition-all whitespace-nowrap">估值指標</button>
+    </div>
+    <!-- Modal Content -->
+    <div class="flex-1 overflow-y-auto p-8">
+      <div id="mpane-overview" class="modal-sub-pane active">
+        <p class="text-on-surface-variant text-sm leading-relaxed mb-6" id="modal-desc"></p>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="val-card">
+            <div class="val-num" id="modal-ev"></div>
+            <div class="val-label">企業價值 (百萬台幣)</div>
+          </div>
+          <div class="val-card">
+            <div class="val-num" id="modal-mktcap-card"></div>
+            <div class="val-label">市值 (百萬台幣)</div>
+          </div>
+        </div>
+      </div>
+      <div id="mpane-annual" class="modal-sub-pane">
+        <p class="text-xs text-slate-400 mb-4 font-label">單位：百萬台幣（Margin 為 %）</p>
+        <div class="overflow-x-auto">
+          <table class="finance-table" id="modal-annual-table"></table>
+        </div>
+      </div>
+      <div id="mpane-quarterly" class="modal-sub-pane">
+        <p class="text-xs text-slate-400 mb-4 font-label">單位：百萬台幣（Margin 為 %）</p>
+        <div class="overflow-x-auto">
+          <table class="finance-table" id="modal-quarterly-table"></table>
+        </div>
+      </div>
+      <div id="mpane-valuation" class="modal-sub-pane">
+        <p class="text-xs text-slate-400 mb-6 font-label" id="modal-price-date"></p>
+        <div class="valuation-grid" id="modal-valuation-grid"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Embedded Company Data -->
+<script id="company-data" type="application/json">
+{{MODAL_DATA_JSON}}
+</script>
+
+<script>
+function switchChainTab(name) {
+  document.querySelectorAll('.chain-tab-pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.chain-tab-btn').forEach(b => {
+    b.classList.remove('active');
+    b.classList.add('text-on-surface-variant');
+    b.style.borderColor = '';
+  });
+  document.getElementById('pane-' + name).classList.add('active');
+  const btn = document.getElementById('tab-' + name);
+  btn.classList.add('active');
+  btn.classList.remove('text-on-surface-variant');
+}
+
+function switchModalTab(name) {
+  document.querySelectorAll('.modal-sub-pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.modal-sub-btn').forEach(b => {
+    b.classList.remove('active');
+    b.classList.add('text-slate-500');
+  });
+  document.getElementById('mpane-' + name).classList.add('active');
+  const btn = document.getElementById('mtab-' + name);
+  btn.classList.add('active');
+  btn.classList.remove('text-slate-500');
+}
+
+const companyData = JSON.parse(document.getElementById('company-data').textContent);
+
+function openModal(ticker) {
+  const co = companyData[ticker];
+  if (!co) return;
+  document.getElementById('modal-ticker').textContent = co.ticker;
+  document.getElementById('modal-name').textContent = co.name;
+  document.getElementById('modal-sector').textContent = co.sector;
+  const mcap = co.market_cap !== null ? co.market_cap.toLocaleString() + ' 百萬台幣' : '—';
+  document.getElementById('modal-mktcap').textContent = '市值 ' + mcap;
+  document.getElementById('modal-desc').textContent = co.desc || '暫無業務描述';
+  document.getElementById('modal-mktcap-card').textContent = co.market_cap !== null ? co.market_cap.toLocaleString() : '—';
+  document.getElementById('modal-ev').textContent = co.enterprise_value !== null ? co.enterprise_value.toLocaleString() : '—';
+  buildFinTable('modal-annual-table', co.annual);
+  buildFinTable('modal-quarterly-table', co.quarterly);
+  buildValGrid(co.valuation);
+  const pd = co.price_date ? '股價日期：' + co.price_date : '';
+  document.getElementById('modal-price-date').textContent = pd;
+  switchModalTab('overview');
+  document.getElementById('company-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('company-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('company-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+function fmt(v) {
+  if (v === null || v === undefined || v === 'N/A') return '—';
+  if (typeof v === 'number') return v.toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 2});
+  return v;
+}
+
+function buildFinTable(tableId, data) {
+  const table = document.getElementById(tableId);
+  if (!data || !data.headers || !data.rows || data.rows.length === 0) {
+    table.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:20px;color:#94a3b8">暫無資料</td></tr>';
+    return;
+  }
+  let html = '<thead><tr><th>' + ['指標', ...data.headers].join('</th><th>') + '</th></tr></thead><tbody>';
+  for (const row of data.rows) {
+    html += '<tr><td>' + row.label + '</td>';
+    for (const v of row.values) html += '<td>' + fmt(v) + '</td>';
+    html += '</tr>';
+  }
+  html += '</tbody>';
+  table.innerHTML = html;
+}
+
+function buildValGrid(val) {
+  const grid = document.getElementById('modal-valuation-grid');
+  if (!val) { grid.innerHTML = '<p class="text-slate-400 text-sm">暫無估值資料</p>'; return; }
+  const fields = [
+    ['P/E (TTM)', val.pe_ttm],
+    ['Forward P/E', val.pe_forward],
+    ['P/S (TTM)', val.ps_ttm],
+    ['P/B', val.pb],
+    ['EV/EBITDA', val.ev_ebitda],
+  ];
+  grid.innerHTML = fields.map(([label, v]) =>
+    `<div class="val-card"><div class="val-num">${fmt(v)}</div><div class="val-label">${label}</div></div>`
+  ).join('');
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+</script>
+
+</body>
+</html>
